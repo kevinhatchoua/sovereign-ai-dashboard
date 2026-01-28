@@ -6,7 +6,9 @@
     "origin_country": "France",
     "openness_level": "API",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"]
+    "compliance_tags": ["EU AI Act Ready", "GDPR"],
+    "languages": ["en", "fr", "de", "es", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
   },
   {
     "id": "llama-3.1",
@@ -15,7 +17,9 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": false,
-    "compliance_tags": ["GDPR"]
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
   },
   {
     "id": "qwen-2.5",
@@ -24,7 +28,9 @@
     "origin_country": "China",
     "openness_level": "API",
     "data_residency": false,
-    "compliance_tags": []
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
   },
   {
     "id": "falcon-2",
@@ -33,7 +39,9 @@
     "origin_country": "United Arab Emirates",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["Sovereign Deployment"]
+    "compliance_tags": ["Sovereign Deployment"],
+    "languages": ["en", "ar", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
   },
   {
     "id": "aleph-alpha-pharia",
@@ -46,7 +54,9 @@
       "India_DPDP": "Ready (Self-Hostable)",
       "US_Executive_Order": "Exempt (Open Source)"
     },
-    "data_residency": true
+    "data_residency": true,
+    "languages": ["en", "de", "fr", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
   },
   {
     "id": "gpt-5-mini",
@@ -59,6 +69,360 @@
       "India_DPDP": "Risk (Requires Centralized Node)",
       "US_Executive_Order": "Certified"
     },
-    "data_residency": false
+    "data_residency": false,
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "qwen3",
+    "name": "Qwen3",
+    "provider": "Alibaba Cloud",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "qwen3-vl",
+    "name": "Qwen3-VL",
+    "provider": "Alibaba Cloud",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "vision"]
+  },
+  {
+    "id": "qwen3-coder",
+    "name": "Qwen3-Coder",
+    "provider": "Alibaba Cloud",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "code"]
+  },
+  {
+    "id": "ministral-3",
+    "name": "Ministral 3",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["EU AI Act Ready", "GDPR"],
+    "languages": ["en", "fr", "de", "es", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "magistral",
+    "name": "Magistral",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["EU AI Act Ready", "GDPR"],
+    "languages": ["en", "fr", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "question-answering"]
+  },
+  {
+    "id": "devstral",
+    "name": "Devstral",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["EU AI Act Ready", "GDPR"],
+    "languages": ["en", "fr", "multilingual"],
+    "task_categories": ["text-generation", "code"]
+  },
+  {
+    "id": "devstral-2",
+    "name": "Devstral 2",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["EU AI Act Ready", "GDPR"],
+    "languages": ["en", "fr", "multilingual"],
+    "task_categories": ["text-generation", "code", "vision"]
+  },
+  {
+    "id": "codestral",
+    "name": "Codestral",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["EU AI Act Ready", "GDPR"],
+    "languages": ["en", "fr", "multilingual"],
+    "task_categories": ["text-generation", "code"]
+  },
+  {
+    "id": "mistral-7b",
+    "name": "Mistral 7B",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["EU AI Act Ready", "GDPR"],
+    "languages": ["en", "fr", "de", "es", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "mistral-small",
+    "name": "Mistral Small",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["EU AI Act Ready", "GDPR"],
+    "languages": ["en", "fr", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "vision"]
+  },
+  {
+    "id": "mistral-nemo",
+    "name": "Mistral Nemo",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["EU AI Act Ready", "GDPR"],
+    "languages": ["en", "fr", "de", "es", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "gpt-oss",
+    "name": "GPT-OSS",
+    "provider": "OpenAI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "code"]
+  },
+  {
+    "id": "gpt-oss-safeguard",
+    "name": "GPT-OSS Safeguard",
+    "provider": "OpenAI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation"]
+  },
+  {
+    "id": "granite-4",
+    "name": "Granite 4.0",
+    "provider": "IBM",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "de", "fr", "es", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "code"]
+  },
+  {
+    "id": "gemma-3",
+    "name": "Gemma 3",
+    "provider": "Google",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "vision"]
+  },
+  {
+    "id": "gemma-3n",
+    "name": "Gemma 3n",
+    "provider": "Google",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "phi-4",
+    "name": "Phi-4",
+    "provider": "Microsoft",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "phi-4-reasoning",
+    "name": "Phi-4 Reasoning",
+    "provider": "Microsoft",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "question-answering"]
+  },
+  {
+    "id": "olmo-3",
+    "name": "Olmo 3",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "nemotron-3",
+    "name": "Nemotron 3",
+    "provider": "NVIDIA",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "rnj-1",
+    "name": "Rnj-1",
+    "provider": "Essential AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "lfm2",
+    "name": "LFM2",
+    "provider": "Liquid AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "deepseek-r1",
+    "name": "DeepSeek R1",
+    "provider": "DeepSeek",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "question-answering"]
+  },
+  {
+    "id": "glm-4-7",
+    "name": "GLM-4.7",
+    "provider": "Zhipu AI",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "code"]
+  },
+  {
+    "id": "glm-4-6v-flash",
+    "name": "GLM-4.6V-Flash",
+    "provider": "Zhipu AI",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "vision"]
+  },
+  {
+    "id": "ernie-4-5",
+    "name": "Ernie 4.5",
+    "provider": "Baidu",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "minimax-m2",
+    "name": "MiniMax M2",
+    "provider": "MiniMax",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "code"]
+  },
+  {
+    "id": "seed-oss",
+    "name": "Seed-OSS",
+    "provider": "ByteDance",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "question-answering"]
+  },
+  {
+    "id": "qwen2-5-vl",
+    "name": "Qwen2.5-VL",
+    "provider": "Alibaba Cloud",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "conversational", "vision"]
+  },
+  {
+    "id": "function-gemma",
+    "name": "FunctionGemma",
+    "provider": "Google",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
+  },
+  {
+    "id": "olmocr-2",
+    "name": "olmOCR 2",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"],
+    "languages": ["en", "multilingual"],
+    "task_categories": ["vision", "conversational"]
+  },
+  {
+    "id": "qwen3-next",
+    "name": "Qwen3 Next",
+    "provider": "Alibaba Cloud",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": ["en", "zh", "multilingual"],
+    "task_categories": ["text-generation", "conversational"]
   }
 ]

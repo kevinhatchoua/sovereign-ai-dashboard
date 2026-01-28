@@ -31,6 +31,28 @@ const models: ComparisonModel[] = normalizeRegistry(
 const regions = ["EU", "US", "India"] as const;
 const opennessOptions: OpennessLevel[] = ["Open Weights", "API"];
 
+/** Hugging Face–style language code -> display label */
+const LANGUAGE_LABELS: Record<string, string> = {
+  en: "English",
+  zh: "Chinese",
+  fr: "French",
+  de: "German",
+  es: "Spanish",
+  ar: "Arabic",
+  hi: "Hindi",
+  multilingual: "Multilingual",
+};
+
+/** Hugging Face–style task tag -> display label */
+const TASK_LABELS: Record<string, string> = {
+  "text-generation": "Text generation",
+  conversational: "Conversational",
+  code: "Code",
+  "question-answering": "Q&A",
+  summarization: "Summarization",
+  vision: "Vision",
+};
+
 function getRegionFromTags(tags: string[], originCountry: string): (typeof regions)[number][] {
   const out: (typeof regions)[number][] = [];
   if (tags.some((t) => t.includes("EU") || t.includes("GDPR"))) out.push("EU");
@@ -208,6 +230,37 @@ function ModelCard({
           </span>
         )}
       </div>
+      {model.languages.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          <span className="text-xs text-slate-500">Languages:</span>
+          {model.languages.slice(0, 5).map((lang) => (
+            <span
+              key={lang}
+              className="rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400"
+              title={LANGUAGE_LABELS[lang] ?? lang}
+            >
+              {LANGUAGE_LABELS[lang] ?? lang}
+            </span>
+          ))}
+          {model.languages.length > 5 && (
+            <span className="text-xs text-slate-500">+{model.languages.length - 5}</span>
+          )}
+        </div>
+      )}
+      {model.task_categories.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          <span className="text-xs text-slate-500">Tasks:</span>
+          {model.task_categories.map((task) => (
+            <span
+              key={task}
+              className="rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400"
+              title={TASK_LABELS[task] ?? task}
+            >
+              {TASK_LABELS[task] ?? task}
+            </span>
+          ))}
+        </div>
+      )}
     </article>
   );
 }
@@ -225,6 +278,17 @@ export default function Home() {
     useState<Jurisdiction | null>(null);
   const [compareIds, setCompareIds] = useState<Set<string>>(new Set());
   const [matrixOpen, setMatrixOpen] = useState(false);
+  const [languageFilter, setLanguageFilter] = useState<Set<string>>(new Set());
+  const [taskFilter, setTaskFilter] = useState<Set<string>>(new Set());
+
+  const allLanguages = useMemo(
+    () => [...new Set(models.flatMap((m) => m.languages))].sort(),
+    []
+  );
+  const allTasks = useMemo(
+    () => [...new Set(models.flatMap((m) => m.task_categories))].sort(),
+    []
+  );
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -239,9 +303,27 @@ export default function Home() {
       const matchRegion =
         regionFilter.size === 0 ||
         modelRegions.some((r) => regionFilter.has(r));
-      return matchSearch && matchOpenness && matchRegion;
+      const matchLanguage =
+        languageFilter.size === 0 ||
+        m.languages.some((l) => languageFilter.has(l));
+      const matchTask =
+        taskFilter.size === 0 ||
+        m.task_categories.some((t) => taskFilter.has(t));
+      return (
+        matchSearch &&
+        matchOpenness &&
+        matchRegion &&
+        matchLanguage &&
+        matchTask
+      );
     });
-  }, [search, opennessFilter, regionFilter]);
+  }, [
+    search,
+    opennessFilter,
+    regionFilter,
+    languageFilter,
+    taskFilter,
+  ]);
 
   const toggleOpenness = (level: OpennessLevel) => {
     setOpennessFilter((prev) => {
@@ -257,6 +339,24 @@ export default function Home() {
       const next = new Set(prev);
       if (next.has(region)) next.delete(region);
       else next.add(region);
+      return next;
+    });
+  };
+
+  const toggleLanguage = (lang: string) => {
+    setLanguageFilter((prev) => {
+      const next = new Set(prev);
+      if (next.has(lang)) next.delete(lang);
+      else next.add(lang);
+      return next;
+    });
+  };
+
+  const toggleTask = (task: string) => {
+    setTaskFilter((prev) => {
+      const next = new Set(prev);
+      if (next.has(task)) next.delete(task);
+      else next.add(task);
       return next;
     });
   };
@@ -298,7 +398,7 @@ export default function Home() {
             />
             <input
               type="search"
-              placeholder="Search by model name or country..."
+              placeholder="Search by model name, provider, or country..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-10 pr-4 text-slate-200 placeholder-slate-500 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50"
@@ -377,6 +477,54 @@ export default function Home() {
                       {region}
                     </label>
                   ))}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend className="mb-2 text-sm font-medium text-slate-300">
+                  Language
+                </legend>
+                <div className="max-h-40 space-y-2 overflow-y-auto">
+                  {allLanguages.map((lang) => (
+                    <label
+                      key={lang}
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={languageFilter.has(lang)}
+                        onChange={() => toggleLanguage(lang)}
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                      />
+                      {LANGUAGE_LABELS[lang] ?? lang}
+                    </label>
+                  ))}
+                  {allLanguages.length === 0 && (
+                    <span className="text-xs text-slate-500">No language data</span>
+                  )}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend className="mb-2 text-sm font-medium text-slate-300">
+                  Task
+                </legend>
+                <div className="space-y-2">
+                  {allTasks.map((task) => (
+                    <label
+                      key={task}
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={taskFilter.has(task)}
+                        onChange={() => toggleTask(task)}
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                      />
+                      {TASK_LABELS[task] ?? task}
+                    </label>
+                  ))}
+                  {allTasks.length === 0 && (
+                    <span className="text-xs text-slate-500">No task data</span>
+                  )}
                 </div>
               </fieldset>
             </div>

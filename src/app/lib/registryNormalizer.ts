@@ -9,6 +9,10 @@ type LegacyEntry = {
   openness_level: "Open Weights" | "API";
   data_residency: boolean;
   compliance_tags: string[];
+  /** Hugging Face–style: ISO 639-1 codes or "multilingual" */
+  languages?: string[];
+  /** Hugging Face–style: e.g. text-generation, conversational, code */
+  task_categories?: string[];
 };
 
 /** New registry entry (origin, openness, compliance object) */
@@ -24,6 +28,8 @@ type NewEntry = {
     US_Executive_Order?: string;
   };
   data_residency: boolean;
+  languages?: string[];
+  task_categories?: string[];
 };
 
 export type RawRegistryEntry = LegacyEntry | NewEntry;
@@ -43,6 +49,10 @@ export type ComparisonModel = {
   compliance_tags: string[];
   /** Per-jurisdiction status for comparison matrix (EU, IN, US). */
   compliance: { EU: string; IN: string; US: string };
+  /** Hugging Face–style language codes (en, zh, multilingual, etc.). */
+  languages: string[];
+  /** Hugging Face–style task tags (text-generation, conversational, code, etc.). */
+  task_categories: string[];
 };
 
 function getComplianceStatusLegacy(
@@ -80,6 +90,8 @@ export function normalizeToComparisonModel(
         IN: getComplianceStatusLegacy(entry, "IN"),
         US: getComplianceStatusLegacy(entry, "US"),
       },
+      languages: entry.languages ?? [],
+      task_categories: entry.task_categories ?? [],
     };
   }
 
@@ -107,6 +119,8 @@ export function normalizeToComparisonModel(
     data_residency: newEntry.data_residency,
     compliance_tags,
     compliance: { EU: eu, IN: in_, US: us },
+    languages: newEntry.languages ?? [],
+    task_categories: newEntry.task_categories ?? [],
   };
 }
 
