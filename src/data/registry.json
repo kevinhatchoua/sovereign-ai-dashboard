@@ -34,5 +34,31 @@
     "openness_level": "Open Weights",
     "data_residency": true,
     "compliance_tags": ["Sovereign Deployment"]
+  },
+  {
+    "id": "aleph-alpha-pharia",
+    "name": "Pharia-1",
+    "provider": "Aleph Alpha",
+    "origin": "Germany",
+    "openness": "Fully Open",
+    "compliance": {
+      "EU_AI_Act": "Compliant (BSI Audited)",
+      "India_DPDP": "Ready (Self-Hostable)",
+      "US_Executive_Order": "Exempt (Open Source)"
+    },
+    "data_residency": true
+  },
+  {
+    "id": "gpt-5-mini",
+    "name": "GPT-5 Mini",
+    "provider": "OpenAI",
+    "origin": "USA",
+    "openness": "API Only",
+    "compliance": {
+      "EU_AI_Act": "Partial (Data Processing Addendum required)",
+      "India_DPDP": "Risk (Requires Centralized Node)",
+      "US_Executive_Order": "Certified"
+    },
+    "data_residency": false
   }
 ]

@@ -10,24 +10,23 @@ import {
   ChevronDown,
   Filter,
   AlertTriangle,
+  GitCompare,
 } from "lucide-react";
 import registryData from "@/data/registry.json";
 import { RegionSelector } from "@/app/components/RegionSelector";
+import { ComparisonMatrix } from "@/app/components/ComparisonMatrix";
 import { checkCompliance, type Jurisdiction } from "@/app/lib/complianceEngine";
+import {
+  normalizeRegistry,
+  type ComparisonModel,
+  type RawRegistryEntry,
+} from "@/app/lib/registryNormalizer";
 
 type OpennessLevel = "Open Weights" | "API";
 
-type Model = {
-  id: string;
-  name: string;
-  provider: string;
-  origin_country: string;
-  openness_level: OpennessLevel;
-  data_residency: boolean;
-  compliance_tags: string[];
-};
-
-const models: Model[] = registryData as Model[];
+const models: ComparisonModel[] = normalizeRegistry(
+  registryData as RawRegistryEntry[]
+);
 
 const regions = ["EU", "US", "India"] as const;
 const opennessOptions: OpennessLevel[] = ["Open Weights", "API"];
@@ -40,12 +39,20 @@ function getRegionFromTags(tags: string[], originCountry: string): (typeof regio
   return out;
 }
 
+const MAX_COMPARE = 3;
+
 function ModelCard({
   model,
   currentJurisdiction,
+  compareChecked,
+  onCompareChange,
+  compareDisabled,
 }: {
-  model: Model;
+  model: ComparisonModel;
   currentJurisdiction: Jurisdiction | null;
+  compareChecked: boolean;
+  onCompareChange: (checked: boolean) => void;
+  compareDisabled: boolean;
 }) {
   const [riskTooltipOpen, setRiskTooltipOpen] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -63,7 +70,10 @@ function ModelCard({
             },
             currentJurisdiction
           )
-        : { isCompliant: true, issues: [] as { requirement: string; message: string }[] },
+        : {
+            isCompliant: true,
+            issues: [] as { requirement: string; message: string }[],
+          },
     [model, currentJurisdiction]
   );
 
@@ -90,6 +100,19 @@ function ModelCard({
 
   return (
     <article className="rounded-xl border border-slate-700/60 bg-slate-800/50 p-5 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70">
+      <div className="mb-3 flex items-start justify-between gap-2">
+        <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-400">
+          <input
+            type="checkbox"
+            checked={compareChecked}
+            onChange={(e) => onCompareChange(e.target.checked)}
+            disabled={compareDisabled}
+            className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-500 focus:ring-slate-500 disabled:opacity-50"
+            aria-label={`Compare ${model.name}`}
+          />
+          <span className="select-none">Compare</span>
+        </label>
+      </div>
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <h3 className="text-lg font-semibold text-slate-100">{model.name}</h3>
         <div className="flex flex-wrap items-center gap-1.5">
@@ -200,6 +223,8 @@ export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentJurisdiction, setCurrentJurisdiction] =
     useState<Jurisdiction | null>(null);
+  const [compareIds, setCompareIds] = useState<Set<string>>(new Set());
+  const [matrixOpen, setMatrixOpen] = useState(false);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -235,6 +260,24 @@ export default function Home() {
       return next;
     });
   };
+
+  const toggleCompare = (modelId: string, checked: boolean) => {
+    setCompareIds((prev) => {
+      const next = new Set(prev);
+      if (checked) {
+        if (next.size >= MAX_COMPARE) return prev;
+        next.add(modelId);
+      } else {
+        next.delete(modelId);
+      }
+      return next;
+    });
+  };
+
+  const compareModels = useMemo(
+    () => models.filter((m) => compareIds.has(m.id)),
+    [compareIds]
+  );
 
   return (
     <div className="min-h-screen bg-zinc-950 text-slate-200">
@@ -350,6 +393,11 @@ export default function Home() {
                 key={model.id}
                 model={model}
                 currentJurisdiction={currentJurisdiction}
+                compareChecked={compareIds.has(model.id)}
+                onCompareChange={(checked) => toggleCompare(model.id, checked)}
+                compareDisabled={
+                  compareIds.size >= MAX_COMPARE && !compareIds.has(model.id)
+                }
               />
             ))}
           </div>
@@ -360,6 +408,33 @@ export default function Home() {
           )}
         </main>
       </div>
+
+      {compareIds.size >= 2 && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-700 bg-zinc-900/95 py-3 shadow-lg backdrop-blur">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+            <p className="text-sm text-slate-400">
+              {compareIds.size} model{compareIds.size !== 1 ? "s" : ""} selected
+              for comparison (max {MAX_COMPARE})
+            </p>
+            <button
+              type="button"
+              onClick={() => setMatrixOpen(true)}
+              className="inline-flex items-center gap-2 rounded-lg bg-slate-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-500"
+            >
+              <GitCompare className="h-4 w-4" aria-hidden />
+              Compare Models
+            </button>
+          </div>
+        </div>
+      )}
+
+      {matrixOpen && compareModels.length >= 2 && (
+        <ComparisonMatrix
+          models={compareModels}
+          jurisdiction={currentJurisdiction}
+          onClose={() => setMatrixOpen(false)}
+        />
+      )}
     </div>
   );
 }
