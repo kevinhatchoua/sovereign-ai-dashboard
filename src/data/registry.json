@@ -1,7 +1,7 @@
 [
   {
-    "id": "mistral-large",
-    "name": "Mistral Large",
+    "id": "mistral-large-3",
+    "name": "Mistral Large 3",
     "provider": "Mistral AI",
     "origin_country": "France",
     "openness_level": "API",
@@ -14,8 +14,17 @@
     "provider": "Meta",
     "origin_country": "United States",
     "openness_level": "Open Weights",
-    "data_residency": true,
+    "data_residency": false,
     "compliance_tags": ["GDPR"]
+  },
+  {
+    "id": "qwen-2.5",
+    "name": "Qwen 2.5",
+    "provider": "Alibaba Cloud",
+    "origin_country": "China",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": []
   },
   {
     "id": "falcon-2",
@@ -24,24 +33,6 @@
     "origin_country": "United Arab Emirates",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": []
-  },
-  {
-    "id": "qwen-2.5",
-    "name": "Qwen 2.5",
-    "provider": "Alibaba Cloud",
-    "origin_country": "China",
-    "openness_level": "Open Weights",
-    "data_residency": false,
-    "compliance_tags": ["India Data Localization"]
-  },
-  {
-    "id": "gemma-2",
-    "name": "Gemma 2",
-    "provider": "Google",
-    "origin_country": "United States",
-    "openness_level": "Open Weights",
-    "data_residency": true,
-    "compliance_tags": ["GDPR"]
+    "compliance_tags": ["Sovereign Deployment"]
   }
 ]

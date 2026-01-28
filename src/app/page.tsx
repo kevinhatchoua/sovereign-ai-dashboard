@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import {
   Search,
   Server,
@@ -9,8 +9,11 @@ import {
   MapPin,
   ChevronDown,
   Filter,
+  AlertTriangle,
 } from "lucide-react";
 import registryData from "@/data/registry.json";
+import { RegionSelector } from "@/app/components/RegionSelector";
+import { checkCompliance, type Jurisdiction } from "@/app/lib/complianceEngine";
 
 type OpennessLevel = "Open Weights" | "API";
 
@@ -37,28 +40,111 @@ function getRegionFromTags(tags: string[], originCountry: string): (typeof regio
   return out;
 }
 
-function ModelCard({ model }: { model: Model }) {
+function ModelCard({
+  model,
+  currentJurisdiction,
+}: {
+  model: Model;
+  currentJurisdiction: Jurisdiction | null;
+}) {
+  const [riskTooltipOpen, setRiskTooltipOpen] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLButtonElement>(null);
+
+  const compliance = useMemo(
+    () =>
+      currentJurisdiction
+        ? checkCompliance(
+            {
+              openness_level: model.openness_level,
+              origin_country: model.origin_country,
+              data_residency: model.data_residency,
+              compliance_tags: model.compliance_tags,
+            },
+            currentJurisdiction
+          )
+        : { isCompliant: true, issues: [] as { requirement: string; message: string }[] },
+    [model, currentJurisdiction]
+  );
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        tooltipRef.current &&
+        badgeRef.current &&
+        !tooltipRef.current.contains(e.target as Node) &&
+        !badgeRef.current.contains(e.target as Node)
+      ) {
+        setRiskTooltipOpen(false);
+      }
+    }
+    if (riskTooltipOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [riskTooltipOpen]);
+
   const isLocalHostable = model.openness_level === "Open Weights";
   const regionList = getRegionFromTags(model.compliance_tags, model.origin_country);
+  const showRiskBadge = currentJurisdiction && !compliance.isCompliant;
 
   return (
     <article className="rounded-xl border border-slate-700/60 bg-slate-800/50 p-5 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70">
-      <div className="mb-3 flex items-start justify-between gap-2">
+      <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <h3 className="text-lg font-semibold text-slate-100">{model.name}</h3>
-        <span
-          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${
-            isLocalHostable
-              ? "bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30"
-              : "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/30"
-          }`}
-        >
-          {isLocalHostable ? (
-            <Server className="h-3.5 w-3.5" aria-hidden />
-          ) : (
-            <Cloud className="h-3.5 w-3.5" aria-hidden />
+        <div className="flex flex-wrap items-center gap-1.5">
+          {showRiskBadge && (
+            <div className="relative">
+              <button
+                ref={badgeRef}
+                type="button"
+                onClick={() => setRiskTooltipOpen((o) => !o)}
+                className="inline-flex items-center gap-1 rounded-full bg-red-500/20 px-2.5 py-0.5 text-xs font-medium text-red-400 ring-1 ring-red-500/30 hover:bg-red-500/30 focus:outline-none focus:ring-2 focus:ring-red-500/50"
+                aria-label="View compliance risk details"
+                aria-expanded={riskTooltipOpen}
+              >
+                <AlertTriangle className="h-3.5 w-3.5" aria-hidden />
+                Risk
+              </button>
+              {riskTooltipOpen && compliance.issues.length > 0 && (
+                <div
+                  ref={tooltipRef}
+                  role="tooltip"
+                  className="absolute left-0 top-full z-50 mt-1.5 min-w-[14rem] rounded-lg border border-slate-600 bg-slate-800 p-3 shadow-xl"
+                >
+                  <p className="mb-2 text-xs font-medium text-slate-300">
+                    2026 legal requirements
+                  </p>
+                  <ul className="space-y-1.5 text-xs text-slate-400">
+                    {compliance.issues.map((issue, i) => (
+                      <li key={i}>
+                        <span className="font-medium text-red-300">
+                          {issue.requirement}
+                        </span>
+                        {" — "}
+                        {issue.message}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           )}
-          {isLocalHostable ? "Local-hostable" : "API-only"}
-        </span>
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+              isLocalHostable
+                ? "bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30"
+                : "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/30"
+            }`}
+          >
+            {isLocalHostable ? (
+              <Server className="h-3.5 w-3.5" aria-hidden />
+            ) : (
+              <Cloud className="h-3.5 w-3.5" aria-hidden />
+            )}
+            {isLocalHostable ? "Local-hostable" : "API-only"}
+          </span>
+        </div>
       </div>
       <p className="mb-3 text-sm text-slate-400">{model.provider}</p>
       <div className="mb-3 flex items-center gap-1.5 text-slate-500">
@@ -112,6 +198,8 @@ export default function Home() {
     new Set(regions)
   );
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentJurisdiction, setCurrentJurisdiction] =
+    useState<Jurisdiction | null>(null);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -155,6 +243,11 @@ export default function Home() {
           <h1 className="shrink-0 text-xl font-semibold tracking-tight text-white sm:text-2xl">
             Sovereign AI Transparency
           </h1>
+          <RegionSelector
+            value={currentJurisdiction}
+            onChange={setCurrentJurisdiction}
+            placeholder="Current Jurisdiction"
+          />
           <div className="relative flex-1">
             <Search
               className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
@@ -253,7 +346,11 @@ export default function Home() {
           </p>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {filtered.map((model) => (
-              <ModelCard key={model.id} model={model} />
+              <ModelCard
+                key={model.id}
+                model={model}
+                currentJurisdiction={currentJurisdiction}
+              />
             ))}
           </div>
           {filtered.length === 0 && (
