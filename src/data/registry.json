@@ -1,0 +1,47 @@
+[
+  {
+    "id": "mistral-large",
+    "name": "Mistral Large",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": ["EU AI Act Ready", "GDPR"]
+  },
+  {
+    "id": "llama-3.1",
+    "name": "Llama 3.1",
+    "provider": "Meta",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"]
+  },
+  {
+    "id": "falcon-2",
+    "name": "Falcon 2",
+    "provider": "Technology Innovation Institute",
+    "origin_country": "United Arab Emirates",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": []
+  },
+  {
+    "id": "qwen-2.5",
+    "name": "Qwen 2.5",
+    "provider": "Alibaba Cloud",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": ["India Data Localization"]
+  },
+  {
+    "id": "gemma-2",
+    "name": "Gemma 2",
+    "provider": "Google",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": ["GDPR"]
+  }
+]
