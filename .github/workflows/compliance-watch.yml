@@ -1,0 +1,40 @@
+name: Compliance Watch
+
+on:
+  schedule:
+    # Run every day at midnight UTC
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  patrol:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run compliance check
+        id: check
+        run: node scripts/compliance-check.js
+
+      - name: Open compliance update issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '⚠️ Compliance Update Required',
+              body: `The daily Compliance Patrol detected that one or more models in \`src/data/registry.json\` may have changed compliance status and need to be updated.\n\n**Action:** Review the [Compliance Watch run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) and update the registry if needed.\n\n_This issue was opened automatically by the Compliance Watch workflow._`,
+              labels: ['compliance', 'automated']
+            });
