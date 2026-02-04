@@ -11,6 +11,8 @@ import {
   Filter,
   AlertTriangle,
   GitCompare,
+  MoreVertical,
+  X,
 } from "lucide-react";
 import registryData from "@/data/registry.json";
 import { RegionSelector } from "@/app/components/RegionSelector";
@@ -71,7 +73,7 @@ function getMinVramGb(model: ComparisonModel): number | null {
   return v4 ?? v8 ?? null;
 }
 
-const MAX_COMPARE = 3;
+const MAX_COMPARE = 5;
 const HARDWARE_OPTIONS = [
   { value: "8", label: "≤ 8GB VRAM" },
   { value: "16", label: "≤ 16GB VRAM" },
@@ -85,6 +87,15 @@ function ModelCard({
   onCompareChange,
   compareDisabled,
   onClick,
+  onFilterRegion,
+  onFilterLanguage,
+  onFilterTask,
+  onFilterComplianceTag,
+  onFilterProvider,
+  onFilterCountry,
+  onFilterOpenness,
+  onOpenDetails,
+  onReportDispute,
 }: {
   model: ComparisonModel;
   currentJurisdiction: Jurisdiction | null;
@@ -92,10 +103,21 @@ function ModelCard({
   onCompareChange: (checked: boolean) => void;
   compareDisabled: boolean;
   onClick: () => void;
+  onFilterRegion?: (region: string) => void;
+  onFilterLanguage?: (lang: string) => void;
+  onFilterTask?: (task: string) => void;
+  onFilterComplianceTag?: (tag: string) => void;
+  onFilterProvider?: (provider: string) => void;
+  onFilterCountry?: (country: string) => void;
+  onFilterOpenness?: (level: OpennessLevel) => void;
+  onOpenDetails?: () => void;
+  onReportDispute?: () => void;
 }) {
   const [riskTooltipOpen, setRiskTooltipOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const compliance = useMemo(
     () =>
@@ -126,12 +148,15 @@ function ModelCard({
       ) {
         setRiskTooltipOpen(false);
       }
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
     }
-    if (riskTooltipOpen) {
+    if (riskTooltipOpen || menuOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
-  }, [riskTooltipOpen]);
+  }, [riskTooltipOpen, menuOpen]);
 
   const isLocalHostable = model.openness_level === "Open Weights";
   const regionList = getRegionFromTags(model.compliance_tags, model.origin_country);
@@ -173,6 +198,49 @@ function ModelCard({
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <h3 className="text-lg font-semibold text-slate-100">{model.name}</h3>
         <div className="flex flex-wrap items-center gap-1.5">
+          <div className="relative z-20" ref={menuRef} onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((o) => !o)}
+              className="rounded p-1 text-slate-500 hover:bg-slate-700 hover:text-slate-300"
+              aria-label="Card actions"
+              aria-expanded={menuOpen}
+            >
+              <MoreVertical className="h-4 w-4" />
+            </button>
+            {menuOpen && (
+              <div
+                className="absolute right-0 top-full z-50 mt-1 min-w-[10rem] rounded-lg border border-slate-600 bg-slate-800 py-1 shadow-xl"
+                role="menu"
+              >
+                <button
+                  type="button"
+                  onClick={() => { onOpenDetails?.(); setMenuOpen(false); }}
+                  className="block w-full px-3 py-2 text-left text-sm text-slate-300 hover:bg-slate-700"
+                  role="menuitem"
+                >
+                  View details
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { onCompareChange(!compareChecked); setMenuOpen(false); }}
+                  disabled={compareDisabled && !compareChecked}
+                  className="block w-full px-3 py-2 text-left text-sm text-slate-300 hover:bg-slate-700 disabled:opacity-50"
+                  role="menuitem"
+                >
+                  {compareChecked ? "Remove from compare" : "Add to compare"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { onReportDispute?.(); setMenuOpen(false); }}
+                  className="block w-full px-3 py-2 text-left text-sm text-slate-300 hover:bg-slate-700"
+                  role="menuitem"
+                >
+                  Report dispute
+                </button>
+              </div>
+            )}
+          </div>
           {showRiskBadge && (
             <div className="relative z-20" onClick={(e) => e.stopPropagation()}>
               <button
@@ -210,12 +278,15 @@ function ModelCard({
               )}
             </div>
           )}
-          <span
-            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onFilterOpenness?.(model.openness_level as OpennessLevel); }}
+            className={`relative z-20 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition hover:ring-2 hover:ring-slate-500/50 ${
               isLocalHostable
                 ? "bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30"
                 : "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/30"
             }`}
+            title="Filter by openness"
           >
             {isLocalHostable ? (
               <Server className="h-3.5 w-3.5" aria-hidden />
@@ -223,59 +294,83 @@ function ModelCard({
               <Cloud className="h-3.5 w-3.5" aria-hidden />
             )}
             {isLocalHostable ? "Local-hostable" : "API-only"}
-          </span>
+          </button>
         </div>
       </div>
-      <p className="mb-3 text-sm text-slate-400">{model.provider}</p>
-      <div className="mb-3 flex items-center gap-1.5 text-slate-500">
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onFilterProvider?.(model.provider); }}
+        className="relative z-20 mb-3 block text-left text-sm text-slate-400 transition hover:text-slate-300 hover:underline"
+        title="Filter by provider"
+      >
+        {model.provider}
+      </button>
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onFilterCountry?.(model.origin_country); }}
+        className="relative z-20 mb-3 flex items-center gap-1.5 text-left text-slate-500 transition hover:text-slate-300"
+        title="Filter by country"
+      >
         <MapPin className="h-4 w-4 shrink-0" aria-hidden />
         <span className="text-sm">{model.origin_country}</span>
-      </div>
+      </button>
       <div className="mb-3 flex flex-wrap gap-1.5">
         {regions.map((region) => {
           const active = regionList.includes(region);
           return (
-            <span
+            <button
               key={region}
-              className={`inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs ${
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onFilterRegion?.(region); }}
+              className={`relative z-20 inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs transition hover:ring-2 hover:ring-slate-500/50 ${
                 active
                   ? "bg-slate-600/80 text-slate-200"
                   : "bg-slate-700/40 text-slate-500"
               }`}
-              title={active ? `${region} compliance` : `No ${region} compliance`}
+              title={active ? `Filter by ${region}` : `No ${region} compliance`}
             >
               <Shield className="h-3 w-3" aria-hidden />
               {region}
-            </span>
+            </button>
           );
         })}
       </div>
       <div className="flex flex-wrap gap-1.5">
         {model.compliance_tags.map((tag) => (
-          <span
+          <button
             key={tag}
-            className="rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300"
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onFilterComplianceTag?.(tag); }}
+            className="relative z-20 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 transition hover:bg-slate-600/80 hover:ring-2 hover:ring-slate-500/50"
+            title={`Filter by ${tag}`}
           >
             {tag}
-          </span>
+          </button>
         ))}
         {model.data_residency && (
-          <span className="rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300">
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onFilterComplianceTag?.("Data residency"); }}
+            className="relative z-20 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 transition hover:bg-slate-600/80 hover:ring-2 hover:ring-slate-500/50"
+            title="Filter by data residency"
+          >
             Data residency
-          </span>
+          </button>
         )}
       </div>
       {model.languages.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
           <span className="text-xs text-slate-500">Languages:</span>
           {model.languages.slice(0, 5).map((lang) => (
-            <span
+            <button
               key={lang}
-              className="rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400"
-              title={LANGUAGE_LABELS[lang] ?? lang}
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onFilterLanguage?.(lang); }}
+              className="relative z-20 rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400 transition hover:bg-slate-600/60 hover:ring-2 hover:ring-slate-500/50"
+              title={`Filter by ${LANGUAGE_LABELS[lang] ?? lang}`}
             >
               {LANGUAGE_LABELS[lang] ?? lang}
-            </span>
+            </button>
           ))}
           {model.languages.length > 5 && (
             <span className="text-xs text-slate-500">+{model.languages.length - 5}</span>
@@ -286,13 +381,15 @@ function ModelCard({
         <div className="mt-2 flex flex-wrap gap-1.5">
           <span className="text-xs text-slate-500">Tasks:</span>
           {model.task_categories.map((task) => (
-            <span
+            <button
               key={task}
-              className="rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400"
-              title={TASK_LABELS[task] ?? task}
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onFilterTask?.(task); }}
+              className="relative z-20 rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400 transition hover:bg-slate-600/60 hover:ring-2 hover:ring-slate-500/50"
+              title={`Filter by ${TASK_LABELS[task] ?? task}`}
             >
               {TASK_LABELS[task] ?? task}
-            </span>
+            </button>
           ))}
         </div>
       )}
@@ -317,7 +414,11 @@ export default function Home() {
   const [languageFilter, setLanguageFilter] = useState<Set<string>>(new Set());
   const [taskFilter, setTaskFilter] = useState<Set<string>>(new Set());
   const [hardwareFilter, setHardwareFilter] = useState<Set<string>>(new Set());
+  const [complianceTagFilter, setComplianceTagFilter] = useState<Set<string>>(new Set());
+  const [providerFilter, setProviderFilter] = useState<Set<string>>(new Set());
+  const [countryFilter, setCountryFilter] = useState<Set<string>>(new Set());
   const [selectedModel, setSelectedModel] = useState<ComparisonModel | null>(null);
+  const [openDisputeOnMount, setOpenDisputeOnMount] = useState(false);
 
   const allLanguages = useMemo(
     () => [...new Set(models.flatMap((m) => m.languages))].sort(),
@@ -348,6 +449,17 @@ export default function Home() {
       const matchTask =
         taskFilter.size === 0 ||
         m.task_categories.some((t) => taskFilter.has(t));
+      const matchComplianceTag =
+        complianceTagFilter.size === 0 ||
+        [...complianceTagFilter].every((tag) =>
+          tag === "Data residency"
+            ? m.data_residency
+            : m.compliance_tags.includes(tag)
+        );
+      const matchProvider =
+        providerFilter.size === 0 || providerFilter.has(m.provider);
+      const matchCountry =
+        countryFilter.size === 0 || countryFilter.has(m.origin_country);
       const minVram = getMinVramGb(m);
       const matchHardware =
         hardwareFilter.size === 0 ||
@@ -359,6 +471,9 @@ export default function Home() {
         matchRegion &&
         matchLanguage &&
         matchTask &&
+        matchComplianceTag &&
+        matchProvider &&
+        matchCountry &&
         matchHardware
       );
     });
@@ -368,6 +483,9 @@ export default function Home() {
     regionFilter,
     languageFilter,
     taskFilter,
+    complianceTagFilter,
+    providerFilter,
+    countryFilter,
     hardwareFilter,
   ]);
 
@@ -380,6 +498,14 @@ export default function Home() {
     });
   };
 
+  const filterToOpenness = (level: OpennessLevel) => {
+    setOpennessFilter((prev) =>
+      prev.size === 1 && prev.has(level)
+        ? new Set(opennessOptions)
+        : new Set([level])
+    );
+  };
+
   const toggleRegion = (region: string) => {
     setRegionFilter((prev) => {
       const next = new Set(prev);
@@ -387,6 +513,14 @@ export default function Home() {
       else next.add(region);
       return next;
     });
+  };
+
+  const filterToRegion = (region: string) => {
+    setRegionFilter((prev) =>
+      prev.size === 1 && prev.has(region)
+        ? new Set(regions)
+        : new Set([region])
+    );
   };
 
   const toggleLanguage = (lang: string) => {
@@ -416,6 +550,54 @@ export default function Home() {
     });
   };
 
+  const toggleComplianceTag = (tag: string) => {
+    setComplianceTagFilter((prev) => {
+      const next = new Set(prev);
+      if (next.has(tag)) next.delete(tag);
+      else next.add(tag);
+      return next;
+    });
+  };
+
+  const toggleProvider = (provider: string) => {
+    setProviderFilter((prev) => {
+      const next = new Set(prev);
+      if (next.has(provider)) next.delete(provider);
+      else next.add(provider);
+      return next;
+    });
+  };
+
+  const toggleCountry = (country: string) => {
+    setCountryFilter((prev) => {
+      const next = new Set(prev);
+      if (next.has(country)) next.delete(country);
+      else next.add(country);
+      return next;
+    });
+  };
+
+  const hasActiveFilters =
+    regionFilter.size < regions.length ||
+    opennessFilter.size < opennessOptions.length ||
+    languageFilter.size > 0 ||
+    taskFilter.size > 0 ||
+    hardwareFilter.size > 0 ||
+    complianceTagFilter.size > 0 ||
+    providerFilter.size > 0 ||
+    countryFilter.size > 0;
+
+  const clearAllFilters = () => {
+    setRegionFilter(new Set(regions));
+    setOpennessFilter(new Set(opennessOptions));
+    setLanguageFilter(new Set());
+    setTaskFilter(new Set());
+    setHardwareFilter(new Set());
+    setComplianceTagFilter(new Set());
+    setProviderFilter(new Set());
+    setCountryFilter(new Set());
+  };
+
   const toggleCompare = (modelId: string, checked: boolean) => {
     setCompareIds((prev) => {
       const next = new Set(prev);
@@ -433,6 +615,16 @@ export default function Home() {
     () => models.filter((m) => compareIds.has(m.id)),
     [compareIds]
   );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedModel(null);
+    };
+    if (selectedModel) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [selectedModel]);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-slate-200">
@@ -608,9 +800,46 @@ export default function Home() {
         </aside>
 
         <main className="min-w-0 flex-1">
-          <p className="mb-4 text-sm text-slate-500">
-            {filtered.length} model{filtered.length !== 1 ? "s" : ""} shown
-          </p>
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <p className="text-sm text-slate-500">
+              {filtered.length} model{filtered.length !== 1 ? "s" : ""} shown
+            </p>
+            {hasActiveFilters && (
+              <>
+                <span className="text-slate-600">|</span>
+                <button
+                  type="button"
+                  onClick={clearAllFilters}
+                  className="flex items-center gap-1 rounded-lg border border-slate-600 px-2.5 py-1 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-300"
+                >
+                  <X className="h-3 w-3" />
+                  Clear filters
+                </button>
+                <div className="flex flex-wrap gap-1.5">
+                  {[...complianceTagFilter, ...providerFilter, ...countryFilter].map((f) => (
+                    <span
+                      key={f}
+                      className="inline-flex items-center gap-1 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300"
+                    >
+                      {f}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (complianceTagFilter.has(f)) toggleComplianceTag(f);
+                          else if (providerFilter.has(f)) toggleProvider(f);
+                          else toggleCountry(f);
+                        }}
+                        className="rounded hover:bg-slate-600"
+                        aria-label={`Remove ${f} filter`}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {filtered.map((model) => (
               <ModelCard
@@ -623,6 +852,18 @@ export default function Home() {
                   compareIds.size >= MAX_COMPARE && !compareIds.has(model.id)
                 }
                 onClick={() => setSelectedModel(model)}
+                onFilterRegion={filterToRegion}
+                onFilterLanguage={toggleLanguage}
+                onFilterTask={toggleTask}
+                onFilterComplianceTag={toggleComplianceTag}
+                onFilterProvider={toggleProvider}
+                onFilterCountry={toggleCountry}
+                onFilterOpenness={filterToOpenness}
+                onOpenDetails={() => setSelectedModel(model)}
+                onReportDispute={() => {
+                  setSelectedModel(model);
+                  setOpenDisputeOnMount(true);
+                }}
               />
             ))}
           </div>
@@ -665,7 +906,11 @@ export default function Home() {
         <ModelDetailPanel
           model={selectedModel}
           jurisdiction={currentJurisdiction}
-          onClose={() => setSelectedModel(null)}
+          onClose={() => {
+            setSelectedModel(null);
+            setOpenDisputeOnMount(false);
+          }}
+          openDisputeOnMount={openDisputeOnMount}
         />
       )}
     </div>

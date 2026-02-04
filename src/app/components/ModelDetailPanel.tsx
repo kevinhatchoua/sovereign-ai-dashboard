@@ -49,12 +49,14 @@ type ModelDetailPanelProps = {
   model: ComparisonModel | null;
   jurisdiction: Jurisdiction | null;
   onClose: () => void;
+  openDisputeOnMount?: boolean;
 };
 
 export function ModelDetailPanel({
   model,
   jurisdiction,
   onClose,
+  openDisputeOnMount = false,
 }: ModelDetailPanelProps) {
   const [disputeModalOpen, setDisputeModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -62,6 +64,10 @@ export function ModelDetailPanel({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (openDisputeOnMount) setDisputeModalOpen(true);
+  }, [openDisputeOnMount]);
 
   if (!model) return null;
 
