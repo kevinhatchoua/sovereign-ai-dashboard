@@ -1,5 +1,24 @@
 import { checkCompliance, type Jurisdiction } from "./complianceEngine";
 
+/** Extended metadata for Model Intelligence Hub */
+export type ModelIntelligence = {
+  popularity_index?: string;
+  inference_speed?: number;
+  context_window?: number;
+  training_cutoff?: string;
+  vram_4bit_gb?: number;
+  vram_8bit_gb?: number;
+  ram_4bit_gb?: number;
+  ram_8bit_gb?: number;
+  quantization_gguf?: boolean;
+  quantization_exl2?: boolean;
+  download_trend?: number[];
+  top_use_cases?: string[];
+  /** From Hugging Face API (sync_hf_metrics.py) */
+  hf_downloads?: number;
+  hf_likes?: number;
+};
+
 /** Legacy registry entry (origin_country, openness_level, compliance_tags) */
 type LegacyEntry = {
   id: string;
@@ -9,11 +28,9 @@ type LegacyEntry = {
   openness_level: "Open Weights" | "API";
   data_residency: boolean;
   compliance_tags: string[];
-  /** Hugging Face–style: ISO 639-1 codes or "multilingual" */
   languages?: string[];
-  /** Hugging Face–style: e.g. text-generation, conversational, code */
   task_categories?: string[];
-};
+} & Partial<ModelIntelligence>;
 
 /** New registry entry (origin, openness, compliance object) */
 type NewEntry = {
@@ -30,7 +47,7 @@ type NewEntry = {
   data_residency: boolean;
   languages?: string[];
   task_categories?: string[];
-};
+} & Partial<ModelIntelligence>;
 
 export type RawRegistryEntry = LegacyEntry | NewEntry;
 
@@ -47,13 +64,10 @@ export type ComparisonModel = {
   openness_level: "Open Weights" | "API";
   data_residency: boolean;
   compliance_tags: string[];
-  /** Per-jurisdiction status for comparison matrix (EU, IN, US). */
   compliance: { EU: string; IN: string; US: string };
-  /** Hugging Face–style language codes (en, zh, multilingual, etc.). */
   languages: string[];
-  /** Hugging Face–style task tags (text-generation, conversational, code, etc.). */
   task_categories: string[];
-};
+} & { intelligence?: ModelIntelligence };
 
 function getComplianceStatusLegacy(
   entry: LegacyEntry,
@@ -77,6 +91,28 @@ export function normalizeToComparisonModel(
   entry: RawRegistryEntry
 ): ComparisonModel {
   if (isLegacyEntry(entry)) {
+    const hasIntel =
+      entry.popularity_index != null ||
+      entry.vram_4bit_gb != null ||
+      entry.hf_downloads != null;
+    const intel: ModelIntelligence | undefined = hasIntel
+      ? {
+            popularity_index: entry.popularity_index,
+            inference_speed: entry.inference_speed,
+            context_window: entry.context_window,
+            training_cutoff: entry.training_cutoff,
+            vram_4bit_gb: entry.vram_4bit_gb,
+            vram_8bit_gb: entry.vram_8bit_gb,
+            ram_4bit_gb: entry.ram_4bit_gb,
+            ram_8bit_gb: entry.ram_8bit_gb,
+            quantization_gguf: entry.quantization_gguf,
+            quantization_exl2: entry.quantization_exl2,
+            download_trend: entry.download_trend,
+            top_use_cases: entry.top_use_cases,
+            hf_downloads: entry.hf_downloads,
+            hf_likes: entry.hf_likes,
+          }
+        : undefined;
     return {
       id: entry.id,
       name: entry.name,
@@ -92,6 +128,7 @@ export function normalizeToComparisonModel(
       },
       languages: entry.languages ?? [],
       task_categories: entry.task_categories ?? [],
+      intelligence: intel,
     };
   }
 
@@ -110,6 +147,28 @@ export function normalizeToComparisonModel(
   if (in_.toLowerCase().includes("ready") || in_.toLowerCase().includes("compliant")) compliance_tags.push("India Data Localization");
   if (us.toLowerCase().includes("certified") || us.toLowerCase().includes("exempt")) compliance_tags.push("GDPR");
 
+  const ne = newEntry as NewEntry & Partial<ModelIntelligence>;
+  const hasIntel =
+    ne.popularity_index != null || ne.vram_4bit_gb != null || ne.hf_downloads != null;
+  const intel: ModelIntelligence | undefined = hasIntel
+    ? {
+        popularity_index: ne.popularity_index,
+        inference_speed: ne.inference_speed,
+        context_window: ne.context_window,
+        training_cutoff: ne.training_cutoff,
+        vram_4bit_gb: ne.vram_4bit_gb,
+        vram_8bit_gb: ne.vram_8bit_gb,
+        ram_4bit_gb: ne.ram_4bit_gb,
+        ram_8bit_gb: ne.ram_8bit_gb,
+        quantization_gguf: ne.quantization_gguf,
+        quantization_exl2: ne.quantization_exl2,
+        download_trend: ne.download_trend,
+        top_use_cases: ne.top_use_cases,
+        hf_downloads: ne.hf_downloads,
+        hf_likes: ne.hf_likes,
+      }
+    : undefined;
+
   return {
     id: newEntry.id,
     name: newEntry.name,
@@ -121,6 +180,7 @@ export function normalizeToComparisonModel(
     compliance: { EU: eu, IN: in_, US: us },
     languages: newEntry.languages ?? [],
     task_categories: newEntry.task_categories ?? [],
+    intelligence: intel,
   };
 }
 

@@ -34,6 +34,13 @@ This open-source dashboard provides a real-time, community-verified registry of 
 3. **Run:** `npm run dev`
 4. **Visit:** `localhost:3000`
 
+## 🔒 Security
+
+- **Voting:** Honeypot, browser fingerprinting, and 30-second rate limiting protect against bot manipulation.
+- **Admin Dashboard:** `/admin` is protected by Supabase Auth. Add your email to `admin_emails` in Supabase to grant access. Enable MFA in Supabase Dashboard for additional security.
+- **CSP:** Content Security Policy headers mitigate XSS and clickjacking.
+- See [SECURITY.md](SECURITY.md) for vulnerability reporting.
+
 ## 🤝 Community & Governance
 
 This is a **public good** project. We rely on legal experts and developers to keep the `registry.json` updated. See our [CONTRIBUTING.md](CONTRIBUTING.md) for data verification standards.

@@ -6,9 +6,45 @@
     "origin_country": "France",
     "openness_level": "API",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"],
-    "languages": ["en", "fr", "de", "es", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 45,
+    "context_window": 128000,
+    "training_cutoff": "2025-06",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      120,
+      145,
+      180,
+      210,
+      195,
+      220,
+      240
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ]
   },
   {
     "id": "llama-3.1",
@@ -17,9 +53,43 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": false,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 62,
+    "context_window": 128000,
+    "training_cutoff": "2024-12",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 16,
+    "ram_8bit_gb": 32,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      450,
+      520,
+      580,
+      620,
+      590,
+      640,
+      710
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 943036,
+    "hf_likes": 2045
   },
   {
     "id": "qwen-2.5",
@@ -29,8 +99,15 @@
     "openness_level": "API",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "falcon-2",
@@ -39,9 +116,41 @@
     "origin_country": "United Arab Emirates",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["Sovereign Deployment"],
-    "languages": ["en", "ar", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "Sovereign Deployment"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 38,
+    "context_window": 32768,
+    "training_cutoff": "2024-09",
+    "vram_4bit_gb": 6,
+    "vram_8bit_gb": 12,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      80,
+      95,
+      110,
+      105,
+      120,
+      115,
+      130
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ]
   },
   {
     "id": "aleph-alpha-pharia",
@@ -55,8 +164,16 @@
       "US_Executive_Order": "Exempt (Open Source)"
     },
     "data_residency": true,
-    "languages": ["en", "de", "fr", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "languages": [
+      "en",
+      "de",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "gpt-5-mini",
@@ -70,8 +187,14 @@
       "US_Executive_Order": "Certified"
     },
     "data_residency": false,
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "qwen3",
@@ -81,8 +204,41 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 55,
+    "context_window": 256000,
+    "training_cutoff": "2025-03",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 20,
+    "ram_8bit_gb": 40,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      200,
+      230,
+      280,
+      310,
+      290,
+      320,
+      350
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning",
+      "Multimodal"
+    ],
+    "hf_downloads": 9978477,
+    "hf_likes": 1050
   },
   {
     "id": "qwen3-vl",
@@ -92,8 +248,18 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "vision"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "hf_downloads": 1561550,
+    "hf_likes": 1260
   },
   {
     "id": "qwen3-coder",
@@ -103,8 +269,17 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "code"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ],
+    "hf_downloads": 1240111,
+    "hf_likes": 618
   },
   {
     "id": "ministral-3",
@@ -113,9 +288,45 @@
     "origin_country": "France",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"],
-    "languages": ["en", "fr", "de", "es", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 8%",
+    "inference_speed": 72,
+    "context_window": 128000,
+    "training_cutoff": "2025-04",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 8,
+    "ram_8bit_gb": 16,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      180,
+      220,
+      280,
+      320,
+      310,
+      340,
+      380
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning",
+      "RAG"
+    ]
   },
   {
     "id": "magistral",
@@ -124,9 +335,20 @@
     "origin_country": "France",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"],
-    "languages": ["en", "fr", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "question-answering"]
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ]
   },
   {
     "id": "devstral",
@@ -135,9 +357,19 @@
     "origin_country": "France",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"],
-    "languages": ["en", "fr", "multilingual"],
-    "task_categories": ["text-generation", "code"]
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ]
   },
   {
     "id": "devstral-2",
@@ -146,9 +378,20 @@
     "origin_country": "France",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"],
-    "languages": ["en", "fr", "multilingual"],
-    "task_categories": ["text-generation", "code", "vision"]
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "vision"
+    ]
   },
   {
     "id": "codestral",
@@ -157,9 +400,19 @@
     "origin_country": "France",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"],
-    "languages": ["en", "fr", "multilingual"],
-    "task_categories": ["text-generation", "code"]
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ]
   },
   {
     "id": "mistral-7b",
@@ -168,9 +421,23 @@
     "origin_country": "France",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"],
-    "languages": ["en", "fr", "de", "es", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "hf_downloads": 927835,
+    "hf_likes": 2384
   },
   {
     "id": "mistral-small",
@@ -179,9 +446,20 @@
     "origin_country": "France",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"],
-    "languages": ["en", "fr", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "vision"]
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ]
   },
   {
     "id": "mistral-nemo",
@@ -190,9 +468,21 @@
     "origin_country": "France",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["EU AI Act Ready", "GDPR"],
-    "languages": ["en", "fr", "de", "es", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "gpt-oss",
@@ -201,9 +491,44 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "code"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "code"
+    ],
+    "popularity_index": "Top 2%",
+    "inference_speed": 48,
+    "context_window": 128000,
+    "training_cutoff": "2025-05",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 20,
+    "ram_8bit_gb": 40,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      520,
+      610,
+      720,
+      850,
+      820,
+      900,
+      980
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Tool use",
+      "Reasoning"
+    ],
+    "hf_downloads": 6013975,
+    "hf_likes": 4297
   },
   {
     "id": "gpt-oss-safeguard",
@@ -212,9 +537,16 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ]
   },
   {
     "id": "granite-4",
@@ -223,9 +555,21 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "de", "fr", "es", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "code"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "fr",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "code"
+    ]
   },
   {
     "id": "gemma-3",
@@ -234,9 +578,20 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "vision"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "hf_downloads": 1391304,
+    "hf_likes": 646
   },
   {
     "id": "gemma-3n",
@@ -245,9 +600,17 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "phi-4",
@@ -256,9 +619,19 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "hf_downloads": 588817,
+    "hf_likes": 2217
   },
   {
     "id": "phi-4-reasoning",
@@ -267,9 +640,18 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "question-answering"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ]
   },
   {
     "id": "olmo-3",
@@ -278,9 +660,17 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "nemotron-3",
@@ -289,9 +679,17 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "rnj-1",
@@ -300,9 +698,17 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "lfm2",
@@ -311,9 +717,17 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "deepseek-r1",
@@ -323,8 +737,18 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "question-answering"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "hf_downloads": 573561,
+    "hf_likes": 780
   },
   {
     "id": "glm-4-7",
@@ -334,8 +758,15 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "code"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ]
   },
   {
     "id": "glm-4-6v-flash",
@@ -345,8 +776,16 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "vision"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ]
   },
   {
     "id": "ernie-4-5",
@@ -356,8 +795,15 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "minimax-m2",
@@ -367,8 +813,15 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "code"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ]
   },
   {
     "id": "seed-oss",
@@ -378,8 +831,16 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "question-answering"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ]
   },
   {
     "id": "qwen2-5-vl",
@@ -389,8 +850,16 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "conversational", "vision"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ]
   },
   {
     "id": "function-gemma",
@@ -399,9 +868,17 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   },
   {
     "id": "olmocr-2",
@@ -410,9 +887,17 @@
     "origin_country": "United States",
     "openness_level": "Open Weights",
     "data_residency": true,
-    "compliance_tags": ["GDPR"],
-    "languages": ["en", "multilingual"],
-    "task_categories": ["vision", "conversational"]
+    "compliance_tags": [
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ]
   },
   {
     "id": "qwen3-next",
@@ -422,7 +907,14 @@
     "openness_level": "Open Weights",
     "data_residency": false,
     "compliance_tags": [],
-    "languages": ["en", "zh", "multilingual"],
-    "task_categories": ["text-generation", "conversational"]
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ]
   }
 ]

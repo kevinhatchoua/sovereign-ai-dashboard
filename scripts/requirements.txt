@@ -1,0 +1,2 @@
+# For sync_hf_metrics.py
+requests>=2.28.0

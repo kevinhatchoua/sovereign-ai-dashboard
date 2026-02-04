@@ -14,7 +14,9 @@ import {
 } from "lucide-react";
 import registryData from "@/data/registry.json";
 import { RegionSelector } from "@/app/components/RegionSelector";
+import { VoteButtons } from "@/app/components/VoteButtons";
 import { ComparisonMatrix } from "@/app/components/ComparisonMatrix";
+import { ModelDetailPanel } from "@/app/components/ModelDetailPanel";
 import { checkCompliance, type Jurisdiction } from "@/app/lib/complianceEngine";
 import {
   normalizeRegistry,
@@ -61,7 +63,20 @@ function getRegionFromTags(tags: string[], originCountry: string): (typeof regio
   return out;
 }
 
+function getMinVramGb(model: ComparisonModel): number | null {
+  const v4 = model.intelligence?.vram_4bit_gb;
+  const v8 = model.intelligence?.vram_8bit_gb;
+  if (v4 == null && v8 == null) return null;
+  if (v4 != null && v8 != null) return Math.min(v4, v8);
+  return v4 ?? v8 ?? null;
+}
+
 const MAX_COMPARE = 3;
+const HARDWARE_OPTIONS = [
+  { value: "8", label: "≤ 8GB VRAM" },
+  { value: "16", label: "≤ 16GB VRAM" },
+  { value: "24", label: "≤ 24GB VRAM" },
+];
 
 function ModelCard({
   model,
@@ -69,12 +84,14 @@ function ModelCard({
   compareChecked,
   onCompareChange,
   compareDisabled,
+  onClick,
 }: {
   model: ComparisonModel;
   currentJurisdiction: Jurisdiction | null;
   compareChecked: boolean;
   onCompareChange: (checked: boolean) => void;
   compareDisabled: boolean;
+  onClick: () => void;
 }) {
   const [riskTooltipOpen, setRiskTooltipOpen] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -121,9 +138,24 @@ function ModelCard({
   const showRiskBadge = currentJurisdiction && !compliance.isCompliant;
 
   return (
-    <article className="rounded-xl border border-slate-700/60 bg-slate-800/50 p-5 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70">
+    <article
+      className="relative cursor-pointer rounded-xl border border-slate-700/60 bg-slate-800/50 p-5 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70"
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === "Enter" && onClick()}
+    >
+      {/* Click overlay: on top to catch clicks; interactive elements use z-20 to stay above */}
+      <div
+        className="absolute inset-0 z-10 rounded-xl"
+        onClick={onClick}
+        aria-hidden
+      />
+      <div className="relative z-0">
       <div className="mb-3 flex items-start justify-between gap-2">
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-400">
+        <label
+          className="relative z-20 flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+          onClick={(e) => e.stopPropagation()}
+        >
           <input
             type="checkbox"
             checked={compareChecked}
@@ -134,12 +166,15 @@ function ModelCard({
           />
           <span className="select-none">Compare</span>
         </label>
+        <div className="relative z-20" onClick={(e) => e.stopPropagation()}>
+          <VoteButtons modelId={model.id} compact />
+        </div>
       </div>
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <h3 className="text-lg font-semibold text-slate-100">{model.name}</h3>
         <div className="flex flex-wrap items-center gap-1.5">
           {showRiskBadge && (
-            <div className="relative">
+            <div className="relative z-20" onClick={(e) => e.stopPropagation()}>
               <button
                 ref={badgeRef}
                 type="button"
@@ -261,6 +296,7 @@ function ModelCard({
           ))}
         </div>
       )}
+      </div>
     </article>
   );
 }
@@ -280,6 +316,8 @@ export default function Home() {
   const [matrixOpen, setMatrixOpen] = useState(false);
   const [languageFilter, setLanguageFilter] = useState<Set<string>>(new Set());
   const [taskFilter, setTaskFilter] = useState<Set<string>>(new Set());
+  const [hardwareFilter, setHardwareFilter] = useState<Set<string>>(new Set());
+  const [selectedModel, setSelectedModel] = useState<ComparisonModel | null>(null);
 
   const allLanguages = useMemo(
     () => [...new Set(models.flatMap((m) => m.languages))].sort(),
@@ -297,7 +335,8 @@ export default function Home() {
         !q ||
         m.name.toLowerCase().includes(q) ||
         m.provider.toLowerCase().includes(q) ||
-        m.origin_country.toLowerCase().includes(q);
+        m.origin_country.toLowerCase().includes(q) ||
+        m.compliance_tags.some((t) => t.toLowerCase().includes(q));
       const matchOpenness = opennessFilter.has(m.openness_level);
       const modelRegions = getRegionFromTags(m.compliance_tags, m.origin_country);
       const matchRegion =
@@ -309,12 +348,18 @@ export default function Home() {
       const matchTask =
         taskFilter.size === 0 ||
         m.task_categories.some((t) => taskFilter.has(t));
+      const minVram = getMinVramGb(m);
+      const matchHardware =
+        hardwareFilter.size === 0 ||
+        (minVram != null &&
+          [...hardwareFilter].some((h) => minVram <= parseInt(h, 10)));
       return (
         matchSearch &&
         matchOpenness &&
         matchRegion &&
         matchLanguage &&
-        matchTask
+        matchTask &&
+        matchHardware
       );
     });
   }, [
@@ -323,6 +368,7 @@ export default function Home() {
     regionFilter,
     languageFilter,
     taskFilter,
+    hardwareFilter,
   ]);
 
   const toggleOpenness = (level: OpennessLevel) => {
@@ -357,6 +403,15 @@ export default function Home() {
       const next = new Set(prev);
       if (next.has(task)) next.delete(task);
       else next.add(task);
+      return next;
+    });
+  };
+
+  const toggleHardware = (value: string) => {
+    setHardwareFilter((prev) => {
+      const next = new Set(prev);
+      if (next.has(value)) next.delete(value);
+      else next.add(value);
       return next;
     });
   };
@@ -527,6 +582,27 @@ export default function Home() {
                   )}
                 </div>
               </fieldset>
+              <fieldset>
+                <legend className="mb-2 text-sm font-medium text-slate-300">
+                  Hardware (VRAM)
+                </legend>
+                <div className="space-y-2">
+                  {HARDWARE_OPTIONS.map((opt) => (
+                    <label
+                      key={opt.value}
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={hardwareFilter.has(opt.value)}
+                        onChange={() => toggleHardware(opt.value)}
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                      />
+                      {opt.label}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
             </div>
           </div>
         </aside>
@@ -546,6 +622,7 @@ export default function Home() {
                 compareDisabled={
                   compareIds.size >= MAX_COMPARE && !compareIds.has(model.id)
                 }
+                onClick={() => setSelectedModel(model)}
               />
             ))}
           </div>
@@ -581,6 +658,14 @@ export default function Home() {
           models={compareModels}
           jurisdiction={currentJurisdiction}
           onClose={() => setMatrixOpen(false)}
+        />
+      )}
+
+      {selectedModel && (
+        <ModelDetailPanel
+          model={selectedModel}
+          jurisdiction={currentJurisdiction}
+          onClose={() => setSelectedModel(null)}
         />
       )}
     </div>
