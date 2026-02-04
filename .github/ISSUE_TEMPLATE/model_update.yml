@@ -1,0 +1,49 @@
+name: Model Data Update
+description: Submit a request to add or update model compliance data in the registry
+title: "[Model Update] "
+labels: ["data", "compliance"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping keep the Sovereign AI Dashboard accurate! Per our [Verification Law](CONTRIBUTING.md#️-the-verification-law), all data submissions must include a link to a public source of truth.
+
+  - type: input
+    id: model_name
+    attributes:
+      label: Model Name
+      description: The name of the AI model (e.g., "Llama 3.1", "Mistral Large 3")
+      placeholder: "e.g., GPT-4o"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: jurisdiction
+    attributes:
+      label: Jurisdiction
+      description: Which regulatory jurisdiction does this update affect?
+      options:
+        - EU
+        - India
+        - US
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: change_requested
+    attributes:
+      label: Change Requested
+      description: Describe the update (e.g., "Update residency status", "Add EU AI Act compliance tag")
+      placeholder: "e.g., Update data_residency to true based on new on-prem deployment option"
+    validations:
+      required: true
+
+  - type: input
+    id: source_of_truth
+    attributes:
+      label: Link to Public Source of Truth
+      description: "Mandatory: Official documentation, government registry, or legal audit. No source = no merge."
+      placeholder: "https://..."
+    validations:
+      required: true
