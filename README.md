@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 Sovereign AI Transparency Dashboard
 
-## Getting Started
+**Empowering users to navigate AI localization, data residency, and regional compliance.**
 
-First, run the development server:
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Compliance: EU AI Act 2026](https://img.shields.io/badge/Compliance-EU_AI_Act_2026-blue)](https://artificialintelligenceact.eu/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📖 The Problem
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+As of 2026, artificial intelligence is no longer "borderless." Nations are passing strict laws (EU AI Act, India DPDP, CCPA) that mandate where data can be stored and how models must be governed. For developers and enterprises, knowing which LLM is safe to use in a specific country is a legal minefield.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 The Solution
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This open-source dashboard provides a real-time, community-verified registry of AI models and their "Sovereign Status."
 
-## Learn More
+### Key Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Geographic Filtering:** Instantly see which models comply with your local data protection laws.
+- **Sovereignty Score:** A proprietary metric based on data residency, model openness, and infrastructure autonomy.
+- **Comparison Matrix:** Side-by-side legal risk analysis for top-tier models (Llama, Mistral, GPT, etc.).
+- **Automated Watcher:** A GitHub Action that monitors regulatory changes and alerts the community to compliance shifts.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Frontend:** Next.js (App Router), React, Tailwind CSS
+- **Data:** JSON-first architecture for easy open-source contributions
+- **Compliance Engine:** Custom TypeScript logic mapped to 2026 legislative articles
 
-## Deploy on Vercel
+## 🚦 Getting Started
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Clone the repo:** `git clone https://github.com/kevinhatchoua/sovereign-ai-dashboard.git`
+2. **Install:** `npm install`
+3. **Run:** `npm run dev`
+4. **Visit:** `localhost:3000`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Community & Governance
+
+This is a **public good** project. We rely on legal experts and developers to keep the `registry.json` updated. See our [CONTRIBUTING.md](CONTRIBUTING.md) for data verification standards.
+
+---
+
+*Disclaimer: This tool is for informational purposes only and does not constitute legal advice.*
