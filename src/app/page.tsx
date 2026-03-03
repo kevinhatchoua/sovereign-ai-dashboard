@@ -195,18 +195,9 @@ function ModelCard({
           />
           <span className="select-none">Compare</span>
         </label>
-        <div className="relative z-20" onClick={(e) => e.stopPropagation()}>
+        <div className="relative z-20 flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
           <VoteButtons modelId={model.id} compact />
-        </div>
-      </div>
-      <p className="relative z-20 mb-1 text-xs text-slate-500 [.light_&]:text-slate-700">
-        {model.task_categories[0] ? TASK_LABELS[model.task_categories[0]] ?? model.task_categories[0] : "—"}
-        {getMinVramGb(model) != null && ` • ≤${getMinVramGb(model)}GB VRAM`}
-      </p>
-      <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
-        <h3 className="text-lg font-semibold text-slate-100 [.light_&]:text-slate-900">{model.name}</h3>
-        <div className="flex flex-wrap items-center gap-1.5">
-          <div className="relative z-20" ref={menuRef} onClick={(e) => e.stopPropagation()}>
+          <div ref={menuRef} className="relative">
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
@@ -249,6 +240,11 @@ function ModelCard({
               </div>
             )}
           </div>
+        </div>
+      </div>
+      <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
+        <h3 className="text-lg font-semibold text-slate-100 [.light_&]:text-slate-900">{model.name}</h3>
+        <div className="flex flex-wrap items-center gap-1.5">
           {showRiskBadge && (
             <div className="relative z-20" onClick={(e) => e.stopPropagation()}>
               <button
@@ -319,13 +315,21 @@ function ModelCard({
 
       {/* Simplified list-based metadata */}
       <dl className="space-y-1.5 text-xs">
-        {model.task_categories.length > 0 && (
+        {(model.task_categories.length > 0 || getMinVramGb(model) != null) && (
           <div className="flex items-start gap-2">
-            <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0 pt-0.5">Tasks:</dt>
+            <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0 pt-0.5">
+              {model.task_categories.length > 0 ? "Tasks:" : "Hardware:"}
+            </dt>
             <dd>
               <span className="text-slate-400 [.light_&]:text-slate-600">
-                {model.task_categories.slice(0, 3).map((t) => TASK_LABELS[t] ?? t).join(", ")}
-                {model.task_categories.length > 3 && ` +${model.task_categories.length - 3}`}
+                {model.task_categories.length > 0 && (
+                  <>
+                    {model.task_categories.slice(0, 3).map((t) => TASK_LABELS[t] ?? t).join(", ")}
+                    {model.task_categories.length > 3 && ` +${model.task_categories.length - 3}`}
+                    {getMinVramGb(model) != null && " • "}
+                  </>
+                )}
+                {getMinVramGb(model) != null && `≤${getMinVramGb(model)}GB VRAM`}
               </span>
             </dd>
           </div>
@@ -741,12 +745,12 @@ export default function Home() {
           <h2 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
             {currentJurisdiction
               ? `Results for ${currentJurisdiction === "EU" ? "EU" : currentJurisdiction === "IN" ? "India" : "USA"} Jurisdiction`
-              : `Explore ${models.length}+ AI models`}
+              : `Build AI you own`}
           </h2>
           <p className="text-slate-400 [.light_&]:text-slate-800">
             {currentJurisdiction
               ? "Models filtered by your selected jurisdiction. Change jurisdiction in the header to see others."
-              : "Compare sovereignty, compliance, and regional data residency. Select a jurisdiction or filter by EU, US, India, and more."}
+              : `Explore ${models.length}+ models for sovereign deployment—full ownership, data control, and domestic infrastructure. Filter by jurisdiction, openness, and compliance.`}
           </p>
         </div>
       </div>

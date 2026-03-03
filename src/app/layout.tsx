@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sovereign AI Transparency Dashboard",
-  description: "Explore AI models with sovereignty, compliance, and regional transparency.",
+  title: "Sovereign AI | Build AI You Own",
+  description: "Discover AI models for sovereign deployment—full ownership, data control, and domestic infrastructure. Compare compliance, openness, and regional data residency.",
 };
 
 export const viewport: Viewport = {
