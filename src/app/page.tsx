@@ -98,12 +98,8 @@ function ModelCard({
   onCompareChange,
   compareDisabled,
   onClick,
-  onFilterRegion,
-  onFilterLanguage,
   onFilterTask,
-  onFilterComplianceTag,
   onFilterProvider,
-  onFilterCountry,
   onFilterOpenness,
   onOpenDetails,
   onReportDispute,
@@ -114,12 +110,8 @@ function ModelCard({
   onCompareChange: (checked: boolean) => void;
   compareDisabled: boolean;
   onClick: () => void;
-  onFilterRegion?: (region: string) => void;
-  onFilterLanguage?: (lang: string) => void;
   onFilterTask?: (task: string) => void;
-  onFilterComplianceTag?: (tag: string) => void;
   onFilterProvider?: (provider: string) => void;
-  onFilterCountry?: (country: string) => void;
   onFilterOpenness?: (level: OpennessLevel) => void;
   onOpenDetails?: () => void;
   onReportDispute?: () => void;
@@ -170,7 +162,6 @@ function ModelCard({
   }, [riskTooltipOpen, menuOpen]);
 
   const isLocalHostable = model.openness_level === "Open Weights";
-  const regionList = getRegionFromTags(model.compliance_tags, model.origin_country);
   const showRiskBadge = currentJurisdiction && !compliance.isCompliant;
 
   return (
@@ -322,73 +313,12 @@ function ModelCard({
       >
         {model.provider}
       </button>
-      <p className="relative z-20 mb-2 line-clamp-2 text-xs text-slate-500 [.light_&]:text-slate-600">
+      <p className="relative z-20 mb-3 line-clamp-2 text-xs text-slate-500 [.light_&]:text-slate-600">
         {getModelDescription(model)}
       </p>
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); onFilterCountry?.(model.origin_country); }}
-        className="relative z-20 mb-3 flex items-center gap-1.5 text-left text-slate-500 transition hover:text-slate-300 [.light_&]:text-slate-700 [.light_&]:hover:text-slate-900"
-        title="Filter by country"
-      >
-        <MapPin className="h-4 w-4 shrink-0" aria-hidden />
-        <span className="text-sm">{model.origin_country}</span>
-      </button>
 
       {/* Simplified list-based metadata */}
       <dl className="space-y-1.5 text-xs">
-        <div className="flex items-center gap-2">
-          <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0">Regions:</dt>
-          <dd className="flex flex-wrap gap-1">
-            {regions.map((region) => {
-              const active = regionList.includes(region);
-              return (
-                <button
-                  key={region}
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); onFilterRegion?.(region); }}
-                  className={`relative z-20 underline-offset-2 hover:underline ${
-                    active ? "text-slate-200 [.light_&]:text-slate-800 font-medium" : "text-slate-500 [.light_&]:text-slate-500"
-                  }`}
-                  title={`Filter by ${region}`}
-                >
-                  {region}
-                </button>
-              );
-            })}
-          </dd>
-        </div>
-        {(model.compliance_tags.length > 0 || model.data_residency) && (
-          <div className="flex items-start gap-2">
-            <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0 pt-0.5">Compliance:</dt>
-            <dd className="flex flex-wrap gap-x-1 gap-y-0.5">
-              {[...model.compliance_tags, ...(model.data_residency ? ["Data residency"] : [])].map((tag, i) => (
-                <span key={tag} className="flex items-center gap-1">
-                  {i > 0 && <span className="text-slate-500">·</span>}
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); onFilterComplianceTag?.(tag); }}
-                    className="relative z-20 text-slate-400 underline-offset-2 hover:text-slate-300 hover:underline [.light_&]:text-slate-600 [.light_&]:hover:text-slate-800"
-                    title={`Filter by ${tag}`}
-                  >
-                    {tag}
-                  </button>
-                </span>
-              ))}
-            </dd>
-          </div>
-        )}
-        {model.languages.length > 0 && (
-          <div className="flex items-start gap-2">
-            <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0 pt-0.5">Languages:</dt>
-            <dd>
-              <span className="text-slate-400 [.light_&]:text-slate-600">
-                {model.languages.slice(0, 4).map((l) => LANGUAGE_LABELS[l] ?? l).join(", ")}
-                {model.languages.length > 4 && ` +${model.languages.length - 4}`}
-              </span>
-            </dd>
-          </div>
-        )}
         {model.task_categories.length > 0 && (
           <div className="flex items-start gap-2">
             <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0 pt-0.5">Tasks:</dt>
@@ -449,10 +379,10 @@ function ModelCard({
 export default function Home() {
   const [search, setSearch] = useState("");
   const [opennessFilter, setOpennessFilter] = useState<Set<OpennessLevel>>(
-    new Set(opennessOptions)
+    new Set()
   );
   const [regionFilter, setRegionFilter] = useState<Set<string>>(
-    new Set(regions)
+    new Set()
   );
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentJurisdiction, setCurrentJurisdiction] =
@@ -502,7 +432,8 @@ export default function Home() {
         m.provider.toLowerCase().includes(q) ||
         m.origin_country.toLowerCase().includes(q) ||
         m.compliance_tags.some((t) => t.toLowerCase().includes(q));
-      const matchOpenness = opennessFilter.has(m.openness_level);
+      const matchOpenness =
+        opennessFilter.size === 0 || opennessFilter.has(m.openness_level);
       const modelRegions = getRegionFromTags(m.compliance_tags, m.origin_country);
       const matchRegion =
         regionFilter.size === 0 ||
@@ -594,7 +525,7 @@ export default function Home() {
   const filterToOpenness = (level: OpennessLevel) => {
     setOpennessFilter((prev) =>
       prev.size === 1 && prev.has(level)
-        ? new Set(opennessOptions)
+        ? new Set()
         : new Set([level])
     );
   };
@@ -612,7 +543,7 @@ export default function Home() {
   const filterToRegion = (region: string) => {
     const clearing = regionFilter.size === 1 && regionFilter.has(region);
     setRegionFilter((prev) =>
-      clearing ? new Set(regions) : new Set([region])
+      clearing ? new Set() : new Set([region])
     );
     if (clearing) setCurrentJurisdiction(null);
     else if (region === "EU") setCurrentJurisdiction("EU");
@@ -679,8 +610,8 @@ export default function Home() {
   };
 
   const hasActiveFilters =
-    regionFilter.size < regions.length ||
-    opennessFilter.size < opennessOptions.length ||
+    regionFilter.size > 0 ||
+    opennessFilter.size > 0 ||
     languageFilter.size > 0 ||
     taskFilter.size > 0 ||
     hardwareFilter.size > 0 ||
@@ -692,8 +623,8 @@ export default function Home() {
 
   const clearAllFilters = () => {
     setCurrentJurisdiction(null);
-    setRegionFilter(new Set(regions));
-    setOpennessFilter(new Set(opennessOptions));
+    setRegionFilter(new Set());
+    setOpennessFilter(new Set());
     setLanguageFilter(new Set());
     setTaskFilter(new Set());
     setHardwareFilter(new Set());
@@ -1172,12 +1103,8 @@ export default function Home() {
                   compareIds.size >= MAX_COMPARE && !compareIds.has(model.id)
                 }
                 onClick={() => setSelectedModel(model)}
-                onFilterRegion={filterToRegion}
-                onFilterLanguage={toggleLanguage}
                 onFilterTask={toggleTask}
-                onFilterComplianceTag={toggleComplianceTag}
                 onFilterProvider={toggleProvider}
-                onFilterCountry={toggleCountry}
                 onFilterOpenness={filterToOpenness}
                 onOpenDetails={() => setSelectedModel(model)}
                 onReportDispute={() => {
