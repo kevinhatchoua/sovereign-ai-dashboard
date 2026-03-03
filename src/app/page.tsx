@@ -657,6 +657,20 @@ export default function Home() {
     [compareIds]
   );
 
+  // Sync document title with jurisdiction and model count
+  useEffect(() => {
+    const jurisdictionLabel = currentJurisdiction
+      ? currentJurisdiction === "EU"
+        ? "EU"
+        : currentJurisdiction === "IN"
+          ? "India"
+          : "USA"
+      : null;
+    document.title = jurisdictionLabel
+      ? `Sovereign AI | Results for ${jurisdictionLabel} Jurisdiction`
+      : `Sovereign AI | Build with AI You Own — ${filtered.length}+ models`;
+  }, [currentJurisdiction, filtered.length]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelectedModel(null);
@@ -745,7 +759,7 @@ export default function Home() {
           <h2 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
             {currentJurisdiction
               ? `Results for ${currentJurisdiction === "EU" ? "EU" : currentJurisdiction === "IN" ? "India" : "USA"} Jurisdiction`
-              : `Build AI you own`}
+              : `Build with AI you own — ${filtered.length}+ models`}
           </h2>
           <p className="text-slate-400 [.light_&]:text-slate-800">
             {currentJurisdiction
