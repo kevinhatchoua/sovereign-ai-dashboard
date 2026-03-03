@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { X, FileDown } from "lucide-react";
 import { jsPDF } from "jspdf";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
@@ -73,10 +73,10 @@ function ComparisonRow<T>({
 
   return (
     <div
-      className={`grid gap-4 border-b border-slate-700/60 px-4 py-3 last:border-b-0 ${
+      className={`grid min-w-0 gap-4 border-b border-slate-700/60 px-4 py-3 last:border-b-0 ${
         !allMatch ? "bg-red-900/20 border-l-4 border-l-red-500" : ""
       }`}
-      style={{ gridTemplateColumns: `minmax(0, 1fr) repeat(${models.length}, minmax(0, 1fr))` }}
+      style={{ gridTemplateColumns: `minmax(6rem,1fr) repeat(${models.length}, minmax(5rem,1fr))` }}
     >
       <span className="font-semibold text-slate-300">{label}</span>
       {models.map((m) => (
@@ -100,9 +100,9 @@ function LegalRow({
   if (!jurisdiction) {
     return (
       <div
-        className="grid gap-4 border-b border-slate-700/60 px-4 py-3 last:border-b-0"
+        className="grid min-w-0 gap-4 border-b border-slate-700/60 px-4 py-3 last:border-b-0"
         style={{
-          gridTemplateColumns: `minmax(0, 1fr) repeat(${models.length}, minmax(0, 1fr))`,
+          gridTemplateColumns: `minmax(6rem,1fr) repeat(${models.length}, minmax(5rem,1fr))`,
         }}
       >
         <span className="font-semibold text-slate-300">{label}</span>
@@ -123,7 +123,7 @@ function LegalRow({
         !allMatch ? "bg-red-900/20 border-l-4 border-l-red-500" : ""
       }`}
       style={{
-        gridTemplateColumns: `minmax(0, 1fr) repeat(${models.length}, minmax(0, 1fr))`,
+          gridTemplateColumns: `minmax(6rem,1fr) repeat(${models.length}, minmax(5rem,1fr))`,
       }}
     >
       <span className="font-semibold text-slate-300">{label}</span>
@@ -147,6 +147,13 @@ export function ComparisonMatrix({
   jurisdiction,
   onClose,
 }: ComparisonMatrixProps) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   if (models.length < 2) return null;
 
   const sovereignHosting = (m: ComparisonModel) =>
@@ -221,33 +228,33 @@ export function ComparisonMatrix({
   }, [models, jurisdiction]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
       <div
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden
       />
-      <div className="relative z-10 w-full max-w-4xl rounded-xl border border-slate-700 bg-zinc-900 shadow-2xl">
-        <div className="flex items-center justify-between border-b border-slate-700 px-4 py-3">
+      <div className="relative z-10 flex max-h-[90dvh] w-full flex-col rounded-t-2xl border border-b-0 border-slate-700 bg-zinc-900 shadow-2xl sm:max-h-[85vh] sm:w-auto sm:min-w-[min(100vw-2rem,36rem)] sm:max-w-4xl sm:rounded-xl sm:border-b">
+        <div className="flex shrink-0 items-center justify-between border-b border-slate-700 px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]">
           <h2 className="text-lg font-semibold text-white">
             Comparison Matrix
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-500"
+            className="min-h-[44px] min-w-[44px] touch-manipulation rounded-lg p-2 text-slate-400 hover:bg-slate-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-500"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="max-h-[70vh] overflow-auto">
+        <div className="min-h-0 flex-1 overflow-auto">
           {/* Header row: label + model names */}
           <div
-            className="grid gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-3 font-medium text-slate-300"
+            className="grid min-w-0 gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-3 font-medium text-slate-300 sm:min-w-[min(100%,28rem)]"
             style={{
-              gridTemplateColumns: `minmax(0, 1fr) repeat(${models.length}, minmax(0, 1fr))`,
+              gridTemplateColumns: `minmax(6rem,1fr) repeat(${models.length}, minmax(5rem,1fr))`,
             }}
           >
             <span className="text-slate-500">Model</span>

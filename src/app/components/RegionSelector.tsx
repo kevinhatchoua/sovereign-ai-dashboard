@@ -47,7 +47,7 @@ export function RegionSelector({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex min-w-[10rem] items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-3 pr-2.5 text-left text-sm text-slate-200 hover:bg-slate-800 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50"
+        className="flex w-full min-w-0 items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-3 pr-2.5 text-left text-sm text-slate-200 hover:bg-slate-800 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50 sm:min-w-[10rem] sm:w-auto touch-manipulation"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Select current jurisdiction"

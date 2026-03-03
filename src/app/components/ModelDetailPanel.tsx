@@ -72,6 +72,15 @@ export function ModelDetailPanel({
   }, []);
 
   useEffect(() => {
+    if (model) {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [model]);
+
+  useEffect(() => {
     if (openDisputeOnMount) setDisputeModalOpen(true);
   }, [openDisputeOnMount]);
 
@@ -104,23 +113,23 @@ export function ModelDetailPanel({
         aria-hidden
       />
       <aside
-        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-lg flex-col border-l border-slate-700 bg-zinc-900 shadow-2xl [.light_&]:border-slate-300 [.light_&]:bg-white"
+        className="fixed inset-x-0 top-0 z-50 flex h-full max-h-[100dvh] w-full flex-col border-l border-slate-700 bg-zinc-900 shadow-2xl [.light_&]:border-slate-300 [.light_&]:bg-white sm:inset-x-auto sm:left-auto sm:right-0 sm:max-w-lg pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
         role="dialog"
         aria-label={`Details for ${model.name}`}
       >
-        <div className="flex items-center justify-between border-b border-slate-700 px-4 py-3 [.light_&]:border-slate-200">
-          <h2 className="text-lg font-semibold text-white [.light_&]:text-slate-900">{model.name}</h2>
+        <div className="flex shrink-0 items-center justify-between border-b border-slate-700 px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] [.light_&]:border-slate-200">
+          <h2 className="min-w-0 truncate text-lg font-semibold text-white [.light_&]:text-slate-900">{model.name}</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-100 [.light_&]:hover:text-slate-900"
+            className="min-h-[44px] min-w-[44px] shrink-0 touch-manipulation rounded-lg p-2 text-slate-400 hover:bg-slate-800 hover:text-white [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-100 [.light_&]:hover:text-slate-900"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="min-h-0 flex-1 overflow-y-auto p-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]">
           {/* Overview - always visible */}
           <section className="mb-6">
             <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-700">

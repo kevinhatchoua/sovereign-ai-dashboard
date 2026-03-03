@@ -169,7 +169,7 @@ function ModelCard({
 
   return (
     <article
-      className="relative cursor-pointer rounded-xl border border-slate-700/60 bg-slate-800/50 p-5 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 [.light_&]:hover:border-slate-400 [.light_&]:hover:bg-slate-100"
+      className="relative cursor-pointer touch-manipulation rounded-xl border border-slate-700/60 bg-slate-800/50 p-4 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70 sm:p-5 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 [.light_&]:hover:border-slate-400 [.light_&]:hover:bg-slate-100"
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onClick()}
@@ -664,17 +664,27 @@ export default function Home() {
     }
   }, [selectedModel]);
 
+  useEffect(() => {
+    if (sidebarOpen && typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [sidebarOpen]);
+
   return (
     <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
-      <header className="sticky top-0 z-10 border-b border-slate-800 bg-zinc-950/95 backdrop-blur [.light_&]:border-slate-300 [.light_&]:bg-white/95">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-6">
+      <header className="sticky top-0 z-10 border-b border-slate-800 bg-zinc-950/95 backdrop-blur [.light_&]:border-slate-300 [.light_&]:bg-white/95 pt-[env(safe-area-inset-top)]">
+        <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
+          <div className="flex min-w-0 shrink-0 items-center gap-3 sm:gap-6">
             <Link
               href="/"
-              className="flex items-center gap-2 text-lg font-semibold tracking-tight text-white hover:text-slate-200 [.light_&]:text-slate-900 [.light_&]:hover:text-slate-800"
+              className="flex min-w-0 items-center gap-2 text-base font-semibold tracking-tight text-white hover:text-slate-200 sm:text-lg [.light_&]:text-slate-900 [.light_&]:hover:text-slate-800"
             >
-              <ShieldCheck className="h-6 w-6 text-amber-500" />
-              Sovereign AI
+              <ShieldCheck className="h-5 w-5 shrink-0 text-amber-500 sm:h-6 sm:w-6" />
+              <span className="truncate">Sovereign AI</span>
             </Link>
             <div className="hidden items-center gap-1 sm:flex">
               <span className="rounded-lg bg-slate-800/80 px-3 py-1.5 text-sm font-medium text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
@@ -688,43 +698,47 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="flex flex-1 items-center gap-3 pl-4 sm:pl-8">
-            <RegionSelector
-              value={currentJurisdiction}
-              onChange={setCurrentJurisdiction}
-              placeholder="Jurisdiction"
-            />
-            <div className="relative flex-1 max-w-xl">
+          <div className="flex min-w-0 flex-1 basis-full items-center gap-2 sm:basis-auto sm:flex-initial sm:pl-4 lg:pl-8">
+            <div className="hidden shrink-0 sm:block">
+              <RegionSelector
+                value={currentJurisdiction}
+                onChange={setCurrentJurisdiction}
+                placeholder="Jurisdiction"
+              />
+            </div>
+            <div className="relative min-w-0 flex-1">
               <Search
-                className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+                className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 shrink-0 text-slate-500"
                 aria-hidden
               />
               <input
                 type="search"
-                placeholder="Search models, providers, countries, compliance..."
+                placeholder="Search models..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-10 pr-4 text-slate-200 placeholder-slate-500 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50 [.light_&]:border-slate-400 [.light_&]:bg-slate-100 [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600 [.light_&]:focus:border-amber-500 [.light_&]:focus:ring-amber-500/30"
+                className="w-full min-w-0 rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-10 pr-4 text-base text-slate-200 placeholder-slate-500 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50 [.light_&]:border-slate-400 [.light_&]:bg-slate-100 [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600 [.light_&]:focus:border-amber-500 [.light_&]:focus:ring-amber-500/30 sm:py-2"
                 aria-label="Search models"
               />
             </div>
-            <ThemeToggle />
-            <button
-              type="button"
-              onClick={() => setSidebarOpen((o) => !o)}
-              className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800 lg:hidden [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-200"
-              aria-expanded={sidebarOpen}
-              aria-label="Toggle filters"
-            >
-              <Filter className="h-4 w-4" />
-              Filters
-            </button>
+            <div className="flex shrink-0 items-center gap-1">
+              <ThemeToggle />
+              <button
+                type="button"
+                onClick={() => setSidebarOpen((o) => !o)}
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800 lg:hidden [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-200"
+                aria-expanded={sidebarOpen}
+                aria-label="Toggle filters"
+              >
+                <Filter className="h-4 w-4" />
+                <span className="ml-1.5 sm:hidden">Filters</span>
+              </button>
+            </div>
           </div>
         </nav>
       </header>
 
       <div className="border-b border-slate-800/60 bg-zinc-950/50 [.light_&]:border-slate-300 [.light_&]:bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl py-6 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
           <h2 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
             Explore {models.length}+ AI models
           </h2>
@@ -734,7 +748,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl gap-6 py-6 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
         {sidebarOpen && (
           <div
             className="fixed inset-0 z-20 bg-black/50 lg:hidden"
@@ -743,15 +757,22 @@ export default function Home() {
           />
         )}
         <aside
-          className={`fixed inset-y-0 left-0 z-30 w-64 border-r border-slate-800 bg-zinc-900 p-4 transition-transform lg:static lg:z-0 lg:translate-x-0 lg:shrink-0 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 ${
+          className={`fixed inset-y-0 left-0 z-30 w-[min(20rem,100vw-2rem)] max-w-full border-r border-slate-800 bg-zinc-900 p-4 pb-[env(safe-area-inset-bottom)] pt-[calc(1rem+env(safe-area-inset-top))] transition-transform lg:static lg:z-0 lg:translate-x-0 lg:w-64 lg:shrink-0 lg:pt-4 lg:pb-4 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <div className="relative">
+          <div className="relative flex h-full flex-col overflow-y-auto">
             <h2 className="mb-3 flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-slate-400 [.light_&]:text-slate-800">
               <ChevronDown className="h-4 w-4 lg:hidden" />
               Filters
             </h2>
+            <div className="mb-4 w-full min-w-0 sm:hidden">
+              <RegionSelector
+                value={currentJurisdiction}
+                onChange={setCurrentJurisdiction}
+                placeholder="Jurisdiction"
+              />
+            </div>
             <div className="space-y-4">
               <fieldset>
                 <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
@@ -892,8 +913,8 @@ export default function Home() {
           </div>
         </aside>
 
-        <main className="min-w-0 flex-1">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <main className={`min-w-0 flex-1 ${compareIds.size >= 2 ? "pb-28 sm:pb-24" : "pb-24 sm:pb-0"}`}>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 overflow-hidden">
             <div className="flex flex-wrap items-center gap-2">
               <p className="text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                 {filtered.length.toLocaleString()} model{filtered.length !== 1 ? "s" : ""}
@@ -968,7 +989,7 @@ export default function Home() {
               </select>
             </div>
           </div>
-          <div className="mb-4 flex flex-wrap gap-2">
+          <div className="mb-4 flex flex-wrap gap-2 overflow-hidden">
             {["GDPR", "EU AI Act Ready", "Data residency", "Local-hostable"].map((chip) => {
               const isOpenness = chip === "Local-hostable";
               const active = isOpenness
@@ -983,7 +1004,7 @@ export default function Home() {
                   key={chip}
                   type="button"
                   onClick={toggle}
-                  className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                  className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition touch-manipulation ${
                     active
                       ? "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/40 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:ring-amber-500"
                       : "bg-slate-800/80 text-slate-400 ring-1 ring-slate-600/60 hover:bg-slate-700/80 hover:text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:ring-slate-400 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-900"
@@ -997,7 +1018,7 @@ export default function Home() {
               );
             })}
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
             {filtered.map((model) => (
               <ModelCard
                 key={model.id}
@@ -1033,8 +1054,8 @@ export default function Home() {
       </div>
 
       {compareIds.size >= 2 && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-700 bg-zinc-900/95 py-3 shadow-lg backdrop-blur [.light_&]:border-slate-300 [.light_&]:bg-white/95">
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-700 bg-zinc-900/95 py-3 shadow-lg backdrop-blur [.light_&]:border-slate-300 [.light_&]:bg-white/95 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
             <p className="text-sm text-slate-400 [.light_&]:text-slate-700">
               {compareIds.size} model{compareIds.size !== 1 ? "s" : ""} selected
               for comparison (max {MAX_COMPARE})

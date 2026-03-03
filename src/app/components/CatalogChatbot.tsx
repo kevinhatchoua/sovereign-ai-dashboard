@@ -349,14 +349,14 @@ export function CatalogChatbot({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-amber-500 text-white shadow-lg transition hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-zinc-950 [.light_&]:focus:ring-offset-white"
+        className="fixed z-30 flex h-14 w-14 min-h-[48px] min-w-[48px] items-center justify-center rounded-full bg-amber-500 text-white shadow-lg transition hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-zinc-950 touch-manipulation bottom-[max(1rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] [.light_&]:focus:ring-offset-white"
         aria-label="Open catalog assistant"
       >
         <MessageCircle className="h-6 w-6" />
       </button>
 
       {open && (
-        <div className="fixed bottom-6 right-6 z-40 flex h-[32rem] w-[26rem] max-w-[calc(100vw-2rem)] flex-col rounded-xl border border-slate-700 bg-zinc-900 shadow-2xl [.light_&]:border-slate-300 [.light_&]:bg-white">
+        <div className="fixed inset-x-0 bottom-0 z-40 flex h-[85dvh] flex-col rounded-t-2xl border border-b-0 border-slate-700 bg-zinc-900 shadow-2xl [.light_&]:border-slate-300 [.light_&]:bg-white sm:inset-x-auto sm:left-auto sm:right-6 sm:top-auto sm:h-[32rem] sm:w-[26rem] sm:rounded-xl sm:border-b sm:rounded-b-xl pb-[env(safe-area-inset-bottom)]">
           <div className="flex items-center gap-3 border-b border-slate-700 px-4 py-3 [.light_&]:border-slate-200">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md">
               <Bot className="h-5 w-5" />
@@ -372,7 +372,7 @@ export function CatalogChatbot({
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="rounded p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-100 [.light_&]:hover:text-slate-900"
+              className="min-h-[44px] min-w-[44px] touch-manipulation rounded p-2 text-slate-400 hover:bg-slate-800 hover:text-white [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-100 [.light_&]:hover:text-slate-900"
               aria-label="Close"
             >
               <X className="h-5 w-5" />
@@ -463,7 +463,7 @@ export function CatalogChatbot({
             )}
             <div ref={bottomRef} />
           </div>
-          <div className="border-t border-slate-700 p-3 [.light_&]:border-slate-200">
+          <div className="shrink-0 border-t border-slate-700 p-3 [.light_&]:border-slate-200">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -475,13 +475,13 @@ export function CatalogChatbot({
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about models, e.g. 'Tell me about Llama' or 'EU compliant'..."
-                className="flex-1 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 [.light_&]:border-slate-400 [.light_&]:bg-white [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600"
+                placeholder="Ask about models..."
+                className="min-h-[44px] min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-base text-slate-200 placeholder-slate-500 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 [.light_&]:border-slate-400 [.light_&]:bg-white [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600 sm:text-sm"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="rounded-lg bg-amber-500 px-3 py-2 text-white hover:bg-amber-600 disabled:opacity-50"
+                className="min-h-[44px] min-w-[44px] touch-manipulation shrink-0 rounded-lg bg-amber-500 px-3 py-2 text-white hover:bg-amber-600 disabled:opacity-50"
               >
                 <Send className="h-4 w-4" />
               </button>
