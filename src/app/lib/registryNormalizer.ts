@@ -187,3 +187,31 @@ export function normalizeToComparisonModel(
 export function normalizeRegistry(entries: RawRegistryEntry[]): ComparisonModel[] {
   return entries.map(normalizeToComparisonModel);
 }
+
+/** Numeric score for sorting by Model Intelligence (freshness + quality signals) */
+export function getIntelligenceScore(m: ComparisonModel): number {
+  let score = 0;
+  const intel = m.intelligence;
+  if (intel?.hf_downloads) score += Math.min(50, Math.log10(intel.hf_downloads + 1) * 8);
+  if (intel?.hf_likes) score += Math.min(20, Math.log10(intel.hf_likes + 1) * 5);
+  if (intel?.popularity_index) {
+    if (intel.popularity_index.includes("Top 3%")) score += 30;
+    else if (intel.popularity_index.includes("Top 5%")) score += 25;
+    else if (intel.popularity_index.includes("Top 10%")) score += 20;
+    else score += 10;
+  }
+  if (intel?.training_cutoff) {
+    const match = intel.training_cutoff.match(/(\d{4})-(\d{2})/);
+    if (match) {
+      const [, y, m] = match;
+      const months = parseInt(y, 10) * 12 + parseInt(m, 10);
+      const now = new Date();
+      const nowMonths = now.getFullYear() * 12 + (now.getMonth() + 1);
+      const ageMonths = nowMonths - months;
+      if (ageMonths <= 6) score += 25;
+      else if (ageMonths <= 12) score += 15;
+      else score += 5;
+    }
+  }
+  return score;
+}

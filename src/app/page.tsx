@@ -27,9 +27,12 @@ import { ModelDetailPanel } from "@/app/components/ModelDetailPanel";
 import { checkCompliance, type Jurisdiction } from "@/app/lib/complianceEngine";
 import {
   normalizeRegistry,
+  getIntelligenceScore,
   type ComparisonModel,
   type RawRegistryEntry,
 } from "@/app/lib/registryNormalizer";
+import { computeEthicsScore } from "@/app/lib/ethicsScore";
+import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 
 type OpennessLevel = "Open Weights" | "API";
 
@@ -206,7 +209,7 @@ function ModelCard({
         {model.task_categories[0] ? TASK_LABELS[model.task_categories[0]] ?? model.task_categories[0] : "—"}
         {getMinVramGb(model) != null && ` • ≤${getMinVramGb(model)}GB VRAM`}
       </p>
-      <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
+      <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
         <h3 className="text-lg font-semibold text-slate-100 [.light_&]:text-slate-900">{model.name}</h3>
         <div className="flex flex-wrap items-center gap-1.5">
           <div className="relative z-20" ref={menuRef} onClick={(e) => e.stopPropagation()}>
@@ -311,7 +314,7 @@ function ModelCard({
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); onFilterProvider?.(model.provider); }}
-        className="relative z-20 mb-3 block text-left text-sm text-slate-400 transition hover:text-slate-300 hover:underline [.light_&]:text-slate-700 [.light_&]:hover:text-slate-900"
+        className="relative z-20 mb-2 block text-left text-sm text-slate-400 transition hover:text-slate-300 hover:underline [.light_&]:text-slate-700 [.light_&]:hover:text-slate-900"
         title="Filter by provider"
       >
         {model.provider}
@@ -325,85 +328,81 @@ function ModelCard({
         <MapPin className="h-4 w-4 shrink-0" aria-hidden />
         <span className="text-sm">{model.origin_country}</span>
       </button>
-      <div className="mb-3 flex flex-wrap gap-1.5">
-        {regions.map((region) => {
-          const active = regionList.includes(region);
-          return (
-            <button
-              key={region}
-              type="button"
-              onClick={(e) => { e.stopPropagation(); onFilterRegion?.(region); }}
-              className={`relative z-20 inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs transition hover:ring-2 hover:ring-slate-500/50 ${
-                active
-                  ? "bg-slate-600/80 text-slate-200 [.light_&]:bg-slate-600 [.light_&]:text-white"
-                  : "bg-slate-700/40 text-slate-500 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:ring-1 [.light_&]:ring-slate-400"
-              }`}
-              title={active ? `Filter by ${region}` : `No ${region} compliance`}
-            >
-              <Shield className="h-3 w-3" aria-hidden />
-              {region}
-            </button>
-          );
-        })}
-      </div>
-      <div className="flex flex-wrap gap-1.5">
-        {model.compliance_tags.map((tag) => (
-          <button
-            key={tag}
-            type="button"
-            onClick={(e) => { e.stopPropagation(); onFilterComplianceTag?.(tag); }}
-            className="relative z-20 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 transition hover:bg-slate-600/80 hover:ring-2 hover:ring-slate-500/50 [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-300"
-            title={`Filter by ${tag}`}
-          >
-            {tag}
-          </button>
-        ))}
-        {model.data_residency && (
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); onFilterComplianceTag?.("Data residency"); }}
-            className="relative z-20 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 transition hover:bg-slate-600/80 hover:ring-2 hover:ring-slate-500/50 [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-300"
-            title="Filter by data residency"
-          >
-            Data residency
-          </button>
+
+      {/* Simplified list-based metadata */}
+      <dl className="space-y-1.5 text-xs">
+        <div className="flex items-center gap-2">
+          <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0">Regions:</dt>
+          <dd className="flex flex-wrap gap-1">
+            {regions.map((region) => {
+              const active = regionList.includes(region);
+              return (
+                <button
+                  key={region}
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); onFilterRegion?.(region); }}
+                  className={`relative z-20 underline-offset-2 hover:underline ${
+                    active ? "text-slate-200 [.light_&]:text-slate-800 font-medium" : "text-slate-500 [.light_&]:text-slate-500"
+                  }`}
+                  title={`Filter by ${region}`}
+                >
+                  {region}
+                </button>
+              );
+            })}
+          </dd>
+        </div>
+        {(model.compliance_tags.length > 0 || model.data_residency) && (
+          <div className="flex items-start gap-2">
+            <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0 pt-0.5">Compliance:</dt>
+            <dd className="flex flex-wrap gap-x-1 gap-y-0.5">
+              {[...model.compliance_tags, ...(model.data_residency ? ["Data residency"] : [])].map((tag, i) => (
+                <span key={tag} className="flex items-center gap-1">
+                  {i > 0 && <span className="text-slate-500">·</span>}
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onFilterComplianceTag?.(tag); }}
+                    className="relative z-20 text-slate-400 underline-offset-2 hover:text-slate-300 hover:underline [.light_&]:text-slate-600 [.light_&]:hover:text-slate-800"
+                    title={`Filter by ${tag}`}
+                  >
+                    {tag}
+                  </button>
+                </span>
+              ))}
+            </dd>
+          </div>
         )}
-      </div>
-      {model.languages.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          <span className="text-xs text-slate-500 [.light_&]:text-slate-700">Languages:</span>
-          {model.languages.slice(0, 5).map((lang) => (
-            <button
-              key={lang}
-              type="button"
-              onClick={(e) => { e.stopPropagation(); onFilterLanguage?.(lang); }}
-              className="relative z-20 rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400 transition hover:bg-slate-600/60 hover:ring-2 hover:ring-slate-500/50 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-300"
-              title={`Filter by ${LANGUAGE_LABELS[lang] ?? lang}`}
-            >
-              {LANGUAGE_LABELS[lang] ?? lang}
-            </button>
-          ))}
-          {model.languages.length > 5 && (
-            <span className="text-xs text-slate-500 [.light_&]:text-slate-700">+{model.languages.length - 5}</span>
-          )}
+        {model.languages.length > 0 && (
+          <div className="flex items-start gap-2">
+            <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0 pt-0.5">Languages:</dt>
+            <dd>
+              <span className="text-slate-400 [.light_&]:text-slate-600">
+                {model.languages.slice(0, 4).map((l) => LANGUAGE_LABELS[l] ?? l).join(", ")}
+                {model.languages.length > 4 && ` +${model.languages.length - 4}`}
+              </span>
+            </dd>
+          </div>
+        )}
+        {model.task_categories.length > 0 && (
+          <div className="flex items-start gap-2">
+            <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0 pt-0.5">Tasks:</dt>
+            <dd>
+              <span className="text-slate-400 [.light_&]:text-slate-600">
+                {model.task_categories.slice(0, 3).map((t) => TASK_LABELS[t] ?? t).join(", ")}
+                {model.task_categories.length > 3 && ` +${model.task_categories.length - 3}`}
+              </span>
+            </dd>
+          </div>
+        )}
+        <div className="flex items-center gap-2 pt-1">
+          <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0">Ethics:</dt>
+          <dd>
+            <span className="font-medium text-emerald-500/90 [.light_&]:text-emerald-700">
+              {computeEthicsScore(model)}/100
+            </span>
+          </dd>
         </div>
-      )}
-      {model.task_categories.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          <span className="text-xs text-slate-500 [.light_&]:text-slate-700">Tasks:</span>
-          {model.task_categories.map((task) => (
-            <button
-              key={task}
-              type="button"
-              onClick={(e) => { e.stopPropagation(); onFilterTask?.(task); }}
-              className="relative z-20 rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400 transition hover:bg-slate-600/60 hover:ring-2 hover:ring-slate-500/50 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-300"
-              title={`Filter by ${TASK_LABELS[task] ?? task}`}
-            >
-              {TASK_LABELS[task] ?? task}
-            </button>
-          ))}
-        </div>
-      )}
+      </dl>
       </div>
     </article>
   );
@@ -425,13 +424,22 @@ export default function Home() {
   const [languageFilter, setLanguageFilter] = useState<Set<string>>(new Set());
   const [taskFilter, setTaskFilter] = useState<Set<string>>(new Set());
   const [hardwareFilter, setHardwareFilter] = useState<Set<string>>(new Set());
+  const [intelligenceFilter, setIntelligenceFilter] = useState<Set<string>>(new Set());
   const [complianceTagFilter, setComplianceTagFilter] = useState<Set<string>>(new Set());
   const [providerFilter, setProviderFilter] = useState<Set<string>>(new Set());
   const [countryFilter, setCountryFilter] = useState<Set<string>>(new Set());
   const [selectedModel, setSelectedModel] = useState<ComparisonModel | null>(null);
   const [openDisputeOnMount, setOpenDisputeOnMount] = useState(false);
-  const [sortBy, setSortBy] = useState<"name" | "provider" | "country">("name");
+  const [sortBy, setSortBy] = useState<"name" | "provider" | "country" | "intelligence" | "ethics">("name");
   const [sortAsc, setSortAsc] = useState(true);
+
+  // Sync Jurisdiction -> Region when user selects jurisdiction from dropdown
+  useEffect(() => {
+    if (currentJurisdiction === "EU") setRegionFilter(new Set(["EU"]));
+    else if (currentJurisdiction === "IN") setRegionFilter(new Set(["India"]));
+    else if (currentJurisdiction === "US") setRegionFilter(new Set(["US"]));
+    // When null, leave region filter as-is (user may have custom multi-region)
+  }, [currentJurisdiction]);
   const [chatbotModelIds, setChatbotModelIds] = useState<Set<string>>(new Set());
 
   const allLanguages = useMemo(
@@ -483,6 +491,11 @@ export default function Home() {
         hardwareFilter.size === 0 ||
         (minVram != null &&
           [...hardwareFilter].some((h) => minVram <= parseInt(h, 10)));
+      const intelScore = getIntelligenceScore(m);
+      const matchIntelligence =
+        intelligenceFilter.size === 0 ||
+        (intelligenceFilter.has("has_data") && intelScore > 0) ||
+        (intelligenceFilter.has("top10") && (m.intelligence?.popularity_index?.includes("Top 10%") ?? m.intelligence?.popularity_index?.includes("Top 5%") ?? m.intelligence?.popularity_index?.includes("Top 3%") ?? false));
       return (
         matchSearch &&
         matchOpenness &&
@@ -492,7 +505,8 @@ export default function Home() {
         matchComplianceTag &&
         matchProvider &&
         matchCountry &&
-        matchHardware
+        matchHardware &&
+        matchIntelligence
       );
     });
     const byChatbot =
@@ -505,7 +519,13 @@ export default function Home() {
         return mul * a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
       if (sortBy === "provider")
         return mul * a.provider.localeCompare(b.provider, undefined, { sensitivity: "base" });
-      return mul * a.origin_country.localeCompare(b.origin_country, undefined, { sensitivity: "base" });
+      if (sortBy === "country")
+        return mul * a.origin_country.localeCompare(b.origin_country, undefined, { sensitivity: "base" });
+      if (sortBy === "intelligence")
+        return mul * (getIntelligenceScore(a) - getIntelligenceScore(b));
+      if (sortBy === "ethics")
+        return mul * (computeEthicsScore(a) - computeEthicsScore(b));
+      return 0;
     });
     return sorted;
   }, [
@@ -518,6 +538,7 @@ export default function Home() {
     providerFilter,
     countryFilter,
     hardwareFilter,
+    intelligenceFilter,
     sortBy,
     sortAsc,
     chatbotModelIds,
@@ -541,6 +562,7 @@ export default function Home() {
   };
 
   const toggleRegion = (region: string) => {
+    setCurrentJurisdiction(null); // Clear jurisdiction when user manually changes Region
     setRegionFilter((prev) => {
       const next = new Set(prev);
       if (next.has(region)) next.delete(region);
@@ -550,11 +572,14 @@ export default function Home() {
   };
 
   const filterToRegion = (region: string) => {
+    const clearing = regionFilter.size === 1 && regionFilter.has(region);
     setRegionFilter((prev) =>
-      prev.size === 1 && prev.has(region)
-        ? new Set(regions)
-        : new Set([region])
+      clearing ? new Set(regions) : new Set([region])
     );
+    if (clearing) setCurrentJurisdiction(null);
+    else if (region === "EU") setCurrentJurisdiction("EU");
+    else if (region === "India") setCurrentJurisdiction("IN");
+    else if (region === "US") setCurrentJurisdiction("US");
   };
 
   const toggleLanguage = (lang: string) => {
@@ -621,17 +646,20 @@ export default function Home() {
     languageFilter.size > 0 ||
     taskFilter.size > 0 ||
     hardwareFilter.size > 0 ||
+    intelligenceFilter.size > 0 ||
     complianceTagFilter.size > 0 ||
     providerFilter.size > 0 ||
     countryFilter.size > 0 ||
     chatbotModelIds.size > 0;
 
   const clearAllFilters = () => {
+    setCurrentJurisdiction(null);
     setRegionFilter(new Set(regions));
     setOpennessFilter(new Set(opennessOptions));
     setLanguageFilter(new Set());
     setTaskFilter(new Set());
     setHardwareFilter(new Set());
+    setIntelligenceFilter(new Set());
     setComplianceTagFilter(new Set());
     setProviderFilter(new Set());
     setCountryFilter(new Set());
@@ -742,10 +770,14 @@ export default function Home() {
       <div className="border-b border-slate-800/60 bg-zinc-950/50 [.light_&]:border-slate-300 [.light_&]:bg-slate-50">
         <div className="mx-auto max-w-7xl py-6 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
           <h2 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
-            Explore {models.length}+ AI models
+            {currentJurisdiction
+              ? `Results for ${currentJurisdiction === "EU" ? "EU" : currentJurisdiction === "IN" ? "India" : "USA"} Jurisdiction`
+              : `Explore ${models.length}+ AI models`}
           </h2>
           <p className="text-slate-400 [.light_&]:text-slate-800">
-            Compare sovereignty, compliance, and regional data residency. Filter by EU, US, India, and more.
+            {currentJurisdiction
+              ? "Models filtered by your selected jurisdiction. Change jurisdiction in the header to see others."
+              : "Compare sovereignty, compliance, and regional data residency. Select a jurisdiction or filter by EU, US, India, and more."}
           </p>
         </div>
       </div>
@@ -799,6 +831,45 @@ export default function Home() {
               </fieldset>
               <fieldset>
                 <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
+                  Model Intelligence
+                </legend>
+                <div className="space-y-2">
+                  <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700">
+                    <input
+                      type="checkbox"
+                      checked={intelligenceFilter.has("has_data")}
+                      onChange={() => {
+                        setIntelligenceFilter((prev) => {
+                          const next = new Set(prev);
+                          if (next.has("has_data")) next.delete("has_data");
+                          else next.add("has_data");
+                          return next;
+                        });
+                      }}
+                      className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500 [.light_&]:border-slate-500 [.light_&]:bg-white"
+                    />
+                    Has freshness/quality data
+                  </label>
+                  <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700">
+                    <input
+                      type="checkbox"
+                      checked={intelligenceFilter.has("top10")}
+                      onChange={() => {
+                        setIntelligenceFilter((prev) => {
+                          const next = new Set(prev);
+                          if (next.has("top10")) next.delete("top10");
+                          else next.add("top10");
+                          return next;
+                        });
+                      }}
+                      className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500 [.light_&]:border-slate-500 [.light_&]:bg-white"
+                    />
+                    Top 10% popularity or better
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                   Compliance
                 </legend>
                 <div className="max-h-32 space-y-2 overflow-y-auto">
@@ -814,6 +885,7 @@ export default function Home() {
                         className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500 [.light_&]:border-slate-500 [.light_&]:bg-white"
                       />
                       {tag}
+                      <ComplianceTooltip term={tag} />
                     </label>
                   ))}
                   {allComplianceTags.length === 0 && (
@@ -823,7 +895,7 @@ export default function Home() {
               </fieldset>
               <fieldset>
                 <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
-                  Region
+                  Region (synced with Jurisdiction)
                 </legend>
                 <div className="space-y-2">
                   {regions.map((region) => (
@@ -977,7 +1049,7 @@ export default function Home() {
                 value={`${sortBy}-${sortAsc ? "asc" : "desc"}`}
                 onChange={(e) => {
                   const [s, d] = e.target.value.split("-");
-                  setSortBy(s as "name" | "provider" | "country");
+                  setSortBy(s as "name" | "provider" | "country" | "intelligence" | "ethics");
                   setSortAsc(d === "asc");
                 }}
                 className="rounded-lg border border-slate-700 bg-slate-800/80 px-2.5 py-1.5 text-sm text-slate-300 focus:border-slate-600 focus:outline-none focus:ring-1 focus:ring-slate-500 [.light_&]:border-slate-400 [.light_&]:bg-white [.light_&]:text-slate-800"
@@ -988,37 +1060,67 @@ export default function Home() {
                 <option value="provider-desc">Provider Z–A</option>
                 <option value="country-asc">Country A–Z</option>
                 <option value="country-desc">Country Z–A</option>
+                <option value="intelligence-desc">Intelligence (high first)</option>
+                <option value="intelligence-asc">Intelligence (low first)</option>
+                <option value="ethics-desc">Ethics Score (high first)</option>
+                <option value="ethics-asc">Ethics Score (low first)</option>
               </select>
             </div>
           </div>
-          <div className="mb-4 flex flex-wrap gap-2 overflow-hidden">
-            {["GDPR", "EU AI Act Ready", "Data residency", "Local-hostable"].map((chip) => {
-              const isOpenness = chip === "Local-hostable";
-              const active = isOpenness
-                ? opennessFilter.size === 1 && opennessFilter.has("Open Weights")
-                : complianceTagFilter.has(chip);
-              const toggle = () => {
-                if (isOpenness) filterToOpenness("Open Weights");
-                else toggleComplianceTag(chip);
-              };
-              return (
-                <button
-                  key={chip}
-                  type="button"
-                  onClick={toggle}
-                  className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition touch-manipulation ${
-                    active
-                      ? "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/40 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:ring-amber-500"
-                      : "bg-slate-800/80 text-slate-400 ring-1 ring-slate-600/60 hover:bg-slate-700/80 hover:text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:ring-slate-400 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-900"
-                  }`}
-                >
-                  {chip === "Local-hostable" && <Server className="h-3.5 w-3.5" />}
-                  {chip === "Data residency" && <MapPin className="h-3.5 w-3.5" />}
-                  {(chip === "GDPR" || chip === "EU AI Act Ready") && <Shield className="h-3.5 w-3.5" />}
-                  {chip}
-                </button>
-              );
-            })}
+          <div className="mb-4">
+            <p className="mb-2 text-xs font-medium uppercase tracking-wider text-slate-500 [.light_&]:text-slate-600">
+              Quick Filters
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              {(() => {
+                const quickChips = [
+                  { id: "GDPR", label: "GDPR", isOpenness: false },
+                  { id: "EU AI Act Ready", label: "EU AI Act Ready", isOpenness: false },
+                  { id: "Data residency", label: "Data residency", isOpenness: false },
+                  { id: "Local-hostable", label: "Local-hostable", isOpenness: true },
+                ];
+                const anyActive = quickChips.some((c) =>
+                  c.isOpenness
+                    ? opennessFilter.size === 1 && opennessFilter.has("Open Weights")
+                    : complianceTagFilter.has(c.id)
+                );
+                return (
+                  <>
+                    {!anyActive && (
+                      <span className="text-xs text-slate-500 [.light_&]:text-slate-600">
+                        No filters applied
+                      </span>
+                    )}
+                    {quickChips.map((c) => {
+                      const active = c.isOpenness
+                        ? opennessFilter.size === 1 && opennessFilter.has("Open Weights")
+                        : complianceTagFilter.has(c.id);
+                      const toggle = () => {
+                        if (c.isOpenness) filterToOpenness("Open Weights");
+                        else toggleComplianceTag(c.id);
+                      };
+                      return (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={toggle}
+                          className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition touch-manipulation ${
+                            active
+                              ? "bg-amber-500/25 text-amber-400 ring-2 ring-amber-500/60 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:ring-amber-500"
+                              : "bg-slate-800/60 text-slate-400 ring-1 ring-slate-600/50 hover:bg-slate-700/70 hover:text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-600 [.light_&]:ring-slate-300 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-800"
+                          }`}
+                        >
+                          {c.id === "Local-hostable" && <Server className="h-3.5 w-3.5" />}
+                          {c.id === "Data residency" && <MapPin className="h-3.5 w-3.5" />}
+                          {(c.id === "GDPR" || c.id === "EU AI Act Ready") && <Shield className="h-3.5 w-3.5" />}
+                          {c.label}
+                        </button>
+                      );
+                    })}
+                  </>
+                );
+              })()}
+            </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
             {filtered.map((model) => (

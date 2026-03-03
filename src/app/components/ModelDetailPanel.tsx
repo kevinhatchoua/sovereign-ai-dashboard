@@ -18,6 +18,8 @@ import {
   Code,
 } from "lucide-react";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
+import { computeEthicsScore } from "@/app/lib/ethicsScore";
+import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
 import { VoteButtons } from "@/app/components/VoteButtons";
 import { DisputeModal } from "@/app/components/DisputeModal";
@@ -175,10 +177,11 @@ export function ModelDetailPanel({
                 </div>
               )}
               {model.compliance_tags.length > 0 && (
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {model.compliance_tags.map((tag) => (
-                    <span key={tag} className="rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
+                    <span key={tag} className="inline-flex items-center rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
                       {tag}
+                      <ComplianceTooltip term={tag} />
                     </span>
                   ))}
                 </div>
@@ -201,6 +204,15 @@ export function ModelDetailPanel({
                   ))}
                 </div>
               )}
+              <div className="flex items-center gap-2 pt-1 border-t border-slate-700/60 pt-3 [.light_&]:border-slate-200">
+                <span className="text-xs text-slate-500 [.light_&]:text-slate-600">Ethical Design Score:</span>
+                <span className="font-semibold text-emerald-500 [.light_&]:text-emerald-700">
+                  {computeEthicsScore(model)}/100
+                </span>
+                <span className="text-xs text-slate-500 [.light_&]:text-slate-600">
+                  (Data Sovereignty, Bias Mitigation, Transparency)
+                </span>
+              </div>
             </div>
           </section>
 
