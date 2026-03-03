@@ -12,13 +12,14 @@
   --app-text-muted: #a1a1aa;
 }
 
+/* Light mode: WCAG AA contrast (4.5:1+ for normal text, 3:1+ for UI) */
 .light {
   --app-bg: #ffffff;
   --app-surface: #f1f5f9;
   --app-surface-hover: #e2e8f0;
-  --app-border: #94a3b8;
+  --app-border: #64748b;
   --app-text: #0f172a;
-  --app-text-muted: #475569;
+  --app-text-muted: #334155;
 }
 
 @theme inline {

@@ -156,7 +156,7 @@ export function ModelDetailPanel({
                       className={`inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs ${
                         regionList.includes(r)
                           ? "bg-slate-600/80 text-slate-200 [.light_&]:bg-slate-200 [.light_&]:text-slate-800"
-                          : "bg-slate-700/40 text-slate-500 [.light_&]:bg-slate-100 [.light_&]:text-slate-500"
+                          : "bg-slate-700/40 text-slate-500 [.light_&]:bg-slate-200 [.light_&]:text-slate-700"
                       }`}
                     >
                       <Shield className="h-3 w-3" />
@@ -197,7 +197,7 @@ export function ModelDetailPanel({
 
           {/* Community voting */}
           <section className="mb-6">
-            <h3 className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-300">
+            <h3 className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
               <Users className="h-4 w-4" />
               Community Sovereignty Score
             </h3>
@@ -205,7 +205,7 @@ export function ModelDetailPanel({
               <VoteButtons modelId={model.id} showSentiment />
               {intel?.download_trend && intel.download_trend.length > 0 && (
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500">Trend:</span>
+                  <span className="text-xs text-slate-500 [.light_&]:text-slate-600">Trend:</span>
                   <Sparkline data={intel.download_trend} />
                 </div>
               )}
@@ -215,7 +215,7 @@ export function ModelDetailPanel({
           {/* Scraped metadata */}
           {intel && (
             <section className="mb-6">
-              <h3 className="mb-3 text-sm font-medium text-slate-300">
+              <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                 Model Intelligence
               </h3>
               <div className="grid gap-2">
@@ -223,49 +223,49 @@ export function ModelDetailPanel({
                   <div className="flex flex-wrap gap-3 text-sm">
                     {intel.hf_downloads != null && (
                       <div className="flex items-center gap-2">
-                        <span className="text-slate-400">HF Downloads:</span>
-                        <span className="text-slate-200">
+                        <span className="text-slate-400 [.light_&]:text-slate-700">HF Downloads:</span>
+                        <span className="text-slate-200 [.light_&]:text-slate-900">
                           {intel.hf_downloads.toLocaleString()}
                         </span>
                       </div>
                     )}
                     {intel.hf_likes != null && (
                       <div className="flex items-center gap-2">
-                        <span className="text-slate-400">HF Likes:</span>
-                        <span className="text-slate-200">{intel.hf_likes.toLocaleString()}</span>
+                        <span className="text-slate-400 [.light_&]:text-slate-700">HF Likes:</span>
+                        <span className="text-slate-200 [.light_&]:text-slate-900">{intel.hf_likes.toLocaleString()}</span>
                       </div>
                     )}
                   </div>
                 )}
                 {intel.popularity_index && (
                   <div className="flex items-center gap-2 text-sm">
-                    <Users className="h-4 w-4 text-slate-500" />
-                    <span className="text-slate-400">Popularity:</span>
-                    <span className="text-slate-200">{intel.popularity_index}</span>
+                    <Users className="h-4 w-4 text-slate-500 [.light_&]:text-slate-600" />
+                    <span className="text-slate-400 [.light_&]:text-slate-700">Popularity:</span>
+                    <span className="text-slate-200 [.light_&]:text-slate-900">{intel.popularity_index}</span>
                   </div>
                 )}
                 {intel.inference_speed != null && (
                   <div className="flex items-center gap-2 text-sm">
-                    <Gauge className="h-4 w-4 text-slate-500" />
-                    <span className="text-slate-400">Inference:</span>
-                    <span className="text-slate-200">
+                    <Gauge className="h-4 w-4 text-slate-500 [.light_&]:text-slate-600" />
+                    <span className="text-slate-400 [.light_&]:text-slate-700">Inference:</span>
+                    <span className="text-slate-200 [.light_&]:text-slate-900">
                       ~{intel.inference_speed} tok/s
                     </span>
                   </div>
                 )}
                 {intel.context_window != null && (
                   <div className="flex items-center gap-2 text-sm">
-                    <ChevronRight className="h-4 w-4 text-slate-500" />
-                    <span className="text-slate-400">Context:</span>
-                    <span className="text-slate-200">
+                    <ChevronRight className="h-4 w-4 text-slate-500 [.light_&]:text-slate-600" />
+                    <span className="text-slate-400 [.light_&]:text-slate-700">Context:</span>
+                    <span className="text-slate-200 [.light_&]:text-slate-900">
                       {(intel.context_window / 1000).toFixed(0)}k tokens
                     </span>
                   </div>
                 )}
                 {intel.training_cutoff && (
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="text-slate-400">Training cutoff:</span>
-                    <span className="text-slate-200">{intel.training_cutoff}</span>
+                    <span className="text-slate-400 [.light_&]:text-slate-700">Training cutoff:</span>
+                    <span className="text-slate-200 [.light_&]:text-slate-900">{intel.training_cutoff}</span>
                   </div>
                 )}
                 {intel.top_use_cases && intel.top_use_cases.length > 0 && (
@@ -273,7 +273,7 @@ export function ModelDetailPanel({
                     {intel.top_use_cases.map((uc) => (
                       <span
                         key={uc}
-                        className="rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300"
+                        className="rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800"
                       >
                         {uc}
                       </span>
@@ -287,38 +287,38 @@ export function ModelDetailPanel({
           {/* Hardware readiness */}
           {intel && (intel.vram_4bit_gb != null || intel.ram_4bit_gb != null) && (
             <section className="mb-6">
-              <h3 className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-300">
+              <h3 className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                 <Cpu className="h-4 w-4" />
                 Can I Run This?
               </h3>
-              <div className="rounded-lg border border-slate-700 bg-slate-800/50 p-3">
+              <div className="rounded-lg border border-slate-700 bg-slate-800/50 p-3 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
                 <div className="grid gap-2 text-sm">
                   {intel.vram_4bit_gb != null && (
                     <div className="flex justify-between">
-                      <span className="text-slate-400">4-bit (VRAM):</span>
-                      <span className="text-slate-200">
+                      <span className="text-slate-400 [.light_&]:text-slate-700">4-bit (VRAM):</span>
+                      <span className="text-slate-200 [.light_&]:text-slate-900">
                         {intel.vram_4bit_gb} GB
                       </span>
                     </div>
                   )}
                   {intel.vram_8bit_gb != null && (
                     <div className="flex justify-between">
-                      <span className="text-slate-400">8-bit (VRAM):</span>
-                      <span className="text-slate-200">
+                      <span className="text-slate-400 [.light_&]:text-slate-700">8-bit (VRAM):</span>
+                      <span className="text-slate-200 [.light_&]:text-slate-900">
                         {intel.vram_8bit_gb} GB
                       </span>
                     </div>
                   )}
                   {intel.ram_4bit_gb != null && (
                     <div className="flex justify-between">
-                      <span className="text-slate-400">4-bit (RAM):</span>
-                      <span className="text-slate-200">{intel.ram_4bit_gb} GB</span>
+                      <span className="text-slate-400 [.light_&]:text-slate-700">4-bit (RAM):</span>
+                      <span className="text-slate-200 [.light_&]:text-slate-900">{intel.ram_4bit_gb} GB</span>
                     </div>
                   )}
                   {intel.ram_8bit_gb != null && (
                     <div className="flex justify-between">
-                      <span className="text-slate-400">8-bit (RAM):</span>
-                      <span className="text-slate-200">{intel.ram_8bit_gb} GB</span>
+                      <span className="text-slate-400 [.light_&]:text-slate-700">8-bit (RAM):</span>
+                      <span className="text-slate-200 [.light_&]:text-slate-900">{intel.ram_8bit_gb} GB</span>
                     </div>
                   )}
                 </div>
@@ -329,18 +329,18 @@ export function ModelDetailPanel({
           {/* Quantization support */}
           {intel && (intel.quantization_gguf || intel.quantization_exl2) && (
             <section className="mb-6">
-              <h3 className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-300">
+              <h3 className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                 <HardDrive className="h-4 w-4" />
                 Quantization Support
               </h3>
               <div className="flex gap-2">
                 {intel.quantization_gguf && (
-                  <span className="rounded bg-slate-700/60 px-2 py-1 text-xs text-slate-300">
+                  <span className="rounded bg-slate-700/60 px-2 py-1 text-xs text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
                     GGUF
                   </span>
                 )}
                 {intel.quantization_exl2 && (
-                  <span className="rounded bg-slate-700/60 px-2 py-1 text-xs text-slate-300">
+                  <span className="rounded bg-slate-700/60 px-2 py-1 text-xs text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
                     EXL2
                   </span>
                 )}
@@ -353,7 +353,7 @@ export function ModelDetailPanel({
             <button
               type="button"
               onClick={() => setDisputeModalOpen(true)}
-              className="flex w-full items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-400 hover:bg-amber-500/20"
+              className="flex w-full items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-400 hover:bg-amber-500/20 [.light_&]:border-amber-400 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:hover:bg-amber-200"
             >
               <AlertCircle className="h-4 w-4 shrink-0" />
               Report Compliance Dispute
@@ -365,7 +365,7 @@ export function ModelDetailPanel({
                 onClose={() => setDisputeModalOpen(false)}
               />
             )}
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 text-xs text-slate-500 [.light_&]:text-slate-600">
               Use this if a model&apos;s sovereignty status has changed (e.g.,
               Terms of Service update).
             </p>

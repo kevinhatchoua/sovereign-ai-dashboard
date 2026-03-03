@@ -183,7 +183,7 @@ function ModelCard({
       <div className="relative z-0">
       <div className="mb-3 flex items-start justify-between gap-2">
         <label
-          className="relative z-20 flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+          className="relative z-20 flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700"
           onClick={(e) => e.stopPropagation()}
         >
           <input
@@ -191,7 +191,7 @@ function ModelCard({
             checked={compareChecked}
             onChange={(e) => onCompareChange(e.target.checked)}
             disabled={compareDisabled}
-            className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-500 focus:ring-slate-500 disabled:opacity-50"
+            className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-500 focus:ring-slate-500 disabled:opacity-50 [.light_&]:border-slate-500 [.light_&]:bg-white [.light_&]:text-slate-600"
             aria-label={`Compare ${model.name}`}
           />
           <span className="select-none">Compare</span>
@@ -200,18 +200,18 @@ function ModelCard({
           <VoteButtons modelId={model.id} compact />
         </div>
       </div>
-      <p className="relative z-20 mb-1 text-xs text-slate-500">
+      <p className="relative z-20 mb-1 text-xs text-slate-500 [.light_&]:text-slate-700">
         {model.task_categories[0] ? TASK_LABELS[model.task_categories[0]] ?? model.task_categories[0] : "—"}
         {getMinVramGb(model) != null && ` • ≤${getMinVramGb(model)}GB VRAM`}
       </p>
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
-        <h3 className="text-lg font-semibold text-slate-100">{model.name}</h3>
+        <h3 className="text-lg font-semibold text-slate-100 [.light_&]:text-slate-900">{model.name}</h3>
         <div className="flex flex-wrap items-center gap-1.5">
           <div className="relative z-20" ref={menuRef} onClick={(e) => e.stopPropagation()}>
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
-              className="rounded p-1 text-slate-500 hover:bg-slate-700 hover:text-slate-300"
+              className="rounded p-1 text-slate-500 hover:bg-slate-700 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
               aria-label="Card actions"
               aria-expanded={menuOpen}
             >
@@ -292,8 +292,8 @@ function ModelCard({
             onClick={(e) => { e.stopPropagation(); onFilterOpenness?.(model.openness_level as OpennessLevel); }}
             className={`relative z-20 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition hover:ring-2 hover:ring-slate-500/50 ${
               isLocalHostable
-                ? "bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30"
-                : "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/30"
+                ? "bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-800 [.light_&]:ring-emerald-400"
+                : "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/30 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:ring-amber-500"
             }`}
             title="Filter by openness"
           >
@@ -309,7 +309,7 @@ function ModelCard({
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); onFilterProvider?.(model.provider); }}
-        className="relative z-20 mb-3 block text-left text-sm text-slate-400 transition hover:text-slate-300 hover:underline"
+        className="relative z-20 mb-3 block text-left text-sm text-slate-400 transition hover:text-slate-300 hover:underline [.light_&]:text-slate-700 [.light_&]:hover:text-slate-900"
         title="Filter by provider"
       >
         {model.provider}
@@ -317,7 +317,7 @@ function ModelCard({
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); onFilterCountry?.(model.origin_country); }}
-        className="relative z-20 mb-3 flex items-center gap-1.5 text-left text-slate-500 transition hover:text-slate-300"
+        className="relative z-20 mb-3 flex items-center gap-1.5 text-left text-slate-500 transition hover:text-slate-300 [.light_&]:text-slate-700 [.light_&]:hover:text-slate-900"
         title="Filter by country"
       >
         <MapPin className="h-4 w-4 shrink-0" aria-hidden />
@@ -333,8 +333,8 @@ function ModelCard({
               onClick={(e) => { e.stopPropagation(); onFilterRegion?.(region); }}
               className={`relative z-20 inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs transition hover:ring-2 hover:ring-slate-500/50 ${
                 active
-                  ? "bg-slate-600/80 text-slate-200"
-                  : "bg-slate-700/40 text-slate-500"
+                  ? "bg-slate-600/80 text-slate-200 [.light_&]:bg-slate-600 [.light_&]:text-white"
+                  : "bg-slate-700/40 text-slate-500 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:ring-1 [.light_&]:ring-slate-400"
               }`}
               title={active ? `Filter by ${region}` : `No ${region} compliance`}
             >
@@ -350,7 +350,7 @@ function ModelCard({
             key={tag}
             type="button"
             onClick={(e) => { e.stopPropagation(); onFilterComplianceTag?.(tag); }}
-            className="relative z-20 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 transition hover:bg-slate-600/80 hover:ring-2 hover:ring-slate-500/50"
+            className="relative z-20 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 transition hover:bg-slate-600/80 hover:ring-2 hover:ring-slate-500/50 [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-300"
             title={`Filter by ${tag}`}
           >
             {tag}
@@ -360,7 +360,7 @@ function ModelCard({
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); onFilterComplianceTag?.("Data residency"); }}
-            className="relative z-20 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 transition hover:bg-slate-600/80 hover:ring-2 hover:ring-slate-500/50"
+            className="relative z-20 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 transition hover:bg-slate-600/80 hover:ring-2 hover:ring-slate-500/50 [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-300"
             title="Filter by data residency"
           >
             Data residency
@@ -369,32 +369,32 @@ function ModelCard({
       </div>
       {model.languages.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
-          <span className="text-xs text-slate-500">Languages:</span>
+          <span className="text-xs text-slate-500 [.light_&]:text-slate-700">Languages:</span>
           {model.languages.slice(0, 5).map((lang) => (
             <button
               key={lang}
               type="button"
               onClick={(e) => { e.stopPropagation(); onFilterLanguage?.(lang); }}
-              className="relative z-20 rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400 transition hover:bg-slate-600/60 hover:ring-2 hover:ring-slate-500/50"
+              className="relative z-20 rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400 transition hover:bg-slate-600/60 hover:ring-2 hover:ring-slate-500/50 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-300"
               title={`Filter by ${LANGUAGE_LABELS[lang] ?? lang}`}
             >
               {LANGUAGE_LABELS[lang] ?? lang}
             </button>
           ))}
           {model.languages.length > 5 && (
-            <span className="text-xs text-slate-500">+{model.languages.length - 5}</span>
+            <span className="text-xs text-slate-500 [.light_&]:text-slate-700">+{model.languages.length - 5}</span>
           )}
         </div>
       )}
       {model.task_categories.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-1.5">
-          <span className="text-xs text-slate-500">Tasks:</span>
+          <span className="text-xs text-slate-500 [.light_&]:text-slate-700">Tasks:</span>
           {model.task_categories.map((task) => (
             <button
               key={task}
               type="button"
               onClick={(e) => { e.stopPropagation(); onFilterTask?.(task); }}
-              className="relative z-20 rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400 transition hover:bg-slate-600/60 hover:ring-2 hover:ring-slate-500/50"
+              className="relative z-20 rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400 transition hover:bg-slate-600/60 hover:ring-2 hover:ring-slate-500/50 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-300"
               title={`Filter by ${TASK_LABELS[task] ?? task}`}
             >
               {TASK_LABELS[task] ?? task}
@@ -728,7 +728,7 @@ export default function Home() {
           <h2 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
             Explore {models.length}+ AI models
           </h2>
-          <p className="text-slate-400 [.light_&]:text-slate-700">
+          <p className="text-slate-400 [.light_&]:text-slate-800">
             Compare sovereignty, compliance, and regional data residency. Filter by EU, US, India, and more.
           </p>
         </div>
@@ -748,26 +748,26 @@ export default function Home() {
           }`}
         >
           <div className="relative">
-            <h2 className="mb-3 flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-slate-400 [.light_&]:text-slate-700">
+            <h2 className="mb-3 flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-slate-400 [.light_&]:text-slate-800">
               <ChevronDown className="h-4 w-4 lg:hidden" />
               Filters
             </h2>
             <div className="space-y-4">
               <fieldset>
-                <legend className="mb-2 text-sm font-medium text-slate-300">
+                <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                   Openness
                 </legend>
                 <div className="space-y-2">
                   {opennessOptions.map((level) => (
                     <label
                       key={level}
-                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700"
                     >
                       <input
                         type="checkbox"
                         checked={opennessFilter.has(level)}
                         onChange={() => toggleOpenness(level)}
-                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500 [.light_&]:border-slate-500 [.light_&]:bg-white"
                       />
                       {level}
                     </label>
@@ -775,44 +775,44 @@ export default function Home() {
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-2 text-sm font-medium text-slate-300">
+                <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                   Compliance
                 </legend>
                 <div className="max-h-32 space-y-2 overflow-y-auto">
                   {allComplianceTags.map((tag) => (
                     <label
                       key={tag}
-                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700"
                     >
                       <input
                         type="checkbox"
                         checked={complianceTagFilter.has(tag)}
                         onChange={() => toggleComplianceTag(tag)}
-                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500 [.light_&]:border-slate-500 [.light_&]:bg-white"
                       />
                       {tag}
                     </label>
                   ))}
                   {allComplianceTags.length === 0 && (
-                    <span className="text-xs text-slate-500">No compliance data</span>
+                    <span className="text-xs text-slate-500 [.light_&]:text-slate-600">No compliance data</span>
                   )}
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-2 text-sm font-medium text-slate-300">
+                <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                   Region
                 </legend>
                 <div className="space-y-2">
                   {regions.map((region) => (
                     <label
                       key={region}
-                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700"
                     >
                       <input
                         type="checkbox"
                         checked={regionFilter.has(region)}
                         onChange={() => toggleRegion(region)}
-                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500 [.light_&]:border-slate-500 [.light_&]:bg-white"
                       />
                       {region}
                     </label>
@@ -820,68 +820,68 @@ export default function Home() {
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-2 text-sm font-medium text-slate-300">
+                <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                   Language
                 </legend>
                 <div className="max-h-40 space-y-2 overflow-y-auto">
                   {allLanguages.map((lang) => (
                     <label
                       key={lang}
-                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700"
                     >
                       <input
                         type="checkbox"
                         checked={languageFilter.has(lang)}
                         onChange={() => toggleLanguage(lang)}
-                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500 [.light_&]:border-slate-500 [.light_&]:bg-white"
                       />
                       {LANGUAGE_LABELS[lang] ?? lang}
                     </label>
                   ))}
                   {allLanguages.length === 0 && (
-                    <span className="text-xs text-slate-500">No language data</span>
+                    <span className="text-xs text-slate-500 [.light_&]:text-slate-600">No language data</span>
                   )}
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-2 text-sm font-medium text-slate-300">
+                <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                   Task
                 </legend>
                 <div className="space-y-2">
                   {allTasks.map((task) => (
                     <label
                       key={task}
-                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700"
                     >
                       <input
                         type="checkbox"
                         checked={taskFilter.has(task)}
                         onChange={() => toggleTask(task)}
-                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500 [.light_&]:border-slate-500 [.light_&]:bg-white"
                       />
                       {TASK_LABELS[task] ?? task}
                     </label>
                   ))}
                   {allTasks.length === 0 && (
-                    <span className="text-xs text-slate-500">No task data</span>
+                    <span className="text-xs text-slate-500 [.light_&]:text-slate-600">No task data</span>
                   )}
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-2 text-sm font-medium text-slate-300">
+                <legend className="mb-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                   Hardware (VRAM)
                 </legend>
                 <div className="space-y-2">
                   {HARDWARE_OPTIONS.map((opt) => (
                     <label
                       key={opt.value}
-                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700"
                     >
                       <input
                         type="checkbox"
                         checked={hardwareFilter.has(opt.value)}
                         onChange={() => toggleHardware(opt.value)}
-                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500 [.light_&]:border-slate-500 [.light_&]:bg-white"
                       />
                       {opt.label}
                     </label>
@@ -895,7 +895,7 @@ export default function Home() {
         <main className="min-w-0 flex-1">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
-              <p className="text-sm font-medium text-slate-300">
+              <p className="text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                 {filtered.length.toLocaleString()} model{filtered.length !== 1 ? "s" : ""}
               </p>
               {hasActiveFilters && (
@@ -904,7 +904,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={clearAllFilters}
-                  className="flex items-center gap-1 rounded-lg border border-slate-600 px-2.5 py-1 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-300"
+                  className="flex items-center gap-1 rounded-lg border border-slate-600 px-2.5 py-1 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-300 [.light_&]:border-slate-500 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
                 >
                   <X className="h-3 w-3" />
                   Clear filters
@@ -926,7 +926,7 @@ export default function Home() {
                   {[...complianceTagFilter, ...providerFilter, ...countryFilter].map((f) => (
                     <span
                       key={f}
-                      className="inline-flex items-center gap-1 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300"
+                      className="inline-flex items-center gap-1 rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800"
                     >
                       {f}
                       <button
@@ -948,7 +948,7 @@ export default function Home() {
             )}
             </div>
             <div className="flex items-center gap-2">
-              <label htmlFor="sort" className="text-xs text-slate-500">Sort:</label>
+              <label htmlFor="sort" className="text-xs text-slate-500 [.light_&]:text-slate-700">Sort:</label>
               <select
                 id="sort"
                 value={`${sortBy}-${sortAsc ? "asc" : "desc"}`}
@@ -957,7 +957,7 @@ export default function Home() {
                   setSortBy(s as "name" | "provider" | "country");
                   setSortAsc(d === "asc");
                 }}
-                className="rounded-lg border border-slate-700 bg-slate-800/80 px-2.5 py-1.5 text-sm text-slate-300 focus:border-slate-600 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                className="rounded-lg border border-slate-700 bg-slate-800/80 px-2.5 py-1.5 text-sm text-slate-300 focus:border-slate-600 focus:outline-none focus:ring-1 focus:ring-slate-500 [.light_&]:border-slate-400 [.light_&]:bg-white [.light_&]:text-slate-800"
               >
                 <option value="name-asc">Name A–Z</option>
                 <option value="name-desc">Name Z–A</option>
@@ -985,8 +985,8 @@ export default function Home() {
                   onClick={toggle}
                   className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition ${
                     active
-                      ? "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/40"
-                      : "bg-slate-800/80 text-slate-400 ring-1 ring-slate-600/60 hover:bg-slate-700/80 hover:text-slate-300"
+                      ? "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/40 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:ring-amber-500"
+                      : "bg-slate-800/80 text-slate-400 ring-1 ring-slate-600/60 hover:bg-slate-700/80 hover:text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:ring-slate-400 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-900"
                   }`}
                 >
                   {chip === "Local-hostable" && <Server className="h-3.5 w-3.5" />}
@@ -1025,7 +1025,7 @@ export default function Home() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <p className="rounded-xl border border-slate-700/60 bg-slate-800/30 p-8 text-center text-slate-500">
+            <p className="rounded-xl border border-slate-700/60 bg-slate-800/30 p-8 text-center text-slate-500 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700">
               No models match your filters. Try adjusting search or filters.
             </p>
           )}
@@ -1033,9 +1033,9 @@ export default function Home() {
       </div>
 
       {compareIds.size >= 2 && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-700 bg-zinc-900/95 py-3 shadow-lg backdrop-blur">
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-700 bg-zinc-900/95 py-3 shadow-lg backdrop-blur [.light_&]:border-slate-300 [.light_&]:bg-white/95">
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-slate-400 [.light_&]:text-slate-700">
               {compareIds.size} model{compareIds.size !== 1 ? "s" : ""} selected
               for comparison (max {MAX_COMPARE})
             </p>
