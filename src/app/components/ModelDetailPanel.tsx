@@ -20,7 +20,7 @@ import {
   Download,
 } from "lucide-react";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
-import { computeEthicsScore } from "@/app/lib/ethicsScore";
+import { computeEthicsScore, getEthicsScoreColorClasses } from "@/app/lib/ethicsScore";
 import { getModelLinks, getModelDescription } from "@/app/lib/modelLinks";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
@@ -212,7 +212,7 @@ export function ModelDetailPanel({
               )}
               <div className="flex items-center gap-2 pt-1 border-t border-slate-700/60 pt-3 [.light_&]:border-slate-200">
                 <span className="text-xs text-slate-500 [.light_&]:text-slate-600">Ethical Design Score:</span>
-                <span className="font-semibold text-emerald-500 [.light_&]:text-emerald-700">
+                <span className={`font-semibold ${getEthicsScoreColorClasses(computeEthicsScore(model))}`}>
                   {computeEthicsScore(model)}/100
                 </span>
                 <span className="text-xs text-slate-500 [.light_&]:text-slate-600">

@@ -23,3 +23,10 @@ export function computeEthicsScore(model: ComparisonModel): number {
 
   return Math.round(sovereignty + biasMitigation + transparency);
 }
+
+/** Returns Tailwind classes for ethics score: green (>70), yellow (40–70), red (<40) */
+export function getEthicsScoreColorClasses(score: number): string {
+  if (score > 70) return "text-emerald-500/90 [.light_&]:text-emerald-700";
+  if (score >= 40) return "text-amber-500/90 [.light_&]:text-amber-700";
+  return "text-red-500/90 [.light_&]:text-red-700";
+}

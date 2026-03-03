@@ -33,7 +33,7 @@ import {
   type ComparisonModel,
   type RawRegistryEntry,
 } from "@/app/lib/registryNormalizer";
-import { computeEthicsScore } from "@/app/lib/ethicsScore";
+import { computeEthicsScore, getEthicsScoreColorClasses } from "@/app/lib/ethicsScore";
 import { getModelLinks, getModelDescription } from "@/app/lib/modelLinks";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 
@@ -333,7 +333,7 @@ function ModelCard({
         <div className="flex items-center gap-2 pt-1">
           <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0">Ethics:</dt>
           <dd>
-            <span className="font-medium text-emerald-500/90 [.light_&]:text-emerald-700">
+            <span className={`font-medium ${getEthicsScoreColorClasses(computeEthicsScore(model))}`}>
               {computeEthicsScore(model)}/100
             </span>
           </dd>
