@@ -916,5 +916,4687 @@
       "text-generation",
       "conversational"
     ]
+  },
+  {
+    "id": "atlas-lite-allen-institute-for-ai-0",
+    "name": "Atlas Lite 1",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 71,
+    "context_window": 128000,
+    "training_cutoff": "2020-11",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      139,
+      115,
+      189,
+      199,
+      205,
+      85,
+      82
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 2006941,
+    "hf_likes": 142
+  },
+  {
+    "id": "atlas-lite-8-cohere-1",
+    "name": "Atlas Lite 8 2",
+    "provider": "Cohere",
+    "origin_country": "Canada",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 35,
+    "context_window": 16384,
+    "training_cutoff": "2020-03",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      160,
+      97,
+      210,
+      190,
+      237,
+      100,
+      100
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1161226,
+    "hf_likes": 2501
+  },
+  {
+    "id": "cipher-max-anthropic-2",
+    "name": "Cipher Max 3",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 93,
+    "context_window": 32768,
+    "training_cutoff": "2022-06",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      55,
+      175,
+      224,
+      233,
+      64,
+      214,
+      52
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1643591,
+    "hf_likes": 4751
+  },
+  {
+    "id": "zenith-microsoft-3",
+    "name": "Zenith 4",
+    "provider": "Microsoft",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 57,
+    "context_window": 4096,
+    "training_cutoff": "2023-06",
+    "vram_4bit_gb": 6,
+    "vram_8bit_gb": 12,
+    "ram_4bit_gb": 9,
+    "ram_8bit_gb": 18,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      143,
+      110,
+      228,
+      156,
+      218,
+      61,
+      183
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1822635,
+    "hf_likes": 2543
+  },
+  {
+    "id": "flux-01ai-4",
+    "name": "Flux 5",
+    "provider": "01.AI",
+    "origin_country": "China",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 76,
+    "context_window": 16384,
+    "training_cutoff": "2022-07",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      123,
+      54,
+      248,
+      169,
+      133,
+      96,
+      82
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 12263,
+    "hf_likes": 3321
+  },
+  {
+    "id": "echo-pro-cohere-5",
+    "name": "Echo Pro 6",
+    "provider": "Cohere",
+    "origin_country": "Canada",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 62,
+    "context_window": 8192,
+    "training_cutoff": "2020-08",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      205,
+      185,
+      148,
+      50,
+      141,
+      147,
+      222
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 1685416,
+    "hf_likes": 596
+  },
+  {
+    "id": "titan-pro-stability-ai-6",
+    "name": "Titan Pro 7",
+    "provider": "Stability AI",
+    "origin_country": "United Kingdom",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 55,
+    "context_window": 32768,
+    "training_cutoff": "2020-06",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      79,
+      217,
+      175,
+      176,
+      64,
+      165,
+      83
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 1096329,
+    "hf_likes": 828
+  },
+  {
+    "id": "beam-deepseek-7",
+    "name": "Beam 8",
+    "provider": "DeepSeek",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 45,
+    "context_window": 32768,
+    "training_cutoff": "2024-04",
+    "vram_4bit_gb": 2,
+    "vram_8bit_gb": 4,
+    "ram_4bit_gb": 3,
+    "ram_8bit_gb": 6,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      194,
+      176,
+      113,
+      223,
+      97,
+      148,
+      78
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 552846,
+    "hf_likes": 322
+  },
+  {
+    "id": "spark-lite-9-anthropic-8",
+    "name": "Spark Lite 9 9",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 65,
+    "context_window": 16384,
+    "training_cutoff": "2024-05",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      90,
+      151,
+      132,
+      166,
+      233,
+      61,
+      169
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1569612,
+    "hf_likes": 3730
+  },
+  {
+    "id": "cumulus-aleph-alpha-9",
+    "name": "Cumulus 10",
+    "provider": "Aleph Alpha",
+    "origin_country": "Germany",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 95,
+    "context_window": 128000,
+    "training_cutoff": "2023-05",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      68,
+      243,
+      93,
+      101,
+      100,
+      200,
+      74
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 942310,
+    "hf_likes": 2726
+  },
+  {
+    "id": "beam-lite-9-nvidia-10",
+    "name": "Beam Lite 9 11",
+    "provider": "NVIDIA",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 40,
+    "context_window": 8192,
+    "training_cutoff": "2022-07",
+    "vram_4bit_gb": 2,
+    "vram_8bit_gb": 4,
+    "ram_4bit_gb": 3,
+    "ram_8bit_gb": 6,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      232,
+      148,
+      219,
+      185,
+      76,
+      158,
+      101
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 276109,
+    "hf_likes": 5006
+  },
+  {
+    "id": "beam-lite-google-11",
+    "name": "Beam Lite 12",
+    "provider": "Google",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 85,
+    "context_window": 128000,
+    "training_cutoff": "2025-08",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      136,
+      149,
+      114,
+      115,
+      111,
+      227,
+      55
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1314990,
+    "hf_likes": 4889
+  },
+  {
+    "id": "nimbus-9-allen-institute-for-ai-12",
+    "name": "Nimbus 9 13",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 63,
+    "context_window": 8192,
+    "training_cutoff": "2024-02",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      141,
+      88,
+      202,
+      76,
+      194,
+      133,
+      142
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1598911,
+    "hf_likes": 1358
+  },
+  {
+    "id": "sol-anthropic-13",
+    "name": "Sol 14",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 96,
+    "context_window": 8192,
+    "training_cutoff": "2020-09",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      208,
+      104,
+      87,
+      205,
+      152,
+      242,
+      249
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 700918,
+    "hf_likes": 168
+  },
+  {
+    "id": "psi-liquid-ai-14",
+    "name": "Psi 15",
+    "provider": "Liquid AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 28,
+    "context_window": 65536,
+    "training_cutoff": "2024-07",
+    "vram_4bit_gb": 2,
+    "vram_8bit_gb": 4,
+    "ram_4bit_gb": 3,
+    "ram_8bit_gb": 6,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      108,
+      210,
+      79,
+      166,
+      84,
+      81,
+      138
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 545028,
+    "hf_likes": 2721
+  },
+  {
+    "id": "orbit-pro-baidu-15",
+    "name": "Orbit Pro 16",
+    "provider": "Baidu",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 78,
+    "context_window": 128000,
+    "training_cutoff": "2023-07",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      129,
+      168,
+      104,
+      220,
+      205,
+      207,
+      225
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1450392,
+    "hf_likes": 1083
+  },
+  {
+    "id": "cipher-max-anthropic-16",
+    "name": "Cipher Max 17",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 93,
+    "context_window": 128000,
+    "training_cutoff": "2025-02",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      219,
+      110,
+      128,
+      107,
+      159,
+      73,
+      236
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 984719,
+    "hf_likes": 4078
+  },
+  {
+    "id": "prime-mistral-ai-17",
+    "name": "Prime 18",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 65,
+    "context_window": 128000,
+    "training_cutoff": "2020-11",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      171,
+      218,
+      212,
+      152,
+      75,
+      58,
+      72
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 82519,
+    "hf_likes": 400
+  },
+  {
+    "id": "prime-lite-baidu-18",
+    "name": "Prime Lite 19",
+    "provider": "Baidu",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 97,
+    "context_window": 16384,
+    "training_cutoff": "2020-04",
+    "vram_4bit_gb": 6,
+    "vram_8bit_gb": 12,
+    "ram_4bit_gb": 9,
+    "ram_8bit_gb": 18,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      139,
+      173,
+      221,
+      137,
+      242,
+      180,
+      228
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 103243,
+    "hf_likes": 751
+  },
+  {
+    "id": "sigma-nano-replicate-19",
+    "name": "Sigma Nano 20",
+    "provider": "Replicate",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 53,
+    "context_window": 32768,
+    "training_cutoff": "2025-01",
+    "vram_4bit_gb": 2,
+    "vram_8bit_gb": 4,
+    "ram_4bit_gb": 3,
+    "ram_8bit_gb": 6,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      82,
+      98,
+      220,
+      249,
+      174,
+      175,
+      244
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1795881,
+    "hf_likes": 3094
+  },
+  {
+    "id": "omega-alibaba-cloud-20",
+    "name": "Omega 21",
+    "provider": "Alibaba Cloud",
+    "origin_country": "China",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 79,
+    "context_window": 16384,
+    "training_cutoff": "2020-11",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      101,
+      89,
+      233,
+      217,
+      170,
+      190,
+      233
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1364135,
+    "hf_likes": 2723
+  },
+  {
+    "id": "nexus-lite-01ai-21",
+    "name": "Nexus Lite 22",
+    "provider": "01.AI",
+    "origin_country": "China",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 24,
+    "context_window": 65536,
+    "training_cutoff": "2021-06",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      218,
+      153,
+      69,
+      104,
+      116,
+      104,
+      194
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 47200,
+    "hf_likes": 808
+  },
+  {
+    "id": "spark-lite-9-ai21-labs-22",
+    "name": "Spark Lite 9 23",
+    "provider": "AI21 Labs",
+    "origin_country": "Israel",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "conversational"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 71,
+    "context_window": 8192,
+    "training_cutoff": "2022-07",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      201,
+      129,
+      71,
+      220,
+      207,
+      100,
+      117
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1442562,
+    "hf_likes": 1930
+  },
+  {
+    "id": "zenith-8-bytedance-23",
+    "name": "Zenith 8 24",
+    "provider": "ByteDance",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "conversational"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 87,
+    "context_window": 128000,
+    "training_cutoff": "2025-10",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      126,
+      123,
+      145,
+      221,
+      208,
+      176,
+      179
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 528291,
+    "hf_likes": 4265
+  },
+  {
+    "id": "cipher-ai21-labs-24",
+    "name": "Cipher 25",
+    "provider": "AI21 Labs",
+    "origin_country": "Israel",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 35,
+    "context_window": 32768,
+    "training_cutoff": "2025-02",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      230,
+      194,
+      146,
+      79,
+      226,
+      172,
+      148
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1834001,
+    "hf_likes": 239
+  },
+  {
+    "id": "echo-pro-8-mistral-ai-25",
+    "name": "Echo Pro 8 26",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 86,
+    "context_window": 65536,
+    "training_cutoff": "2023-01",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      247,
+      206,
+      146,
+      219,
+      174,
+      132,
+      216
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 658685,
+    "hf_likes": 1481
+  },
+  {
+    "id": "prime-nano-hugging-face-26",
+    "name": "Prime Nano 27",
+    "provider": "Hugging Face",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 55,
+    "context_window": 32768,
+    "training_cutoff": "2022-01",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      160,
+      137,
+      198,
+      244,
+      160,
+      243,
+      111
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 943807,
+    "hf_likes": 548
+  },
+  {
+    "id": "lens-lite-8-deepseek-27",
+    "name": "Lens Lite 8 28",
+    "provider": "DeepSeek",
+    "origin_country": "China",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 23,
+    "context_window": 128000,
+    "training_cutoff": "2022-07",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      145,
+      247,
+      227,
+      151,
+      187,
+      142,
+      60
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 185702,
+    "hf_likes": 476
+  },
+  {
+    "id": "theta-ibm-28",
+    "name": "Theta 29",
+    "provider": "IBM",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 77,
+    "context_window": 256000,
+    "training_cutoff": "2025-07",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      64,
+      172,
+      209,
+      207,
+      161,
+      167,
+      240
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1638710,
+    "hf_likes": 627
+  },
+  {
+    "id": "sol-9-allen-institute-for-ai-29",
+    "name": "Sol 9 30",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 26,
+    "context_window": 8192,
+    "training_cutoff": "2024-09",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      242,
+      202,
+      131,
+      148,
+      192,
+      70,
+      206
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1680760,
+    "hf_likes": 795
+  },
+  {
+    "id": "spark-lite-openai-30",
+    "name": "Spark Lite 31",
+    "provider": "OpenAI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 97,
+    "context_window": 32768,
+    "training_cutoff": "2020-07",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      85,
+      121,
+      136,
+      144,
+      109,
+      78,
+      51
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 159679,
+    "hf_likes": 3176
+  },
+  {
+    "id": "vega-8-microsoft-31",
+    "name": "Vega 8 32",
+    "provider": "Microsoft",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 86,
+    "context_window": 16384,
+    "training_cutoff": "2023-03",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      106,
+      144,
+      114,
+      230,
+      214,
+      207,
+      208
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1290699,
+    "hf_likes": 3964
+  },
+  {
+    "id": "nimbus-anthropic-32",
+    "name": "Nimbus 33",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 74,
+    "context_window": 256000,
+    "training_cutoff": "2024-02",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      129,
+      111,
+      137,
+      119,
+      126,
+      129,
+      55
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 74472,
+    "hf_likes": 3557
+  },
+  {
+    "id": "prime-nano-bytedance-33",
+    "name": "Prime Nano 34",
+    "provider": "ByteDance",
+    "origin_country": "China",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 81,
+    "context_window": 4096,
+    "training_cutoff": "2025-09",
+    "vram_4bit_gb": 2,
+    "vram_8bit_gb": 4,
+    "ram_4bit_gb": 3,
+    "ram_8bit_gb": 6,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      65,
+      238,
+      55,
+      55,
+      184,
+      225,
+      158
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1735867,
+    "hf_likes": 1200
+  },
+  {
+    "id": "cipher-pro-9-anthropic-34",
+    "name": "Cipher Pro 9 35",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 32,
+    "context_window": 8192,
+    "training_cutoff": "2021-04",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      244,
+      249,
+      63,
+      154,
+      157,
+      105,
+      221
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 236955,
+    "hf_likes": 232
+  },
+  {
+    "id": "titan-aleph-alpha-35",
+    "name": "Titan 36",
+    "provider": "Aleph Alpha",
+    "origin_country": "Germany",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 93,
+    "context_window": 256000,
+    "training_cutoff": "2020-04",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      182,
+      170,
+      136,
+      81,
+      63,
+      172,
+      182
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 1839727,
+    "hf_likes": 4817
+  },
+  {
+    "id": "helix-pro-9-cohere-36",
+    "name": "Helix Pro 9 37",
+    "provider": "Cohere",
+    "origin_country": "Canada",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 52,
+    "context_window": 128000,
+    "training_cutoff": "2023-06",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      167,
+      114,
+      171,
+      234,
+      196,
+      201,
+      235
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1262648,
+    "hf_likes": 927
+  },
+  {
+    "id": "beam-hugging-face-37",
+    "name": "Beam 38",
+    "provider": "Hugging Face",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 64,
+    "context_window": 128000,
+    "training_cutoff": "2023-06",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      103,
+      75,
+      76,
+      91,
+      99,
+      219,
+      226
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 234537,
+    "hf_likes": 1167
+  },
+  {
+    "id": "nexus-nano-google-38",
+    "name": "Nexus Nano 39",
+    "provider": "Google",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 62,
+    "context_window": 16384,
+    "training_cutoff": "2024-06",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      110,
+      168,
+      225,
+      216,
+      204,
+      171,
+      151
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 280630,
+    "hf_likes": 4534
+  },
+  {
+    "id": "sigma-nano-openai-39",
+    "name": "Sigma Nano 40",
+    "provider": "OpenAI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 99,
+    "context_window": 8192,
+    "training_cutoff": "2024-06",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      113,
+      197,
+      137,
+      91,
+      216,
+      219,
+      214
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1412897,
+    "hf_likes": 4245
+  },
+  {
+    "id": "pulse-liquid-ai-40",
+    "name": "Pulse 41",
+    "provider": "Liquid AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 21,
+    "context_window": 16384,
+    "training_cutoff": "2020-06",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      202,
+      174,
+      190,
+      228,
+      175,
+      132,
+      194
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 1544972,
+    "hf_likes": 1828
+  },
+  {
+    "id": "cipher-aleph-alpha-41",
+    "name": "Cipher 42",
+    "provider": "Aleph Alpha",
+    "origin_country": "Germany",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 48,
+    "context_window": 65536,
+    "training_cutoff": "2023-03",
+    "vram_4bit_gb": 2,
+    "vram_8bit_gb": 4,
+    "ram_4bit_gb": 3,
+    "ram_8bit_gb": 6,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      198,
+      107,
+      170,
+      213,
+      87,
+      190,
+      160
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1692071,
+    "hf_likes": 4126
+  },
+  {
+    "id": "lens-nano-anthropic-42",
+    "name": "Lens Nano 43",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 56,
+    "context_window": 65536,
+    "training_cutoff": "2023-09",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      213,
+      167,
+      75,
+      184,
+      245,
+      165,
+      237
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1041028,
+    "hf_likes": 4930
+  },
+  {
+    "id": "pulse-lite-anthropic-43",
+    "name": "Pulse Lite 44",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 32,
+    "context_window": 32768,
+    "training_cutoff": "2024-07",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      159,
+      237,
+      228,
+      64,
+      87,
+      90,
+      248
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 485169,
+    "hf_likes": 706
+  },
+  {
+    "id": "beam-pro-bytedance-44",
+    "name": "Beam Pro 45",
+    "provider": "ByteDance",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 71,
+    "context_window": 256000,
+    "training_cutoff": "2020-05",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      104,
+      240,
+      54,
+      124,
+      65,
+      169,
+      224
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 486617,
+    "hf_likes": 1120
+  },
+  {
+    "id": "luna-nvidia-45",
+    "name": "Luna 46",
+    "provider": "NVIDIA",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 62,
+    "context_window": 65536,
+    "training_cutoff": "2022-01",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      156,
+      59,
+      185,
+      65,
+      149,
+      132,
+      140
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1039708,
+    "hf_likes": 3711
+  },
+  {
+    "id": "vertex-nano-7-meta-46",
+    "name": "Vertex Nano 7 47",
+    "provider": "Meta",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 47,
+    "context_window": 8192,
+    "training_cutoff": "2021-10",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      146,
+      50,
+      234,
+      157,
+      113,
+      214,
+      50
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 570466,
+    "hf_likes": 2155
+  },
+  {
+    "id": "sirius-8-meta-47",
+    "name": "Sirius 8 48",
+    "provider": "Meta",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 88,
+    "context_window": 32768,
+    "training_cutoff": "2021-03",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      247,
+      169,
+      244,
+      127,
+      149,
+      149,
+      189
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 328064,
+    "hf_likes": 3304
+  },
+  {
+    "id": "zenith-9-meta-48",
+    "name": "Zenith 9 49",
+    "provider": "Meta",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 70,
+    "context_window": 65536,
+    "training_cutoff": "2020-10",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      98,
+      236,
+      141,
+      90,
+      191,
+      132,
+      164
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1399833,
+    "hf_likes": 3132
+  },
+  {
+    "id": "helix-essential-ai-49",
+    "name": "Helix 50",
+    "provider": "Essential AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 66,
+    "context_window": 8192,
+    "training_cutoff": "2024-06",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      242,
+      214,
+      66,
+      163,
+      172,
+      195,
+      237
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1258691,
+    "hf_likes": 1406
+  },
+  {
+    "id": "psi-replicate-50",
+    "name": "Psi 51",
+    "provider": "Replicate",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 50,
+    "context_window": 256000,
+    "training_cutoff": "2021-05",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      68,
+      240,
+      129,
+      238,
+      148,
+      99,
+      113
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1814627,
+    "hf_likes": 429
+  },
+  {
+    "id": "pulse-replicate-51",
+    "name": "Pulse 52",
+    "provider": "Replicate",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 54,
+    "context_window": 128000,
+    "training_cutoff": "2023-10",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      185,
+      68,
+      186,
+      89,
+      210,
+      144,
+      88
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 267059,
+    "hf_likes": 1773
+  },
+  {
+    "id": "vector-lite-microsoft-52",
+    "name": "Vector Lite 53",
+    "provider": "Microsoft",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 57,
+    "context_window": 4096,
+    "training_cutoff": "2024-12",
+    "vram_4bit_gb": 2,
+    "vram_8bit_gb": 4,
+    "ram_4bit_gb": 3,
+    "ram_8bit_gb": 6,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      136,
+      216,
+      235,
+      156,
+      105,
+      136,
+      143
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1924674,
+    "hf_likes": 3591
+  },
+  {
+    "id": "nexus-max-7-baidu-53",
+    "name": "Nexus Max 7 54",
+    "provider": "Baidu",
+    "origin_country": "China",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 65,
+    "context_window": 65536,
+    "training_cutoff": "2022-08",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      132,
+      188,
+      200,
+      203,
+      53,
+      131,
+      202
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 103004,
+    "hf_likes": 1473
+  },
+  {
+    "id": "prime-max-hugging-face-54",
+    "name": "Prime Max 55",
+    "provider": "Hugging Face",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 30,
+    "context_window": 4096,
+    "training_cutoff": "2022-10",
+    "vram_4bit_gb": 6,
+    "vram_8bit_gb": 12,
+    "ram_4bit_gb": 9,
+    "ram_8bit_gb": 18,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      67,
+      114,
+      140,
+      135,
+      157,
+      137,
+      85
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 64946,
+    "hf_likes": 616
+  },
+  {
+    "id": "core-nano-meta-55",
+    "name": "Core Nano 56",
+    "provider": "Meta",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 97,
+    "context_window": 4096,
+    "training_cutoff": "2021-07",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      234,
+      81,
+      84,
+      186,
+      132,
+      126,
+      110
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 910451,
+    "hf_likes": 4383
+  },
+  {
+    "id": "lens-7-amazon-56",
+    "name": "Lens 7 57",
+    "provider": "Amazon",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 72,
+    "context_window": 65536,
+    "training_cutoff": "2023-10",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      177,
+      248,
+      105,
+      105,
+      245,
+      118,
+      184
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1106473,
+    "hf_likes": 1077
+  },
+  {
+    "id": "vector-lite-microsoft-57",
+    "name": "Vector Lite 58",
+    "provider": "Microsoft",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 89,
+    "context_window": 256000,
+    "training_cutoff": "2023-03",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      237,
+      217,
+      73,
+      85,
+      129,
+      166,
+      236
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 1271815,
+    "hf_likes": 172
+  },
+  {
+    "id": "lens-aleph-alpha-58",
+    "name": "Lens 59",
+    "provider": "Aleph Alpha",
+    "origin_country": "Germany",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 82,
+    "context_window": 128000,
+    "training_cutoff": "2025-01",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      124,
+      129,
+      244,
+      141,
+      247,
+      210,
+      249
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 246255,
+    "hf_likes": 2341
+  },
+  {
+    "id": "apex-pro-8-google-59",
+    "name": "Apex Pro 8 60",
+    "provider": "Google",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 66,
+    "context_window": 65536,
+    "training_cutoff": "2020-12",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      221,
+      240,
+      83,
+      212,
+      81,
+      221,
+      191
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 574568,
+    "hf_likes": 398
+  },
+  {
+    "id": "pulse-pro-essential-ai-60",
+    "name": "Pulse Pro 61",
+    "provider": "Essential AI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 32,
+    "context_window": 128000,
+    "training_cutoff": "2022-07",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      155,
+      89,
+      178,
+      212,
+      105,
+      77,
+      64
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1159235,
+    "hf_likes": 2255
+  },
+  {
+    "id": "helix-replicate-61",
+    "name": "Helix 62",
+    "provider": "Replicate",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 34,
+    "context_window": 16384,
+    "training_cutoff": "2020-12",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      101,
+      83,
+      65,
+      182,
+      182,
+      111,
+      156
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1549124,
+    "hf_likes": 1647
+  },
+  {
+    "id": "prime-nano-ai21-labs-62",
+    "name": "Prime Nano 63",
+    "provider": "AI21 Labs",
+    "origin_country": "Israel",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 53,
+    "context_window": 32768,
+    "training_cutoff": "2025-11",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      99,
+      160,
+      79,
+      229,
+      112,
+      210,
+      140
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 920068,
+    "hf_likes": 2757
+  },
+  {
+    "id": "matrix-deepseek-63",
+    "name": "Matrix 64",
+    "provider": "DeepSeek",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 77,
+    "context_window": 256000,
+    "training_cutoff": "2023-08",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      216,
+      175,
+      111,
+      235,
+      131,
+      234,
+      91
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 758209,
+    "hf_likes": 3984
+  },
+  {
+    "id": "echo-pro-openai-64",
+    "name": "Echo Pro 65",
+    "provider": "OpenAI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 30,
+    "context_window": 128000,
+    "training_cutoff": "2022-10",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      101,
+      164,
+      200,
+      138,
+      90,
+      197,
+      240
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 914968,
+    "hf_likes": 2787
+  },
+  {
+    "id": "fusion-lite-7-anthropic-65",
+    "name": "Fusion Lite 7 66",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 91,
+    "context_window": 4096,
+    "training_cutoff": "2025-07",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      164,
+      179,
+      168,
+      217,
+      206,
+      98,
+      124
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 113589,
+    "hf_likes": 274
+  },
+  {
+    "id": "flux-liquid-ai-66",
+    "name": "Flux 67",
+    "provider": "Liquid AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 93,
+    "context_window": 4096,
+    "training_cutoff": "2021-03",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      228,
+      224,
+      233,
+      70,
+      239,
+      244,
+      64
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1544648,
+    "hf_likes": 1758
+  },
+  {
+    "id": "scope-7-amazon-67",
+    "name": "Scope 7 68",
+    "provider": "Amazon",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 76,
+    "context_window": 128000,
+    "training_cutoff": "2021-03",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      151,
+      74,
+      207,
+      195,
+      123,
+      160,
+      123
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1609225,
+    "hf_likes": 4325
+  },
+  {
+    "id": "cipher-lite-allen-institute-for-ai-68",
+    "name": "Cipher Lite 69",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 84,
+    "context_window": 128000,
+    "training_cutoff": "2021-04",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      88,
+      128,
+      117,
+      71,
+      92,
+      201,
+      121
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1451297,
+    "hf_likes": 3221
+  },
+  {
+    "id": "omega-lite-mistral-ai-69",
+    "name": "Omega Lite 70",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 21,
+    "context_window": 16384,
+    "training_cutoff": "2021-09",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      132,
+      89,
+      98,
+      192,
+      225,
+      211,
+      114
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1654677,
+    "hf_likes": 3810
+  },
+  {
+    "id": "orion-9-cohere-70",
+    "name": "Orion 9 71",
+    "provider": "Cohere",
+    "origin_country": "Canada",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 49,
+    "context_window": 256000,
+    "training_cutoff": "2020-06",
+    "vram_4bit_gb": 6,
+    "vram_8bit_gb": 12,
+    "ram_4bit_gb": 9,
+    "ram_8bit_gb": 18,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      58,
+      152,
+      125,
+      208,
+      68,
+      206,
+      124
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 286791,
+    "hf_likes": 2749
+  },
+  {
+    "id": "scope-pro-amazon-71",
+    "name": "Scope Pro 72",
+    "provider": "Amazon",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 74,
+    "context_window": 4096,
+    "training_cutoff": "2023-10",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      71,
+      223,
+      100,
+      210,
+      247,
+      136,
+      184
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1687018,
+    "hf_likes": 3151
+  },
+  {
+    "id": "scope-lite-openai-72",
+    "name": "Scope Lite 73",
+    "provider": "OpenAI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 21,
+    "context_window": 32768,
+    "training_cutoff": "2024-06",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      115,
+      147,
+      66,
+      79,
+      121,
+      58,
+      70
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 1238486,
+    "hf_likes": 2279
+  },
+  {
+    "id": "omega-pro-ai21-labs-73",
+    "name": "Omega Pro 74",
+    "provider": "AI21 Labs",
+    "origin_country": "Israel",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 52,
+    "context_window": 65536,
+    "training_cutoff": "2024-08",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      161,
+      246,
+      66,
+      234,
+      160,
+      233,
+      188
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 123329,
+    "hf_likes": 4065
+  },
+  {
+    "id": "spark-max-baidu-74",
+    "name": "Spark Max 75",
+    "provider": "Baidu",
+    "origin_country": "China",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 97,
+    "context_window": 256000,
+    "training_cutoff": "2025-09",
+    "vram_4bit_gb": 2,
+    "vram_8bit_gb": 4,
+    "ram_4bit_gb": 3,
+    "ram_8bit_gb": 6,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      204,
+      112,
+      179,
+      129,
+      144,
+      70,
+      234
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 725476,
+    "hf_likes": 1774
+  },
+  {
+    "id": "pulse-lite-meta-75",
+    "name": "Pulse Lite 76",
+    "provider": "Meta",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 83,
+    "context_window": 32768,
+    "training_cutoff": "2021-01",
+    "vram_4bit_gb": 6,
+    "vram_8bit_gb": 12,
+    "ram_4bit_gb": 9,
+    "ram_8bit_gb": 18,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      229,
+      83,
+      174,
+      146,
+      81,
+      140,
+      149
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 342520,
+    "hf_likes": 4499
+  },
+  {
+    "id": "scope-8-baidu-76",
+    "name": "Scope 8 77",
+    "provider": "Baidu",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 85,
+    "context_window": 65536,
+    "training_cutoff": "2024-09",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      225,
+      169,
+      119,
+      163,
+      179,
+      177,
+      242
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1711137,
+    "hf_likes": 2276
+  },
+  {
+    "id": "atlas-nano-7-aleph-alpha-77",
+    "name": "Atlas Nano 7 78",
+    "provider": "Aleph Alpha",
+    "origin_country": "Germany",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 30,
+    "context_window": 4096,
+    "training_cutoff": "2021-05",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      169,
+      68,
+      146,
+      201,
+      165,
+      219,
+      241
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1909348,
+    "hf_likes": 2134
+  },
+  {
+    "id": "lens-cohere-78",
+    "name": "Lens 79",
+    "provider": "Cohere",
+    "origin_country": "Canada",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 95,
+    "context_window": 4096,
+    "training_cutoff": "2021-11",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      89,
+      89,
+      208,
+      171,
+      56,
+      217,
+      233
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 543055,
+    "hf_likes": 2132
+  },
+  {
+    "id": "pulse-nano-allen-institute-for-ai-79",
+    "name": "Pulse Nano 80",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 99,
+    "context_window": 4096,
+    "training_cutoff": "2023-01",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      168,
+      178,
+      85,
+      189,
+      211,
+      139,
+      187
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 76779,
+    "hf_likes": 4479
+  },
+  {
+    "id": "echo-pro-9-openai-80",
+    "name": "Echo Pro 9 81",
+    "provider": "OpenAI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 77,
+    "context_window": 65536,
+    "training_cutoff": "2020-09",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      238,
+      78,
+      100,
+      129,
+      78,
+      51,
+      230
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 617952,
+    "hf_likes": 1988
+  },
+  {
+    "id": "alpha-stability-ai-81",
+    "name": "Alpha 82",
+    "provider": "Stability AI",
+    "origin_country": "United Kingdom",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 79,
+    "context_window": 16384,
+    "training_cutoff": "2022-09",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      90,
+      185,
+      147,
+      148,
+      109,
+      233,
+      141
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 1599896,
+    "hf_likes": 947
+  },
+  {
+    "id": "lens-01ai-82",
+    "name": "Lens 83",
+    "provider": "01.AI",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 76,
+    "context_window": 32768,
+    "training_cutoff": "2024-10",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      175,
+      106,
+      79,
+      115,
+      234,
+      137,
+      71
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1292987,
+    "hf_likes": 4965
+  },
+  {
+    "id": "stratus-hugging-face-83",
+    "name": "Stratus 84",
+    "provider": "Hugging Face",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 45,
+    "context_window": 8192,
+    "training_cutoff": "2022-06",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      199,
+      72,
+      179,
+      124,
+      139,
+      165,
+      180
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1079724,
+    "hf_likes": 716
+  },
+  {
+    "id": "scope-lite-7-ibm-84",
+    "name": "Scope Lite 7 85",
+    "provider": "IBM",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code",
+      "conversational"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 84,
+    "context_window": 256000,
+    "training_cutoff": "2022-10",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      77,
+      53,
+      247,
+      58,
+      160,
+      109,
+      199
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1561497,
+    "hf_likes": 2505
+  },
+  {
+    "id": "lens-lite-7-stability-ai-85",
+    "name": "Lens Lite 7 86",
+    "provider": "Stability AI",
+    "origin_country": "United Kingdom",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 67,
+    "context_window": 65536,
+    "training_cutoff": "2021-06",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      86,
+      194,
+      105,
+      171,
+      130,
+      177,
+      161
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 767982,
+    "hf_likes": 4179
+  },
+  {
+    "id": "titan-pro-cohere-86",
+    "name": "Titan Pro 87",
+    "provider": "Cohere",
+    "origin_country": "Canada",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 96,
+    "context_window": 128000,
+    "training_cutoff": "2024-07",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      60,
+      203,
+      201,
+      185,
+      150,
+      78,
+      178
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 760028,
+    "hf_likes": 4512
+  },
+  {
+    "id": "prism-7-mistral-ai-87",
+    "name": "Prism 7 88",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 5%",
+    "inference_speed": 20,
+    "context_window": 65536,
+    "training_cutoff": "2020-10",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      107,
+      242,
+      129,
+      241,
+      97,
+      191,
+      69
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 1620947,
+    "hf_likes": 2683
+  },
+  {
+    "id": "fusion-9-aleph-alpha-88",
+    "name": "Fusion 9 89",
+    "provider": "Aleph Alpha",
+    "origin_country": "Germany",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 26,
+    "context_window": 8192,
+    "training_cutoff": "2024-08",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      231,
+      209,
+      138,
+      164,
+      246,
+      74,
+      219
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 1368833,
+    "hf_likes": 467
+  },
+  {
+    "id": "apex-lite-7-stability-ai-89",
+    "name": "Apex Lite 7 90",
+    "provider": "Stability AI",
+    "origin_country": "United Kingdom",
+    "openness_level": "API",
+    "data_residency": true,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 27,
+    "context_window": 32768,
+    "training_cutoff": "2020-10",
+    "vram_4bit_gb": 3,
+    "vram_8bit_gb": 6,
+    "ram_4bit_gb": 4,
+    "ram_8bit_gb": 9,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      187,
+      213,
+      215,
+      183,
+      245,
+      184,
+      134
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 980531,
+    "hf_likes": 2343
+  },
+  {
+    "id": "echo-lite-allen-institute-for-ai-90",
+    "name": "Echo Lite 91",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 44,
+    "context_window": 128000,
+    "training_cutoff": "2025-06",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      142,
+      127,
+      141,
+      151,
+      190,
+      69,
+      52
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 453678,
+    "hf_likes": 1194
+  },
+  {
+    "id": "aurora-7-nvidia-91",
+    "name": "Aurora 7 92",
+    "provider": "NVIDIA",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "EU AI Act Ready",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation"
+    ],
+    "popularity_index": "Top 3%",
+    "inference_speed": 41,
+    "context_window": 256000,
+    "training_cutoff": "2024-08",
+    "vram_4bit_gb": 6,
+    "vram_8bit_gb": 12,
+    "ram_4bit_gb": 9,
+    "ram_8bit_gb": 18,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      100,
+      215,
+      227,
+      238,
+      237,
+      155,
+      129
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1717345,
+    "hf_likes": 4266
+  },
+  {
+    "id": "scope-pro-amazon-92",
+    "name": "Scope Pro 93",
+    "provider": "Amazon",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 33,
+    "context_window": 16384,
+    "training_cutoff": "2023-07",
+    "vram_4bit_gb": 24,
+    "vram_8bit_gb": 48,
+    "ram_4bit_gb": 36,
+    "ram_8bit_gb": 72,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      84,
+      176,
+      210,
+      200,
+      204,
+      195,
+      114
+    ],
+    "top_use_cases": [
+      "Reasoning",
+      "RAG"
+    ],
+    "hf_downloads": 771629,
+    "hf_likes": 1301
+  },
+  {
+    "id": "cipher-nano-allen-institute-for-ai-93",
+    "name": "Cipher Nano 94",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "vision",
+      "conversational"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 54,
+    "context_window": 256000,
+    "training_cutoff": "2022-05",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      241,
+      85,
+      183,
+      146,
+      236,
+      211,
+      182
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 740580,
+    "hf_likes": 3015
+  },
+  {
+    "id": "titan-lite-essential-ai-94",
+    "name": "Titan Lite 95",
+    "provider": "Essential AI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 44,
+    "context_window": 65536,
+    "training_cutoff": "2021-03",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      232,
+      161,
+      205,
+      203,
+      165,
+      63,
+      148
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 1518038,
+    "hf_likes": 4384
+  },
+  {
+    "id": "beam-nano-anthropic-95",
+    "name": "Beam Nano 96",
+    "provider": "Anthropic",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 22,
+    "context_window": 32768,
+    "training_cutoff": "2020-12",
+    "vram_4bit_gb": 4,
+    "vram_8bit_gb": 8,
+    "ram_4bit_gb": 6,
+    "ram_8bit_gb": 12,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      209,
+      175,
+      171,
+      159,
+      234,
+      82,
+      228
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1826578,
+    "hf_likes": 4633
+  },
+  {
+    "id": "orbit-deepseek-96",
+    "name": "Orbit 97",
+    "provider": "DeepSeek",
+    "origin_country": "China",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "ar",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "summarization"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 38,
+    "context_window": 8192,
+    "training_cutoff": "2022-03",
+    "vram_4bit_gb": 8,
+    "vram_8bit_gb": 16,
+    "ram_4bit_gb": 12,
+    "ram_8bit_gb": 24,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      54,
+      171,
+      78,
+      117,
+      218,
+      214,
+      74
+    ],
+    "top_use_cases": [
+      "Multimodal",
+      "RAG"
+    ],
+    "hf_downloads": 1458127,
+    "hf_likes": 2759
+  },
+  {
+    "id": "vega-8-mistral-ai-97",
+    "name": "Vega 8 98",
+    "provider": "Mistral AI",
+    "origin_country": "France",
+    "openness_level": "Open Weights",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "question-answering"
+    ],
+    "popularity_index": "Top 1%",
+    "inference_speed": 39,
+    "context_window": 32768,
+    "training_cutoff": "2020-02",
+    "vram_4bit_gb": 16,
+    "vram_8bit_gb": 32,
+    "ram_4bit_gb": 24,
+    "ram_8bit_gb": 48,
+    "quantization_gguf": true,
+    "quantization_exl2": true,
+    "download_trend": [
+      204,
+      209,
+      153,
+      98,
+      71,
+      137,
+      158
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 1955339,
+    "hf_likes": 716
+  },
+  {
+    "id": "cipher-lite-allen-institute-for-ai-98",
+    "name": "Cipher Lite 99",
+    "provider": "Allen Institute for AI",
+    "origin_country": "United States",
+    "openness_level": "API",
+    "data_residency": false,
+    "compliance_tags": [
+      "Sovereign Deployment",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "conversational",
+      "vision"
+    ],
+    "popularity_index": "Top 10%",
+    "inference_speed": 35,
+    "context_window": 32768,
+    "training_cutoff": "2021-02",
+    "vram_4bit_gb": 12,
+    "vram_8bit_gb": 24,
+    "ram_4bit_gb": 18,
+    "ram_8bit_gb": 36,
+    "quantization_gguf": false,
+    "quantization_exl2": false,
+    "download_trend": [
+      86,
+      241,
+      77,
+      196,
+      221,
+      179,
+      189
+    ],
+    "top_use_cases": [
+      "Coding",
+      "RAG",
+      "Conversational"
+    ],
+    "hf_downloads": 589524,
+    "hf_likes": 2917
+  },
+  {
+    "id": "zenith-8-replicate-99",
+    "name": "Zenith 8 100",
+    "provider": "Replicate",
+    "origin_country": "United States",
+    "openness_level": "Open Weights",
+    "data_residency": true,
+    "compliance_tags": [
+      "India Data Localization",
+      "GDPR",
+      "Data residency"
+    ],
+    "languages": [
+      "en",
+      "zh",
+      "multilingual"
+    ],
+    "task_categories": [
+      "text-generation",
+      "code"
+    ],
+    "popularity_index": "Top 20%",
+    "inference_speed": 49,
+    "context_window": 4096,
+    "training_cutoff": "2023-10",
+    "vram_4bit_gb": 2,
+    "vram_8bit_gb": 4,
+    "ram_4bit_gb": 3,
+    "ram_8bit_gb": 6,
+    "quantization_gguf": true,
+    "quantization_exl2": false,
+    "download_trend": [
+      163,
+      76,
+      119,
+      174,
+      136,
+      141,
+      241
+    ],
+    "top_use_cases": [
+      "Coding",
+      "Reasoning"
+    ],
+    "hf_downloads": 758456,
+    "hf_likes": 501
   }
 ]

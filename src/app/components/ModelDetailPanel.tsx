@@ -10,6 +10,12 @@ import {
   HardDrive,
   ChevronRight,
   AlertCircle,
+  MapPin,
+  Server,
+  Cloud,
+  Shield,
+  Globe,
+  Code,
 } from "lucide-react";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
@@ -72,6 +78,23 @@ export function ModelDetailPanel({
   if (!model) return null;
 
   const intel = model.intelligence;
+  const TASK_LABELS: Record<string, string> = {
+    "text-generation": "Text generation",
+    conversational: "Conversational",
+    code: "Code",
+    "question-answering": "Q&A",
+    summarization: "Summarization",
+    vision: "Vision",
+  };
+  const LANG_LABELS: Record<string, string> = {
+    en: "English", zh: "Chinese", fr: "French", de: "German",
+    es: "Spanish", ar: "Arabic", hi: "Hindi", multilingual: "Multilingual",
+  };
+  const regions = ["EU", "US", "India"] as const;
+  const hasEU = model.compliance_tags.some((t) => t.includes("EU") || t.includes("GDPR"));
+  const hasUS = model.origin_country === "United States" || model.compliance_tags.some((t) => t.includes("US"));
+  const hasIndia = model.compliance_tags.some((t) => t.includes("India"));
+  const regionList = [hasEU && "EU", hasUS && "US", hasIndia && "India"].filter(Boolean) as string[];
 
   const panel = (
     <>
@@ -81,16 +104,16 @@ export function ModelDetailPanel({
         aria-hidden
       />
       <aside
-        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-lg flex-col border-l border-slate-700 bg-zinc-900 shadow-2xl"
+        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-lg flex-col border-l border-slate-700 bg-zinc-900 shadow-2xl [.light_&]:border-slate-300 [.light_&]:bg-white"
         role="dialog"
         aria-label={`Details for ${model.name}`}
       >
-        <div className="flex items-center justify-between border-b border-slate-700 px-4 py-3">
-          <h2 className="text-lg font-semibold text-white">{model.name}</h2>
+        <div className="flex items-center justify-between border-b border-slate-700 px-4 py-3 [.light_&]:border-slate-200">
+          <h2 className="text-lg font-semibold text-white [.light_&]:text-slate-900">{model.name}</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white"
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-100 [.light_&]:hover:text-slate-900"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
@@ -98,6 +121,80 @@ export function ModelDetailPanel({
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
+          {/* Overview - always visible */}
+          <section className="mb-6">
+            <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-700">
+              Overview
+            </h3>
+            <div className="space-y-3 rounded-lg border border-slate-700 bg-slate-800/50 p-4 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
+              <div className="flex items-center gap-3">
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
+                  model.openness_level === "Open Weights"
+                    ? "bg-emerald-500/20 text-emerald-400 [.light_&]:text-emerald-700 [.light_&]:bg-emerald-100"
+                    : "bg-amber-500/20 text-amber-400 [.light_&]:text-amber-800 [.light_&]:bg-amber-100"
+                }`}>
+                  {model.openness_level === "Open Weights" ? <Server className="h-3.5 w-3.5" /> : <Cloud className="h-3.5 w-3.5" />}
+                  {model.openness_level}
+                </span>
+                {model.data_residency && (
+                  <span className="rounded-full bg-blue-500/20 px-2.5 py-1 text-xs font-medium text-blue-400 [.light_&]:text-blue-800 [.light_&]:bg-blue-100">
+                    Data residency
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <MapPin className="h-4 w-4 shrink-0 text-slate-500 [.light_&]:text-slate-600" />
+                <span className="text-slate-200 [.light_&]:text-slate-800">{model.origin_country}</span>
+                <span className="text-slate-500">•</span>
+                <span className="text-slate-400 [.light_&]:text-slate-600">{model.provider}</span>
+              </div>
+              {regionList.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {regions.map((r) => (
+                    <span
+                      key={r}
+                      className={`inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs ${
+                        regionList.includes(r)
+                          ? "bg-slate-600/80 text-slate-200 [.light_&]:bg-slate-200 [.light_&]:text-slate-800"
+                          : "bg-slate-700/40 text-slate-500 [.light_&]:bg-slate-100 [.light_&]:text-slate-500"
+                      }`}
+                    >
+                      <Shield className="h-3 w-3" />
+                      {r}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {model.compliance_tags.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {model.compliance_tags.map((tag) => (
+                    <span key={tag} className="rounded bg-slate-700/60 px-2 py-0.5 text-xs text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {model.languages.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <Globe className="h-3.5 w-3.5 shrink-0 text-slate-500 [.light_&]:text-slate-600" />
+                  <span className="text-xs text-slate-400 [.light_&]:text-slate-600">
+                    {model.languages.slice(0, 6).map((l) => LANG_LABELS[l] ?? l).join(", ")}
+                  </span>
+                </div>
+              )}
+              {model.task_categories.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <Code className="h-3.5 w-3.5 text-slate-500 [.light_&]:text-slate-600" />
+                  {model.task_categories.map((t) => (
+                    <span key={t} className="rounded bg-slate-700/40 px-2 py-0.5 text-xs text-slate-400 [.light_&]:bg-slate-200 [.light_&]:text-slate-700">
+                      {TASK_LABELS[t] ?? t}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+
           {/* Community voting */}
           <section className="mb-6">
             <h3 className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-300">

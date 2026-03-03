@@ -13,10 +13,15 @@ import {
   GitCompare,
   MoreVertical,
   X,
+  LayoutGrid,
+  ShieldCheck,
 } from "lucide-react";
+import Link from "next/link";
 import registryData from "@/data/registry.json";
 import { RegionSelector } from "@/app/components/RegionSelector";
+import { ThemeToggle } from "@/app/components/ThemeToggle";
 import { VoteButtons } from "@/app/components/VoteButtons";
+import { CatalogChatbot } from "@/app/components/CatalogChatbot";
 import { ComparisonMatrix } from "@/app/components/ComparisonMatrix";
 import { ModelDetailPanel } from "@/app/components/ModelDetailPanel";
 import { checkCompliance, type Jurisdiction } from "@/app/lib/complianceEngine";
@@ -164,7 +169,7 @@ function ModelCard({
 
   return (
     <article
-      className="relative cursor-pointer rounded-xl border border-slate-700/60 bg-slate-800/50 p-5 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70"
+      className="relative cursor-pointer rounded-xl border border-slate-700/60 bg-slate-800/50 p-5 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 [.light_&]:hover:border-slate-400 [.light_&]:hover:bg-slate-100"
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onClick()}
@@ -195,6 +200,10 @@ function ModelCard({
           <VoteButtons modelId={model.id} compact />
         </div>
       </div>
+      <p className="relative z-20 mb-1 text-xs text-slate-500">
+        {model.task_categories[0] ? TASK_LABELS[model.task_categories[0]] ?? model.task_categories[0] : "—"}
+        {getMinVramGb(model) != null && ` • ≤${getMinVramGb(model)}GB VRAM`}
+      </p>
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <h3 className="text-lg font-semibold text-slate-100">{model.name}</h3>
         <div className="flex flex-wrap items-center gap-1.5">
@@ -419,6 +428,9 @@ export default function Home() {
   const [countryFilter, setCountryFilter] = useState<Set<string>>(new Set());
   const [selectedModel, setSelectedModel] = useState<ComparisonModel | null>(null);
   const [openDisputeOnMount, setOpenDisputeOnMount] = useState(false);
+  const [sortBy, setSortBy] = useState<"name" | "provider" | "country">("name");
+  const [sortAsc, setSortAsc] = useState(true);
+  const [chatbotModelIds, setChatbotModelIds] = useState<Set<string>>(new Set());
 
   const allLanguages = useMemo(
     () => [...new Set(models.flatMap((m) => m.languages))].sort(),
@@ -428,10 +440,14 @@ export default function Home() {
     () => [...new Set(models.flatMap((m) => m.task_categories))].sort(),
     []
   );
+  const allComplianceTags = useMemo(
+    () => [...new Set(models.flatMap((m) => [...m.compliance_tags, ...(m.data_residency ? ["Data residency"] : [])]))].sort(),
+    []
+  );
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return models.filter((m) => {
+    const list = models.filter((m) => {
       const matchSearch =
         !q ||
         m.name.toLowerCase().includes(q) ||
@@ -477,6 +493,19 @@ export default function Home() {
         matchHardware
       );
     });
+    const byChatbot =
+      chatbotModelIds.size > 0
+        ? list.filter((m) => chatbotModelIds.has(m.id))
+        : list;
+    const sorted = [...byChatbot].sort((a, b) => {
+      const mul = sortAsc ? 1 : -1;
+      if (sortBy === "name")
+        return mul * a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
+      if (sortBy === "provider")
+        return mul * a.provider.localeCompare(b.provider, undefined, { sensitivity: "base" });
+      return mul * a.origin_country.localeCompare(b.origin_country, undefined, { sensitivity: "base" });
+    });
+    return sorted;
   }, [
     search,
     opennessFilter,
@@ -487,6 +516,9 @@ export default function Home() {
     providerFilter,
     countryFilter,
     hardwareFilter,
+    sortBy,
+    sortAsc,
+    chatbotModelIds,
   ]);
 
   const toggleOpenness = (level: OpennessLevel) => {
@@ -577,6 +609,10 @@ export default function Home() {
     });
   };
 
+  const setChatbotFilter = (ids: string[]) => {
+    setChatbotModelIds(ids.length > 0 ? new Set(ids) : new Set());
+  };
+
   const hasActiveFilters =
     regionFilter.size < regions.length ||
     opennessFilter.size < opennessOptions.length ||
@@ -585,7 +621,8 @@ export default function Home() {
     hardwareFilter.size > 0 ||
     complianceTagFilter.size > 0 ||
     providerFilter.size > 0 ||
-    countryFilter.size > 0;
+    countryFilter.size > 0 ||
+    chatbotModelIds.size > 0;
 
   const clearAllFilters = () => {
     setRegionFilter(new Set(regions));
@@ -596,6 +633,7 @@ export default function Home() {
     setComplianceTagFilter(new Set());
     setProviderFilter(new Set());
     setCountryFilter(new Set());
+    setChatbotModelIds(new Set());
   };
 
   const toggleCompare = (modelId: string, checked: boolean) => {
@@ -627,43 +665,74 @@ export default function Home() {
   }, [selectedModel]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-slate-200">
-      <header className="sticky top-0 z-10 border-b border-slate-800 bg-zinc-950/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
-          <h1 className="shrink-0 text-xl font-semibold tracking-tight text-white sm:text-2xl">
-            Sovereign AI Transparency
-          </h1>
-          <RegionSelector
-            value={currentJurisdiction}
-            onChange={setCurrentJurisdiction}
-            placeholder="Current Jurisdiction"
-          />
-          <div className="relative flex-1">
-            <Search
-              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
-              aria-hidden
-            />
-            <input
-              type="search"
-              placeholder="Search by model name, provider, or country..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-10 pr-4 text-slate-200 placeholder-slate-500 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50"
-              aria-label="Search models"
-            />
+    <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
+      <header className="sticky top-0 z-10 border-b border-slate-800 bg-zinc-950/95 backdrop-blur [.light_&]:border-slate-300 [.light_&]:bg-white/95">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-6">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-lg font-semibold tracking-tight text-white hover:text-slate-200 [.light_&]:text-slate-900 [.light_&]:hover:text-slate-800"
+            >
+              <ShieldCheck className="h-6 w-6 text-amber-500" />
+              Sovereign AI
+            </Link>
+            <div className="hidden items-center gap-1 sm:flex">
+              <span className="rounded-lg bg-slate-800/80 px-3 py-1.5 text-sm font-medium text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
+                Models
+              </span>
+              <Link
+                href="/admin"
+                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+              >
+                Admin
+              </Link>
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={() => setSidebarOpen((o) => !o)}
-            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800 lg:hidden"
-            aria-expanded={sidebarOpen}
-            aria-label="Toggle filters"
-          >
-            <Filter className="h-4 w-4" />
-            Filters
-          </button>
-        </div>
+          <div className="flex flex-1 items-center gap-3 pl-4 sm:pl-8">
+            <RegionSelector
+              value={currentJurisdiction}
+              onChange={setCurrentJurisdiction}
+              placeholder="Jurisdiction"
+            />
+            <div className="relative flex-1 max-w-xl">
+              <Search
+                className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+                aria-hidden
+              />
+              <input
+                type="search"
+                placeholder="Search models, providers, countries, compliance..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-10 pr-4 text-slate-200 placeholder-slate-500 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50 [.light_&]:border-slate-400 [.light_&]:bg-slate-100 [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600 [.light_&]:focus:border-amber-500 [.light_&]:focus:ring-amber-500/30"
+                aria-label="Search models"
+              />
+            </div>
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setSidebarOpen((o) => !o)}
+              className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800 lg:hidden [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-200"
+              aria-expanded={sidebarOpen}
+              aria-label="Toggle filters"
+            >
+              <Filter className="h-4 w-4" />
+              Filters
+            </button>
+          </div>
+        </nav>
       </header>
+
+      <div className="border-b border-slate-800/60 bg-zinc-950/50 [.light_&]:border-slate-300 [.light_&]:bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h2 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
+            Explore {models.length}+ AI models
+          </h2>
+          <p className="text-slate-400 [.light_&]:text-slate-700">
+            Compare sovereignty, compliance, and regional data residency. Filter by EU, US, India, and more.
+          </p>
+        </div>
+      </div>
 
       <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:px-8">
         {sidebarOpen && (
@@ -674,12 +743,12 @@ export default function Home() {
           />
         )}
         <aside
-          className={`fixed inset-y-0 left-0 z-30 w-64 border-r border-slate-800 bg-zinc-900 p-4 transition-transform lg:static lg:z-0 lg:translate-x-0 lg:shrink-0 ${
+          className={`fixed inset-y-0 left-0 z-30 w-64 border-r border-slate-800 bg-zinc-900 p-4 transition-transform lg:static lg:z-0 lg:translate-x-0 lg:shrink-0 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <div className="relative">
-            <h2 className="mb-3 flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-slate-400">
+            <h2 className="mb-3 flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-slate-400 [.light_&]:text-slate-700">
               <ChevronDown className="h-4 w-4 lg:hidden" />
               Filters
             </h2>
@@ -703,6 +772,30 @@ export default function Home() {
                       {level}
                     </label>
                   ))}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend className="mb-2 text-sm font-medium text-slate-300">
+                  Compliance
+                </legend>
+                <div className="max-h-32 space-y-2 overflow-y-auto">
+                  {allComplianceTags.map((tag) => (
+                    <label
+                      key={tag}
+                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-400"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={complianceTagFilter.has(tag)}
+                        onChange={() => toggleComplianceTag(tag)}
+                        className="h-4 w-4 rounded border-slate-600 bg-slate-800 text-slate-600 focus:ring-slate-500"
+                      />
+                      {tag}
+                    </label>
+                  ))}
+                  {allComplianceTags.length === 0 && (
+                    <span className="text-xs text-slate-500">No compliance data</span>
+                  )}
                 </div>
               </fieldset>
               <fieldset>
@@ -800,11 +893,12 @@ export default function Home() {
         </aside>
 
         <main className="min-w-0 flex-1">
-          <div className="mb-4 flex flex-wrap items-center gap-2">
-            <p className="text-sm text-slate-500">
-              {filtered.length} model{filtered.length !== 1 ? "s" : ""} shown
-            </p>
-            {hasActiveFilters && (
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-sm font-medium text-slate-300">
+                {filtered.length.toLocaleString()} model{filtered.length !== 1 ? "s" : ""}
+              </p>
+              {hasActiveFilters && (
               <>
                 <span className="text-slate-600">|</span>
                 <button
@@ -816,6 +910,19 @@ export default function Home() {
                   Clear filters
                 </button>
                 <div className="flex flex-wrap gap-1.5">
+                  {chatbotModelIds.size > 0 && (
+                    <span className="inline-flex items-center gap-1 rounded bg-amber-500/20 px-2 py-0.5 text-xs text-amber-400 [.light_&]:bg-amber-100 [.light_&]:text-amber-800">
+                      Assistant filter ({chatbotModelIds.size})
+                      <button
+                        type="button"
+                        onClick={() => setChatbotModelIds(new Set())}
+                        className="rounded hover:bg-amber-500/30"
+                        aria-label="Clear assistant filter"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </span>
+                  )}
                   {[...complianceTagFilter, ...providerFilter, ...countryFilter].map((f) => (
                     <span
                       key={f}
@@ -839,6 +946,56 @@ export default function Home() {
                 </div>
               </>
             )}
+            </div>
+            <div className="flex items-center gap-2">
+              <label htmlFor="sort" className="text-xs text-slate-500">Sort:</label>
+              <select
+                id="sort"
+                value={`${sortBy}-${sortAsc ? "asc" : "desc"}`}
+                onChange={(e) => {
+                  const [s, d] = e.target.value.split("-");
+                  setSortBy(s as "name" | "provider" | "country");
+                  setSortAsc(d === "asc");
+                }}
+                className="rounded-lg border border-slate-700 bg-slate-800/80 px-2.5 py-1.5 text-sm text-slate-300 focus:border-slate-600 focus:outline-none focus:ring-1 focus:ring-slate-500"
+              >
+                <option value="name-asc">Name A–Z</option>
+                <option value="name-desc">Name Z–A</option>
+                <option value="provider-asc">Provider A–Z</option>
+                <option value="provider-desc">Provider Z–A</option>
+                <option value="country-asc">Country A–Z</option>
+                <option value="country-desc">Country Z–A</option>
+              </select>
+            </div>
+          </div>
+          <div className="mb-4 flex flex-wrap gap-2">
+            {["GDPR", "EU AI Act Ready", "Data residency", "Local-hostable"].map((chip) => {
+              const isOpenness = chip === "Local-hostable";
+              const active = isOpenness
+                ? opennessFilter.size === 1 && opennessFilter.has("Open Weights")
+                : complianceTagFilter.has(chip);
+              const toggle = () => {
+                if (isOpenness) filterToOpenness("Open Weights");
+                else toggleComplianceTag(chip);
+              };
+              return (
+                <button
+                  key={chip}
+                  type="button"
+                  onClick={toggle}
+                  className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                    active
+                      ? "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/40"
+                      : "bg-slate-800/80 text-slate-400 ring-1 ring-slate-600/60 hover:bg-slate-700/80 hover:text-slate-300"
+                  }`}
+                >
+                  {chip === "Local-hostable" && <Server className="h-3.5 w-3.5" />}
+                  {chip === "Data residency" && <MapPin className="h-3.5 w-3.5" />}
+                  {(chip === "GDPR" || chip === "EU AI Act Ready") && <Shield className="h-3.5 w-3.5" />}
+                  {chip}
+                </button>
+              );
+            })}
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {filtered.map((model) => (
@@ -913,6 +1070,12 @@ export default function Home() {
           openDisputeOnMount={openDisputeOnMount}
         />
       )}
+
+      <CatalogChatbot
+        models={models}
+        onFilterByModels={setChatbotFilter}
+        onSelectModel={setSelectedModel}
+      />
     </div>
   );
 }
