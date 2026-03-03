@@ -15,6 +15,8 @@ import {
   X,
   LayoutGrid,
   ShieldCheck,
+  ExternalLink,
+  Download,
 } from "lucide-react";
 import Link from "next/link";
 import registryData from "@/data/registry.json";
@@ -32,6 +34,7 @@ import {
   type RawRegistryEntry,
 } from "@/app/lib/registryNormalizer";
 import { computeEthicsScore } from "@/app/lib/ethicsScore";
+import { getModelLinks, getModelDescription } from "@/app/lib/modelLinks";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 
 type OpennessLevel = "Open Weights" | "API";
@@ -314,11 +317,14 @@ function ModelCard({
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); onFilterProvider?.(model.provider); }}
-        className="relative z-20 mb-2 block text-left text-sm text-slate-400 transition hover:text-slate-300 hover:underline [.light_&]:text-slate-700 [.light_&]:hover:text-slate-900"
+        className="relative z-20 mb-1 block text-left text-sm text-slate-400 transition hover:text-slate-300 hover:underline [.light_&]:text-slate-700 [.light_&]:hover:text-slate-900"
         title="Filter by provider"
       >
         {model.provider}
       </button>
+      <p className="relative z-20 mb-2 line-clamp-2 text-xs text-slate-500 [.light_&]:text-slate-600">
+        {getModelDescription(model)}
+      </p>
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); onFilterCountry?.(model.origin_country); }}
@@ -403,6 +409,38 @@ function ModelCard({
           </dd>
         </div>
       </dl>
+      {(() => {
+        const links = getModelLinks(model);
+        if (!links.learnMore && !links.download) return null;
+        return (
+          <div className="relative z-20 mt-3 flex flex-wrap gap-2 border-t border-slate-700/60 pt-3 [.light_&]:border-slate-200">
+            {links.learnMore && (
+              <a
+                href={links.learnMore}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:text-slate-800"
+              >
+                <ExternalLink className="h-3.5 w-3.5" />
+                Learn more
+              </a>
+            )}
+            {links.download && (
+              <a
+                href={links.download}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:text-slate-800"
+              >
+                <Download className="h-3.5 w-3.5" />
+                Download from source
+              </a>
+            )}
+          </div>
+        );
+      })()}
       </div>
     </article>
   );

@@ -30,6 +30,9 @@ type LegacyEntry = {
   compliance_tags: string[];
   languages?: string[];
   task_categories?: string[];
+  description?: string;
+  home_page?: string;
+  huggingface_id?: string;
 } & Partial<ModelIntelligence>;
 
 /** New registry entry (origin, openness, compliance object) */
@@ -47,6 +50,9 @@ type NewEntry = {
   data_residency: boolean;
   languages?: string[];
   task_categories?: string[];
+  description?: string;
+  home_page?: string;
+  huggingface_id?: string;
 } & Partial<ModelIntelligence>;
 
 export type RawRegistryEntry = LegacyEntry | NewEntry;
@@ -67,6 +73,9 @@ export type ComparisonModel = {
   compliance: { EU: string; IN: string; US: string };
   languages: string[];
   task_categories: string[];
+  description?: string;
+  home_page?: string;
+  huggingface_id?: string;
 } & { intelligence?: ModelIntelligence };
 
 function getComplianceStatusLegacy(
@@ -128,6 +137,9 @@ export function normalizeToComparisonModel(
       },
       languages: entry.languages ?? [],
       task_categories: entry.task_categories ?? [],
+      description: entry.description,
+      home_page: entry.home_page,
+      huggingface_id: entry.huggingface_id,
       intelligence: intel,
     };
   }
@@ -180,6 +192,9 @@ export function normalizeToComparisonModel(
     compliance: { EU: eu, IN: in_, US: us },
     languages: newEntry.languages ?? [],
     task_categories: newEntry.task_categories ?? [],
+    description: newEntry.description,
+    home_page: newEntry.home_page,
+    huggingface_id: newEntry.huggingface_id,
     intelligence: intel,
   };
 }

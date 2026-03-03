@@ -16,9 +16,12 @@ import {
   Shield,
   Globe,
   Code,
+  ExternalLink,
+  Download,
 } from "lucide-react";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
 import { computeEthicsScore } from "@/app/lib/ethicsScore";
+import { getModelLinks, getModelDescription } from "@/app/lib/modelLinks";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
 import { VoteButtons } from "@/app/components/VoteButtons";
@@ -159,6 +162,9 @@ export function ModelDetailPanel({
                 <span className="text-slate-500">•</span>
                 <span className="text-slate-400 [.light_&]:text-slate-600">{model.provider}</span>
               </div>
+              <p className="text-sm text-slate-400 [.light_&]:text-slate-600">
+                {getModelDescription(model)}
+              </p>
               {regionList.length > 0 && (
                 <div className="flex flex-wrap gap-1.5">
                   {regions.map((r) => (
@@ -215,6 +221,43 @@ export function ModelDetailPanel({
               </div>
             </div>
           </section>
+
+          {/* Resources - links and additional details */}
+          {(() => {
+            const links = getModelLinks(model);
+            if (!links.learnMore && !links.download) return null;
+            return (
+              <section className="mb-6">
+                <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
+                  Resources &amp; Links
+                </h3>
+                <div className="flex flex-wrap gap-2 rounded-lg border border-slate-700 bg-slate-800/50 p-4 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
+                  {links.learnMore && (
+                    <a
+                      href={links.learnMore}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg border border-slate-600/60 bg-slate-800/50 px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-700/80 hover:text-white [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      Official site / docs
+                    </a>
+                  )}
+                  {links.download && (
+                    <a
+                      href={links.download}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg border border-emerald-600/40 bg-emerald-500/10 px-3 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-500/20 [.light_&]:border-emerald-500/60 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-700 [.light_&]:hover:bg-emerald-200"
+                    >
+                      <Download className="h-4 w-4" />
+                      Download from Hugging Face
+                    </a>
+                  )}
+                </div>
+              </section>
+            );
+          })()}
 
           {/* Community voting */}
           <section className="mb-6">
