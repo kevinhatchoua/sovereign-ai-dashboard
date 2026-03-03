@@ -174,13 +174,15 @@ function ModelCard({
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onClick()}
     >
-      {/* Click overlay: on top to catch clicks; interactive elements use z-20 to stay above */}
+      {/* Overlay below content so interactive elements (z-20) receive clicks first */}
       <div
-        className="absolute inset-0 z-10 rounded-xl"
-        onClick={onClick}
+        className="absolute inset-0 z-0 rounded-xl"
         aria-hidden
       />
-      <div className="relative z-0">
+      <div
+        className="relative z-10 cursor-pointer"
+        onClick={onClick}
+      >
       <div className="mb-3 flex items-start justify-between gap-2">
         <label
           className="relative z-20 flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700"
