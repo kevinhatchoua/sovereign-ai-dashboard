@@ -75,6 +75,10 @@ export function getModelLinks(model: ComparisonModel): ModelLinks {
     const hfId = ext.huggingface_id ?? HF_MODEL_MAP[model.id];
     if (hfId) {
       download = `https://huggingface.co/${hfId}`;
+    } else {
+      // Fallback: search Hugging Face for the model name so users can find it
+      const searchQuery = encodeURIComponent(model.name);
+      download = `https://huggingface.co/models?search=${searchQuery}`;
     }
   }
 
