@@ -18,10 +18,17 @@ import {
   Code,
   ExternalLink,
   Download,
+  FileText,
 } from "lucide-react";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
 import { computeEthicsScore, getEthicsScoreColorClasses } from "@/app/lib/ethicsScore";
 import { getModelLinks, getModelDescription } from "@/app/lib/modelLinks";
+import {
+  getFourDimensions,
+  getSovereigntyReadiness,
+  hasCloudActExposure,
+} from "@/app/lib/sovereigntyScore";
+import { SOVEREIGN_PLATFORMS, getCompatiblePlatforms } from "@/app/lib/sovereignPlatforms";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
 import { VoteButtons } from "@/app/components/VoteButtons";
@@ -70,6 +77,7 @@ export function ModelDetailPanel({
   openDisputeOnMount = false,
 }: ModelDetailPanelProps) {
   const [disputeModalOpen, setDisputeModalOpen] = useState(false);
+  const [executiveSummaryOpen, setExecutiveSummaryOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -259,6 +267,121 @@ export function ModelDetailPanel({
             );
           })()}
 
+          {/* Four Dimensions & Sovereignty Readiness */}
+          <section className="mb-6">
+            <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
+              Sovereignty Assessment
+            </h3>
+            <div className="space-y-3 rounded-lg border border-slate-700 bg-slate-800/50 p-4 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
+              {(() => {
+                const readiness = getSovereigntyReadiness(model);
+                const levelColors =
+                  readiness.level === "Advanced"
+                    ? "bg-emerald-500/20 text-emerald-600 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-800"
+                    : readiness.level === "Intermediate"
+                      ? "bg-amber-500/20 text-amber-600 [.light_&]:bg-amber-100 [.light_&]:text-amber-800"
+                      : "bg-slate-500/20 text-slate-600 [.light_&]:bg-slate-200 [.light_&]:text-slate-700";
+                return (
+                  <>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-slate-500 [.light_&]:text-slate-600">
+                        Readiness
+                      </span>
+                      <span
+                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${levelColors}`}
+                      >
+                        {readiness.label} ({readiness.score}/100)
+                      </span>
+                    </div>
+                    {hasCloudActExposure(model) && (
+                      <p className="text-xs text-amber-600 [.light_&]:text-amber-800">
+                        US-based provider; may be subject to Cloud Act.
+                      </p>
+                    )}
+                    <div className="grid grid-cols-2 gap-2 pt-2">
+                      {getFourDimensions(model).map((d) => (
+                        <div
+                          key={d.dimension}
+                          className="rounded bg-slate-700/40 p-2 [.light_&]:bg-slate-100"
+                          title={d.description}
+                        >
+                          <p className="text-xs font-medium text-slate-300 [.light_&]:text-slate-800">
+                            {d.label}
+                          </p>
+                          <p
+                            className={`text-xs ${
+                              d.level === "high"
+                                ? "text-emerald-500 [.light_&]:text-emerald-700"
+                                : d.level === "medium"
+                                  ? "text-amber-500 [.light_&]:text-amber-700"
+                                  : "text-slate-500 [.light_&]:text-slate-600"
+                            }`}
+                          >
+                            {d.score}/100 · {d.level}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+          </section>
+
+          {/* Supply chain & vendor risk */}
+          <section className="mb-6">
+            <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
+              Supply Chain & Vendor
+            </h3>
+            <div className="rounded-lg border border-slate-700 bg-slate-800/50 p-3 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-500 [.light_&]:text-slate-600">Provider origin</span>
+                  <span className="text-slate-200 [.light_&]:text-slate-900">{model.origin_country}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500 [.light_&]:text-slate-600">Vendor lock-in</span>
+                  <span className="text-slate-200 [.light_&]:text-slate-900">
+                    {model.openness_level === "Open Weights"
+                      ? "Low (self-hostable)"
+                      : "High (API-dependent)"}
+                  </span>
+                </div>
+                {model.openness_level === "Open Weights" && (
+                  <p className="text-xs text-slate-500 [.light_&]:text-slate-600">
+                    Open-weights models can run on your infrastructure; verify GPU supply chain for
+                    domestic sourcing if required.
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* Platform compatibility */}
+          <section className="mb-6">
+            <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
+              Sovereign Platform Compatibility
+            </h3>
+            <div className="space-y-2">
+              {getCompatiblePlatforms(model.openness_level).map((p) => (
+                <a
+                  key={p.id}
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg border border-slate-700 bg-slate-800/50 p-3 transition hover:bg-slate-700/50 [.light_&]:border-slate-200 [.light_&]:bg-slate-50 [.light_&]:hover:bg-slate-100"
+                >
+                  <p className="text-sm font-medium text-slate-200 [.light_&]:text-slate-900">
+                    {p.name}
+                  </p>
+                  <p className="text-xs text-slate-500 [.light_&]:text-slate-600">
+                    {p.description}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </section>
+
           {/* Community voting */}
           <section className="mb-6">
             <h3 className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
@@ -412,8 +535,16 @@ export function ModelDetailPanel({
             </section>
           )}
 
-          {/* Compliance dispute */}
+          {/* Executive summary & Compliance dispute */}
           <section>
+            <button
+              type="button"
+              onClick={() => setExecutiveSummaryOpen(true)}
+              className="mb-3 flex w-full items-center gap-2 rounded-lg border border-slate-600/60 bg-slate-800/50 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700/80 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200"
+            >
+              <FileText className="h-4 w-4 shrink-0" />
+              View executive summary
+            </button>
             <button
               type="button"
               onClick={() => setDisputeModalOpen(true)}
@@ -428,6 +559,43 @@ export function ModelDetailPanel({
                 modelName={model.name}
                 onClose={() => setDisputeModalOpen(false)}
               />
+            )}
+            {executiveSummaryOpen && (
+              <div
+                className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4"
+                onClick={() => setExecutiveSummaryOpen(false)}
+              >
+                <div
+                  className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-slate-200 bg-white p-6 shadow-xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="mb-4 flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-slate-900">Executive Summary</h3>
+                    <button
+                      type="button"
+                      onClick={() => setExecutiveSummaryOpen(false)}
+                      className="rounded p-2 text-slate-500 hover:bg-slate-100"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </div>
+                  <div className="space-y-3 text-sm text-slate-700">
+                    <p><strong>{model.name}</strong> — {model.provider} ({model.origin_country})</p>
+                    <p>{getModelDescription(model)}</p>
+                    <p>Sovereignty Readiness: {getSovereigntyReadiness(model).label} ({getSovereigntyReadiness(model).score}/100)</p>
+                    {hasCloudActExposure(model) && <p className="text-amber-700">US Cloud Act exposure</p>}
+                    <p>Ethics Score: {computeEthicsScore(model)}/100</p>
+                    <p>Openness: {model.openness_level} · Data residency: {model.data_residency ? "Yes" : "No"}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="mt-4 w-full rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600"
+                  >
+                    Print / Save as PDF
+                  </button>
+                </div>
+              </div>
             )}
             <p className="mt-2 text-xs text-slate-500 [.light_&]:text-slate-600">
               Use this if a model&apos;s sovereignty status has changed (e.g.,

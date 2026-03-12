@@ -35,7 +35,13 @@ import {
 } from "@/app/lib/registryNormalizer";
 import { computeEthicsScore, getEthicsScoreColorClasses } from "@/app/lib/ethicsScore";
 import { getModelLinks, getModelDescription } from "@/app/lib/modelLinks";
+import {
+  getSovereigntyReadiness,
+  hasCloudActExposure,
+  getFourDimensions,
+} from "@/app/lib/sovereigntyScore";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
+import { SovereigntyAssessment } from "@/app/components/SovereigntyAssessment";
 
 type OpennessLevel = "Open Weights" | "API";
 
@@ -342,6 +348,38 @@ function ModelCard({
             </span>
           </dd>
         </div>
+        <div className="flex items-center gap-2 pt-1">
+          <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0">Sovereignty:</dt>
+          <dd className="flex flex-wrap items-center gap-1.5">
+            {(() => {
+              const readiness = getSovereigntyReadiness(model);
+              const levelColors =
+                readiness.level === "Advanced"
+                  ? "bg-emerald-500/20 text-emerald-600 ring-emerald-500/30 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-800"
+                  : readiness.level === "Intermediate"
+                    ? "bg-amber-500/20 text-amber-600 ring-amber-500/30 [.light_&]:bg-amber-100 [.light_&]:text-amber-800"
+                    : "bg-slate-500/20 text-slate-600 ring-slate-500/30 [.light_&]:bg-slate-200 [.light_&]:text-slate-700";
+              return (
+                <>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ring-1 ${levelColors}`}
+                    title={`Sovereignty Readiness: ${readiness.level} (${readiness.score}/100)`}
+                  >
+                    {readiness.label}
+                  </span>
+                  {hasCloudActExposure(model) && (
+                    <span
+                      className="rounded-full bg-amber-500/15 px-2 py-0.5 text-xs text-amber-600 ring-1 ring-amber-500/30 [.light_&]:bg-amber-100 [.light_&]:text-amber-800"
+                      title="US-based provider; may be subject to Cloud Act"
+                    >
+                      Cloud Act
+                    </span>
+                  )}
+                </>
+              );
+            })()}
+          </dd>
+        </div>
       </dl>
       {(() => {
         const links = getModelLinks(model);
@@ -402,6 +440,7 @@ export default function Home() {
   const [countryFilter, setCountryFilter] = useState<Set<string>>(new Set());
   const [selectedModel, setSelectedModel] = useState<ComparisonModel | null>(null);
   const [openDisputeOnMount, setOpenDisputeOnMount] = useState(false);
+  const [assessmentOpen, setAssessmentOpen] = useState(false);
   const [sortBy, setSortBy] = useState<"name" | "provider" | "country" | "intelligence" | "ethics">("name");
   const [sortAsc, setSortAsc] = useState(true);
 
@@ -707,6 +746,20 @@ export default function Home() {
               <span className="rounded-lg bg-slate-800/80 px-3 py-1.5 text-sm font-medium text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
                 Models
               </span>
+              <button
+                type="button"
+                onClick={() => setAssessmentOpen(true)}
+                className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+              >
+                <Shield className="h-4 w-4" />
+                Assessment
+              </button>
+              <Link
+                href="/methodology"
+                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+              >
+                Methodology
+              </Link>
               <Link
                 href="/admin"
                 className="rounded-lg px-3 py-1.5 text-sm text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
@@ -1183,6 +1236,13 @@ export default function Home() {
         models={models}
         onFilterByModels={setChatbotFilter}
         onSelectModel={setSelectedModel}
+      />
+
+      <SovereigntyAssessment
+        models={models}
+        onRecommend={(ids) => setChatbotFilter(ids)}
+        onClose={() => setAssessmentOpen(false)}
+        isOpen={assessmentOpen}
       />
     </div>
   );

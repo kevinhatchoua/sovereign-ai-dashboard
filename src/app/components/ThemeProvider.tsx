@@ -12,7 +12,7 @@ const ThemeContext = createContext<{
 const STORAGE_KEY = "sovereign-theme";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
+  const [theme, setThemeState] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (stored === "light" || stored === "dark") {
       setThemeState(stored);
     } else {
-      setThemeState("dark");
+      setThemeState("light");
     }
   }, []);
 
