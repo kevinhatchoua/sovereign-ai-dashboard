@@ -24,8 +24,14 @@ This open-source dashboard provides a real-time, community-verified registry of 
 ## 🛠️ Tech Stack
 
 - **Frontend:** Next.js (App Router), React, Tailwind CSS
-- **Data:** JSON-first architecture for easy open-source contributions
+- **Data:** JSON-first architecture; validated data only (no mock or synthetic fields)
 - **Compliance Engine:** Custom TypeScript logic mapped to 2026 legislative articles
+
+### Data scripts
+
+- **`python scripts/sync_hf_metrics.py`** — Sync Hugging Face downloads/likes for models with `huggingface_id`. Optional: `HF_TOKEN` for gated models.
+- **`python scripts/expand_registry_from_hf.py`** — Add top text-generation models from Hugging Face (validated data only).
+- **`python scripts/clean_registry.py`** — Remove mock fields (run before production).
 
 ## 🚦 Getting Started
 

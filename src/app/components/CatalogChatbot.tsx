@@ -112,7 +112,7 @@ function matchModels(query: string, models: ComparisonModel[]): ComparisonModel[
     const matchTask = m.task_categories.some((t) => t.includes(q.replace(/\s/g, "-")));
     const matchLang = m.languages.some((l) => l.includes(q) || q.includes(l));
     const matchPopular =
-      /popular|top|best|trending/.test(q) && (m.intelligence?.popularity_index ?? m.intelligence?.hf_downloads);
+      /popular|top|best|trending/.test(q) && (m.intelligence?.hf_downloads != null && m.intelligence.hf_downloads > 0);
     return (
       matchEU ||
       matchUS ||

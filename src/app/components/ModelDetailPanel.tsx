@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import {
   X,
   Cpu,
-  Gauge,
   Users,
   HardDrive,
   ChevronRight,
@@ -390,12 +389,6 @@ export function ModelDetailPanel({
             </h3>
             <div className="flex flex-wrap items-center gap-3">
               <VoteButtons modelId={model.id} showSentiment />
-              {intel?.download_trend && intel.download_trend.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500 [.light_&]:text-slate-600">Trend:</span>
-                  <Sparkline data={intel.download_trend} />
-                </div>
-              )}
             </div>
           </section>
 
@@ -422,22 +415,6 @@ export function ModelDetailPanel({
                         <span className="text-slate-200 [.light_&]:text-slate-900">{intel.hf_likes.toLocaleString()}</span>
                       </div>
                     )}
-                  </div>
-                )}
-                {intel.popularity_index && (
-                  <div className="flex items-center gap-2 text-sm">
-                    <Users className="h-4 w-4 text-slate-500 [.light_&]:text-slate-600" />
-                    <span className="text-slate-400 [.light_&]:text-slate-700">Popularity:</span>
-                    <span className="text-slate-200 [.light_&]:text-slate-900">{intel.popularity_index}</span>
-                  </div>
-                )}
-                {intel.inference_speed != null && (
-                  <div className="flex items-center gap-2 text-sm">
-                    <Gauge className="h-4 w-4 text-slate-500 [.light_&]:text-slate-600" />
-                    <span className="text-slate-400 [.light_&]:text-slate-700">Inference:</span>
-                    <span className="text-slate-200 [.light_&]:text-slate-900">
-                      ~{intel.inference_speed} tok/s
-                    </span>
                   </div>
                 )}
                 {intel.context_window != null && (

@@ -466,6 +466,14 @@ export default function Home() {
     []
   );
 
+  const top10DownloadThreshold = useMemo(() => {
+    const withDl = models.map((m) => m.intelligence?.hf_downloads).filter((n): n is number => n != null && n > 0);
+    if (withDl.length < 2) return 0;
+    const sorted = [...withDl].sort((a, b) => b - a);
+    const idx = Math.max(0, Math.floor(sorted.length * 0.1) - 1);
+    return sorted[idx] ?? 0;
+  }, []);
+
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     const list = models.filter((m) => {
@@ -507,7 +515,7 @@ export default function Home() {
       const matchIntelligence =
         intelligenceFilter.size === 0 ||
         (intelligenceFilter.has("has_data") && intelScore > 0) ||
-        (intelligenceFilter.has("top10") && (m.intelligence?.popularity_index?.includes("Top 10%") ?? m.intelligence?.popularity_index?.includes("Top 5%") ?? m.intelligence?.popularity_index?.includes("Top 3%") ?? false));
+        (intelligenceFilter.has("top10") && top10DownloadThreshold > 0 && (m.intelligence?.hf_downloads ?? 0) >= top10DownloadThreshold);
       return (
         matchSearch &&
         matchOpenness &&
@@ -554,6 +562,7 @@ export default function Home() {
     sortBy,
     sortAsc,
     chatbotModelIds,
+    top10DownloadThreshold,
   ]);
 
   const toggleOpenness = (level: OpennessLevel) => {
@@ -743,6 +752,12 @@ export default function Home() {
               <span className="truncate">Sovereign AI</span>
             </Link>
             <div className="hidden items-center gap-1 sm:flex">
+              <Link
+                href="/dashboard"
+                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+              >
+                Dashboard
+              </Link>
               <span className="rounded-lg bg-slate-800/80 px-3 py-1.5 text-sm font-medium text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
                 Models
               </span>

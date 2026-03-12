@@ -1,9 +1,7 @@
 import { checkCompliance, type Jurisdiction } from "./complianceEngine";
 
-/** Extended metadata for Model Intelligence Hub */
+/** Extended metadata for Model Intelligence Hub. Only validated fields. */
 export type ModelIntelligence = {
-  popularity_index?: string;
-  inference_speed?: number;
   context_window?: number;
   training_cutoff?: string;
   vram_4bit_gb?: number;
@@ -12,7 +10,6 @@ export type ModelIntelligence = {
   ram_8bit_gb?: number;
   quantization_gguf?: boolean;
   quantization_exl2?: boolean;
-  download_trend?: number[];
   top_use_cases?: string[];
   /** From Hugging Face API (sync_hf_metrics.py) */
   hf_downloads?: number;
@@ -101,13 +98,12 @@ export function normalizeToComparisonModel(
 ): ComparisonModel {
   if (isLegacyEntry(entry)) {
     const hasIntel =
-      entry.popularity_index != null ||
       entry.vram_4bit_gb != null ||
-      entry.hf_downloads != null;
+      entry.hf_downloads != null ||
+      entry.context_window != null ||
+      entry.training_cutoff != null;
     const intel: ModelIntelligence | undefined = hasIntel
       ? {
-            popularity_index: entry.popularity_index,
-            inference_speed: entry.inference_speed,
             context_window: entry.context_window,
             training_cutoff: entry.training_cutoff,
             vram_4bit_gb: entry.vram_4bit_gb,
@@ -116,7 +112,6 @@ export function normalizeToComparisonModel(
             ram_8bit_gb: entry.ram_8bit_gb,
             quantization_gguf: entry.quantization_gguf,
             quantization_exl2: entry.quantization_exl2,
-            download_trend: entry.download_trend,
             top_use_cases: entry.top_use_cases,
             hf_downloads: entry.hf_downloads,
             hf_likes: entry.hf_likes,
@@ -161,11 +156,9 @@ export function normalizeToComparisonModel(
 
   const ne = newEntry as NewEntry & Partial<ModelIntelligence>;
   const hasIntel =
-    ne.popularity_index != null || ne.vram_4bit_gb != null || ne.hf_downloads != null;
+    ne.vram_4bit_gb != null || ne.hf_downloads != null || ne.context_window != null || ne.training_cutoff != null;
   const intel: ModelIntelligence | undefined = hasIntel
     ? {
-        popularity_index: ne.popularity_index,
-        inference_speed: ne.inference_speed,
         context_window: ne.context_window,
         training_cutoff: ne.training_cutoff,
         vram_4bit_gb: ne.vram_4bit_gb,
@@ -174,7 +167,6 @@ export function normalizeToComparisonModel(
         ram_8bit_gb: ne.ram_8bit_gb,
         quantization_gguf: ne.quantization_gguf,
         quantization_exl2: ne.quantization_exl2,
-        download_trend: ne.download_trend,
         top_use_cases: ne.top_use_cases,
         hf_downloads: ne.hf_downloads,
         hf_likes: ne.hf_likes,
@@ -209,12 +201,6 @@ export function getIntelligenceScore(m: ComparisonModel): number {
   const intel = m.intelligence;
   if (intel?.hf_downloads) score += Math.min(50, Math.log10(intel.hf_downloads + 1) * 8);
   if (intel?.hf_likes) score += Math.min(20, Math.log10(intel.hf_likes + 1) * 5);
-  if (intel?.popularity_index) {
-    if (intel.popularity_index.includes("Top 3%")) score += 30;
-    else if (intel.popularity_index.includes("Top 5%")) score += 25;
-    else if (intel.popularity_index.includes("Top 10%")) score += 20;
-    else score += 10;
-  }
   if (intel?.training_cutoff) {
     const match = intel.training_cutoff.match(/(\d{4})-(\d{2})/);
     if (match) {
