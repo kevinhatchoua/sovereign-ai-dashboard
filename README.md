@@ -46,6 +46,7 @@ Consume the registry programmatically. Base URL: `https://your-domain.com/api` (
 | `/api/export` | GET | Bulk export. Query params: `format` (json\|csv) |
 | `/api/webhook/submit` | POST | Model submission (requires `X-Webhook-Secret` if `WEBHOOK_SECRET` set) |
 | `/api/feed/models` | GET | RSS feed of top models |
+| `/api/chat` | POST | AI assistant chat (requires `GROQ_API_KEY`; uses Llama 3.3 70B, free & open source) |
 
 **Embeddable badge:** `<script src="https://your-domain.com/embed.js" data-model="llama-3.1" data-jurisdiction="EU"></script>`
 

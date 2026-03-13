@@ -520,30 +520,64 @@ export function CatalogChatbot({
   }, [open, setOpen]);
 
   const handleSend = useCallback(
-    (text?: string) => {
+    async (text?: string) => {
       const toSend = (text ?? input.trim()).trim();
       if (!toSend) return;
       if (!text) setInput("");
       setMessages((prev) => [...prev, { role: "user", content: toSend }]);
       setLoading(true);
-      setTimeout(() => {
-        const result = generateResponse(toSend, models);
+
+      const ruleResult = generateResponse(toSend, models);
+      const chatHistory = [...messages, { role: "user" as const, content: toSend }];
+
+      const context = {
+        filterIds: ruleResult.ids.length > 0 ? ruleResult.ids : undefined,
+        suggestedActions: ruleResult.actions?.map((a) => a.label),
+        fallback: ruleResult.text,
+      };
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: chatHistory.map((m) => ({ role: m.role, content: m.content })),
+            context,
+          }),
+        });
+        const data = (await res.json()) as { content?: string; fallback?: string; error?: string };
+        const content =
+          res.ok && data.content
+            ? data.content
+            : (data.fallback ?? ruleResult.text);
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
-            content: result.text,
-            modelIds: result.ids,
-            modelDetails: result.modelDetails,
-            actions: result.actions,
-            suggestedPrompts: result.suggestedPrompts,
+            content,
+            modelIds: ruleResult.ids,
+            modelDetails: ruleResult.modelDetails,
+            actions: ruleResult.actions,
+            suggestedPrompts: ruleResult.suggestedPrompts,
           },
         ]);
-        onFilterByModels?.(result.ids.length > 0 ? result.ids : []);
-        setLoading(false);
-      }, 400);
+      } catch {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: ruleResult.text,
+            modelIds: ruleResult.ids,
+            modelDetails: ruleResult.modelDetails,
+            actions: ruleResult.actions,
+            suggestedPrompts: ruleResult.suggestedPrompts,
+          },
+        ]);
+      }
+      onFilterByModels?.(ruleResult.ids.length > 0 ? ruleResult.ids : []);
+      setLoading(false);
     },
-    [input, models, onFilterByModels]
+    [input, messages, models, onFilterByModels]
   );
 
   const handleAction = useCallback(
