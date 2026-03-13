@@ -8,17 +8,18 @@ import { RegionSelector } from "./RegionSelector";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
 
 const NAV_ITEMS = [
-  { href: "/dashboard", label: "Dashboard" },
+  { href: "/dashboard", label: "Overview" },
   { href: "/", label: "Models" },
   { href: "/methodology", label: "Methodology" },
 ] as const;
 
 const linkBase =
-  "rounded-lg px-3 py-1.5 text-sm transition sm:py-2 flex items-center touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:focus-visible:ring-offset-white [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900";
+  "rounded-lg px-3 py-1.5 text-sm transition sm:py-2 flex items-center touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:focus-visible:ring-offset-white [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900";
 const linkInactive =
-  "text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 " + linkBase;
+  "text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:text-slate-900 " +
+  linkBase;
 const linkActive =
-  "bg-amber-500/20 font-medium text-amber-400 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 " +
+  "bg-violet-500/20 font-medium text-violet-400 [.light_&]:bg-violet-100 [.light_&]:text-violet-900 " +
   linkBase;
 
 export type SiteHeaderProps = {
@@ -53,13 +54,13 @@ export function SiteHeader({
 
   if (isLogin) {
     return (
-      <header className="border-b border-slate-800 bg-zinc-950/95 [.light_&]:border-slate-300 [.light_&]:bg-white">
+      <header className="glass border-b border-slate-800/50 [.light_&]:border-slate-200/60">
         <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8" aria-label="Main">
           <Link
             href="/"
             className="flex items-center gap-2 text-base font-semibold text-white [.light_&]:text-slate-900"
           >
-            <SovereignLogo className="h-6 w-6 text-amber-500 [.light_&]:text-amber-600" />
+            <SovereignLogo className="h-6 w-6 text-violet-500 [.light_&]:text-violet-600" />
             Sovereign AI
           </Link>
           <Link
@@ -74,14 +75,14 @@ export function SiteHeader({
   }
 
   return (
-    <header className="sticky top-0 z-10 border-b border-slate-800 bg-zinc-950/95 backdrop-blur pt-[env(safe-area-inset-top)] [.light_&]:border-slate-300 [.light_&]:bg-white/95">
+    <header className="glass sticky top-0 z-10 border-b border-slate-800/50 pt-[env(safe-area-inset-top)] [.light_&]:border-slate-200/60">
       <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8" aria-label="Main">
         <div className="flex min-w-0 shrink-0 items-center gap-3 sm:gap-6">
           <Link
             href="/"
-            className="flex min-w-0 items-center gap-2 text-base font-semibold tracking-tight text-white hover:text-slate-200 sm:text-lg [.light_&]:text-slate-900 [.light_&]:hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-lg [.light_&]:focus-visible:ring-offset-white"
+            className="flex min-w-0 items-center gap-2 text-base font-semibold tracking-tight text-white hover:text-slate-200 sm:text-lg [.light_&]:text-slate-900 [.light_&]:hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-lg [.light_&]:focus-visible:ring-offset-white"
           >
-            <SovereignLogo className="h-5 w-5 shrink-0 text-amber-500 sm:h-6 sm:w-6 [.light_&]:text-amber-600" aria-hidden />
+            <SovereignLogo className="h-5 w-5 shrink-0 text-violet-500 sm:h-6 sm:w-6 [.light_&]:text-violet-600" aria-hidden />
             <span className="truncate">Sovereign AI</span>
           </Link>
           <div className="hidden items-center gap-1 sm:flex sm:min-h-0">
@@ -119,7 +120,7 @@ export function SiteHeader({
               {showSearch && onSearchChange && (
                 <div className="relative min-w-0 flex-1">
                   <svg
-                    className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 shrink-0 text-slate-500"
+                    className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 shrink-0 text-slate-500 [.light_&]:text-slate-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -137,7 +138,7 @@ export function SiteHeader({
                     placeholder="Search models..."
                     value={searchValue}
                     onChange={(e) => onSearchChange(e.target.value)}
-                    className="w-full min-w-0 rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-10 pr-4 text-base text-slate-200 placeholder-slate-500 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50 sm:py-2 [.light_&]:border-slate-400 [.light_&]:bg-slate-100 [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600 [.light_&]:focus:border-amber-500 [.light_&]:focus:ring-amber-500/30"
+                    className="w-full min-w-0 rounded-xl border border-slate-700/60 bg-slate-800/40 py-2.5 pl-10 pr-4 text-base text-slate-200 placeholder-slate-500 backdrop-blur-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/50 sm:py-2 [.light_&]:border-slate-300/80 [.light_&]:bg-white/60 [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600 [.light_&]:focus:border-violet-500 [.light_&]:focus:ring-violet-500/30"
                     aria-label="Search models"
                   />
                 </div>
@@ -150,7 +151,7 @@ export function SiteHeader({
               <button
                 type="button"
                 onClick={onSidebarToggle}
-                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800 lg:hidden [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-200"
+                className="glass flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800/60 lg:hidden [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-200/80"
                 aria-expanded={sidebarOpen}
                 aria-label="Toggle filters"
               >

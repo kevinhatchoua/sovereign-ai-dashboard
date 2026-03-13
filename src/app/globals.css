@@ -3,24 +3,35 @@
 @custom-variant light (&:where(.light, .light *));
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Glass design system — WCAG AA contrast preserved on all surfaces */
 :root,
 .dark {
-  --app-bg: #09090b;
-  --app-surface: #18181b;
-  --app-surface-hover: #27272a;
-  --app-border: #27272a;
+  --app-bg: #0c0c0e;
+  --app-bg-gradient: linear-gradient(135deg, #0c0c0e 0%, #131316 50%, #0a0a0c 100%);
+  --app-surface: rgba(24, 24, 27, 0.7);
+  --app-surface-solid: #18181b;
+  --app-surface-hover: rgba(39, 39, 42, 0.8);
+  --app-border: rgba(255, 255, 255, 0.08);
+  --app-border-strong: rgba(255, 255, 255, 0.12);
   --app-text: #fafafa;
   --app-text-muted: #a1a1aa;
+  --glass-blur: 12px;
+  --glass-blur-lg: 20px;
 }
 
-/* Light mode: WCAG AA contrast (4.5:1+ for normal text, 3:1+ for UI) */
+/* Light mode: WCAG AA contrast */
 .light {
-  --app-bg: #ffffff;
-  --app-surface: #f1f5f9;
-  --app-surface-hover: #e2e8f0;
-  --app-border: #64748b;
+  --app-bg: #f8fafc;
+  --app-bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  --app-surface: rgba(255, 255, 255, 0.72);
+  --app-surface-solid: #ffffff;
+  --app-surface-hover: rgba(241, 245, 249, 0.9);
+  --app-border: rgba(0, 0, 0, 0.08);
+  --app-border-strong: rgba(0, 0, 0, 0.12);
   --app-text: #0f172a;
-  --app-text-muted: #334155;
+  --app-text-muted: #475569;
+  --glass-blur: 12px;
+  --glass-blur-lg: 20px;
 }
 
 @theme inline {
@@ -38,11 +49,50 @@ html {
 
 body {
   background: var(--app-bg);
+  background-image: var(--app-bg-gradient);
+  background-attachment: fixed;
   color: var(--app-text);
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+
+/* Glass utility classes — use backdrop-blur + semi-transparent bg for frosted effect */
+.glass {
+  background: var(--app-surface);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--app-border);
+}
+
+.glass-strong {
+  background: var(--app-surface-hover);
+  backdrop-filter: blur(var(--glass-blur-lg));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg));
+  border: 1px solid var(--app-border-strong);
+}
+
+.glass-card {
+  background: var(--app-surface);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--app-border);
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.15);
+}
+
+.light .glass-card {
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.08);
+}
+
+/* AI chat panel — distinct translucent background (OpenShift-style) */
+.chat-panel-bg {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, rgba(28, 25, 65, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.light .chat-panel-bg {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(238, 242, 255, 0.92) 100%);
 }
 
 /* Skip link: visually hidden until focused (WCAG 2.4.1 Bypass Blocks) */
@@ -62,7 +112,7 @@ body {
 .skip-link:focus {
   left: 1rem;
   top: 1rem;
-  outline: 2px solid #d97706;
+  outline: 2px solid #7c3aed;
   outline-offset: 2px;
 }
 

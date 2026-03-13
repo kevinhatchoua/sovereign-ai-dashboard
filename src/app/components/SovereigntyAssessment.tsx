@@ -64,23 +64,23 @@ export function SovereigntyAssessment({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div
         ref={dialogRef}
-        className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-slate-200 bg-white shadow-xl sm:max-w-md"
+        className="glass-strong relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-slate-200/60 shadow-2xl sm:max-w-md [.light_&]:border-slate-200/60"
         role="dialog"
         aria-modal="true"
         aria-label="Sovereignty Assessment"
       >
-        <div className="sticky top-0 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3">
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-            <Shield className="h-5 w-5 text-amber-500" />
+        <div className="sticky top-0 flex items-center justify-between border-b border-slate-700/50 px-4 py-3 [.light_&]:border-slate-200/60">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-white [.light_&]:text-slate-900">
+            <Shield className="h-5 w-5 text-violet-500" aria-hidden />
             Sovereignty Assessment
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded p-2 text-slate-500 hover:bg-slate-100"
+            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-slate-500 hover:bg-slate-800/60 [.light_&]:hover:bg-slate-100"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
@@ -90,14 +90,14 @@ export function SovereigntyAssessment({
         <div className="p-4">
           {step === "intro" && (
             <>
-              <p className="mb-4 text-sm text-slate-600">
+              <p className="mb-4 text-sm text-slate-400 [.light_&]:text-slate-600">
                 This 2–3 minute assessment helps you find models aligned with your sovereignty needs. Based on
                 McKinsey&apos;s Four Dimensions and industry frameworks (Red Hat, SUSE, Forrester).
               </p>
               <button
                 type="button"
                 onClick={() => setStep("jurisdiction")}
-                className="flex w-full items-center justify-between rounded-lg border border-slate-300 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-900 hover:bg-slate-100"
+                className="glass flex w-full items-center justify-between rounded-xl border-slate-700/50 px-4 py-3 text-left text-sm font-medium text-slate-200 hover:bg-slate-800/60 [.light_&]:border-slate-300/70 [.light_&]:text-slate-900 [.light_&]:hover:bg-slate-100"
               >
                 Start assessment
                 <ChevronRight className="h-4 w-4" />
@@ -107,7 +107,7 @@ export function SovereigntyAssessment({
 
           {step === "jurisdiction" && (
             <>
-              <p className="mb-3 text-sm font-medium text-slate-900">Primary jurisdiction?</p>
+              <p className="mb-3 text-sm font-medium text-slate-200 [.light_&]:text-slate-900">Primary jurisdiction?</p>
               <div className="space-y-2">
                 {JURISDICTIONS.map((j) => (
                   <button
@@ -117,10 +117,10 @@ export function SovereigntyAssessment({
                       setJurisdiction(j.id);
                       setStep("sensitivity");
                     }}
-                    className={`flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left text-sm ${
+                    className={`glass flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm ${
                       jurisdiction === j.id
-                        ? "border-amber-500 bg-amber-50 text-amber-900"
-                        : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                        ? "border-violet-500/70 bg-violet-500/20 text-violet-400 [.light_&]:bg-violet-50 [.light_&]:text-violet-900"
+                        : "border-slate-700/50 text-slate-300 hover:bg-slate-800/60 [.light_&]:border-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-50"
                     }`}
                   >
                     {j.label}
@@ -133,7 +133,7 @@ export function SovereigntyAssessment({
 
           {step === "sensitivity" && (
             <>
-              <p className="mb-3 text-sm font-medium text-slate-900">Data sensitivity level?</p>
+              <p className="mb-3 text-sm font-medium text-slate-200 [.light_&]:text-slate-900">Data sensitivity level?</p>
               <div className="space-y-2">
                 {SENSITIVITY_OPTIONS.map((s) => (
                   <button
@@ -143,10 +143,10 @@ export function SovereigntyAssessment({
                       setSensitivity(s.id);
                       setStep("hosting");
                     }}
-                    className={`flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left text-sm ${
+                    className={`glass flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm ${
                       sensitivity === s.id
-                        ? "border-amber-500 bg-amber-50 text-amber-900"
-                        : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                        ? "border-violet-500/70 bg-violet-500/20 text-violet-400 [.light_&]:bg-violet-50 [.light_&]:text-violet-900"
+                        : "border-slate-700/50 text-slate-300 hover:bg-slate-800/60 [.light_&]:border-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-50"
                     }`}
                   >
                     {s.label}
@@ -159,7 +159,7 @@ export function SovereigntyAssessment({
 
           {step === "hosting" && (
             <>
-              <p className="mb-3 text-sm font-medium text-slate-900">Preferred hosting?</p>
+              <p className="mb-3 text-sm font-medium text-slate-200 [.light_&]:text-slate-900">Preferred hosting?</p>
               <div className="space-y-2">
                 {HOSTING_OPTIONS.map((h) => (
                   <button
@@ -169,10 +169,10 @@ export function SovereigntyAssessment({
                       setHosting(h.id);
                       runRecommendation();
                     }}
-                    className={`flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left text-sm ${
+                    className={`glass flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm ${
                       hosting === h.id
-                        ? "border-amber-500 bg-amber-50 text-amber-900"
-                        : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                        ? "border-violet-500/70 bg-violet-500/20 text-violet-400 [.light_&]:bg-violet-50 [.light_&]:text-violet-900"
+                        : "border-slate-700/50 text-slate-300 hover:bg-slate-800/60 [.light_&]:border-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-50"
                     }`}
                   >
                     {h.label}
@@ -185,17 +185,17 @@ export function SovereigntyAssessment({
 
           {step === "results" && (
             <>
-              <div className="mb-4 flex items-center gap-2 text-emerald-600">
-                <CheckCircle className="h-5 w-5" />
+              <div className="mb-4 flex items-center gap-2 text-emerald-400 [.light_&]:text-emerald-600">
+                <CheckCircle className="h-5 w-5" aria-hidden />
                 <span className="font-medium">Assessment complete</span>
               </div>
-              <p className="mb-4 text-sm text-slate-600">
+              <p className="mb-4 text-sm text-slate-400 [.light_&]:text-slate-600">
                 We&apos;ve filtered the catalog to models matching your profile. Check the results below.
               </p>
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-amber-600"
+                className="w-full rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-500"
               >
                 View recommended models
               </button>

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useDialogAccessibility } from "@/app/lib/useDialogAccessibility";
 import {
-  MessageCircle,
+  Sparkles,
   Send,
   Loader2,
   Bot,
@@ -17,16 +17,19 @@ import {
   Plus,
   Trash2,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
+import { useCatalogActions } from "@/app/lib/CatalogActionsContext";
 import { useMediaQuery } from "@/app/lib/useMediaQuery";
 import { useOptionalAuth } from "@/app/lib/AuthContext";
 import { SelectModelModal } from "@/app/components/SelectModelModal";
 
 type ChatAction = {
   label: string;
-  type: "filter" | "view_model" | "clear" | "select_model";
+  type: "filter" | "view_model" | "clear" | "select_model" | "navigate";
   modelId?: string;
   model?: ComparisonModel;
+  href?: string;
 };
 
 type ChatMessage = {
@@ -40,6 +43,7 @@ type ChatMessage = {
 
 type CatalogChatbotProps = {
   models: ComparisonModel[];
+  /** Optional overrides; when in AppShell, uses CatalogActionsContext or router navigation */
   onFilterByModels?: (ids: string[]) => void;
   onSelectModel?: (model: ComparisonModel) => void;
   /** Controlled: panel open state */
@@ -52,18 +56,134 @@ const MAX_WIDTH = 560;
 const DEFAULT_WIDTH = 400;
 
 const SUGGESTED_PROMPTS = [
+  "What is the Overview page?",
+  "How does the methodology work?",
   "What's your hardware setup? (8GB, 16GB, or 24GB VRAM?)",
   "Looking for EU or GDPR compliance?",
-  "Need models for coding or development?",
-  "Prefer local-hostable or API-only?",
-  "Show me the most popular models",
-  "Compare Llama and Mistral",
-  "Best model for 8GB VRAM",
+  "Explain sovereignty readiness levels",
+  "Where does the data come from?",
 ];
 
-const GREETING = `Hey there! 👋 I'm your catalog guide. I can help you find, compare, and **select** sovereign AI models for your needs.
+const GREETING = `I'm your Sovereign AI Assistant. I can help with:
 
-Ask about hardware, compliance, tasks, or a specific model—then use **Select model** to get started.`;
+• **Site content** — Overview, Methodology, Models
+• **Concepts** — sovereignty, compliance, ethics scores, Cloud Act
+• **Finding models** — by hardware, region, task, or name
+• **External references** — Hugging Face, McKinsey, EU AI Act, etc.
+
+What would you like to know?`;
+
+const AI_DISCLAIMER = "Always review AI-generated content prior to use.";
+
+/** General site/concept knowledge — answers before model-specific logic */
+function getGeneralKnowledgeResponse(query: string): {
+  text: string;
+  ids: string[];
+  actions?: ChatAction[];
+  suggestedPrompts?: string[];
+} | null {
+  const q = query.toLowerCase().trim();
+
+  // Overview / Dashboard page
+  if (/overview|dashboard|catalog overview|what is the overview|overview page|go to overview/.test(q)) {
+    return {
+      text: "The **Overview** page (Dashboard) gives you a quick glance at the sovereign AI catalog: total models, open weights vs API-only split, advanced sovereignty count, and average ethics score. It also shows charts for top providers, origin countries, and readiness levels. Use it to get a high-level picture before diving into the Models catalog.",
+      ids: [],
+      actions: [{ label: "Go to Overview", type: "navigate", href: "/dashboard" }],
+      suggestedPrompts: ["Go to Overview", "How does the methodology work?", "Show me EU models"],
+    };
+  }
+
+  // Methodology
+  if (/methodology|how (do|does) (we|you) (assess|score|compute)|four dimensions|readiness level|go to methodology/.test(q)) {
+    return {
+      text: "Our **Open Methodology** is based on McKinsey's Four Dimensions of Sovereignty: Data, Operational, Technological, and Infrastructure. We compute a **Sovereignty Readiness** score (0–100) and apply a Cloud Act penalty for US-exposed models. Levels: **Advanced** (75–100), **Intermediate** (50–74), **Foundation** (0–49). See the Methodology page for full details and references (Red Hat, SUSE, Forrester, NuEnergy.ai).",
+      ids: [],
+      actions: [{ label: "Go to Methodology", type: "navigate", href: "/methodology" }],
+      suggestedPrompts: ["What is Cloud Act exposure?", "Explain ethics score", "Go to Methodology"],
+    };
+  }
+
+  // Ethics score
+  if (/ethics score|ethical (design )?score|how (do|does) ethics/.test(q)) {
+    return {
+      text: "The **Ethics Score** (0–100) combines Data Sovereignty (50%) and Transparency (50%). It rewards open weights, data residency, sovereign deployment, compliance tags, and documentation. Green (>70) = strong, Amber (40–70) = moderate, Red (<40) = review needed. Bias mitigation is excluded until we have authoritative bias data.",
+      ids: [],
+      suggestedPrompts: ["What is sovereignty readiness?", "Show me high-ethics models", "Explain GDPR"],
+    };
+  }
+
+  // Sovereignty concepts
+  if (/sovereignty|sovereign ai|what (is|does) sovereign/.test(q) && !/model|find|show/.test(q)) {
+    return {
+      text: "**Sovereign AI** means AI you own and control—data, models, and infrastructure. We assess it across Four Dimensions (McKinsey): Data (where data lives), Operational (who manages the stack), Technological (open vs proprietary), and Infrastructure (compute control). Models with open weights, domestic deployment, and strong compliance score higher.",
+      ids: [],
+      suggestedPrompts: ["Explain readiness levels", "What is Cloud Act?", "Go to Methodology"],
+    };
+  }
+
+  // Cloud Act
+  if (/cloud act|cloudact|us (cloud|data) (act|exposure)/.test(q)) {
+    return {
+      text: "The **US Cloud Act** (Clarifying Lawful Overseas Use of Data) can compel US-based providers to disclose data in certain circumstances. We flag models from US-based providers or with US origin as having Cloud Act exposure. This is an informational risk indicator for organizations with strict data sovereignty requirements—it does not imply illegality.",
+      ids: [],
+      suggestedPrompts: ["Show me models without Cloud Act exposure", "What is GDPR?", "Go to Methodology"],
+    };
+  }
+
+  // GDPR / EU / India DPDP
+  if (/gdpr|eu ai act|european|india dpdp|data (protection|residency|localization)/.test(q) && !/model|find|show|compliance tag/.test(q)) {
+    return {
+      text: "**GDPR** (EU General Data Protection Regulation) governs data privacy in the EU. The **EU AI Act** regulates AI systems by risk level. **India DPDP** (Digital Personal Data Protection) is India's data protection law. **Data residency** means data stays in a specific jurisdiction. Models tagged with GDPR, EU AI Act Ready, or India Data Localization meet these requirements. Use the Models catalog and filter by compliance to find them.",
+      ids: [],
+      suggestedPrompts: ["Show me GDPR models", "What is India DPDP?", "Looking for EU compliance"],
+    };
+  }
+
+  // Data sources / Hugging Face / references
+  if (/data source|where (does|do) (the )?data|hugging face|mckinsey|red hat|suse|forrester|reference/.test(q)) {
+    return {
+      text: "Model metadata comes from **public registries**, provider documentation, and **Hugging Face**. Compliance tags follow EU AI Act, India DPDP, and US Executive Order. Our methodology references **McKinsey** (Four Dimensions), **Red Hat** (Digital Sovereignty Readiness), **SUSE** (Cloud Sovereignty Framework), **Forrester**, and **NuEnergy.ai** (CAISIC). You can report corrections via Report Compliance Dispute.",
+      ids: [],
+      actions: [{ label: "Go to Methodology", type: "navigate", href: "/methodology" }],
+      suggestedPrompts: ["Go to Methodology", "How do I report an error?", "Show me models"],
+    };
+  }
+
+  // Navigation / pages
+  if (/go to (models|catalog)|navigate|where is|how (do i|to) (get to|find|access)|models page|catalog page/.test(q)) {
+    return {
+      text: "**Models** (home) — Browse and filter the catalog. **Overview** — High-level stats and charts. **Methodology** — How we assess sovereignty. Use the top navigation to switch. I can also filter the Models catalog for you—just ask for models by hardware, region, or task.",
+      ids: [],
+      actions: [
+        { label: "Go to Models", type: "navigate", href: "/" },
+        { label: "Go to Overview", type: "navigate", href: "/dashboard" },
+        { label: "Go to Methodology", type: "navigate", href: "/methodology" },
+      ],
+      suggestedPrompts: ["Show me EU models", "What is the Overview?", "Best model for 8GB VRAM"],
+    };
+  }
+
+  // Report dispute / corrections
+  if (/report|dispute|correction|error|wrong|incorrect/.test(q)) {
+    return {
+      text: "To report a compliance dispute or correction: open a model's details, then click **Report Compliance Dispute**. Describe the issue and optionally your email. Submissions are reviewed for catalog updates. For broader contributions, check the GitHub repo linked in the app.",
+      ids: [],
+      suggestedPrompts: ["Show me a model", "What is the methodology?", "Go to Models"],
+    };
+  }
+
+  // Open weights vs API
+  if (/open weight|api.?only|local.?host|self.?host|hostable/.test(q) && !/model|find|show/.test(q)) {
+    return {
+      text: "**Open Weights** models let you download and run them yourself—full control, no provider lock-in. **API-only** models are accessed via a provider's API; you depend on their infrastructure and policies. Open weights score higher for sovereignty. Filter by Openness in the Models catalog.",
+      ids: [],
+      suggestedPrompts: ["Show me open weights models", "Show me API-only models", "What is sovereignty?"],
+    };
+  }
+
+  return null;
+}
 
 function getMinVramGb(m: ComparisonModel): number | null {
   const v4 = m.intelligence?.vram_4bit_gb;
@@ -153,6 +273,11 @@ function generateResponse(
   suggestedPrompts?: string[];
 } {
   const q = query.toLowerCase().trim();
+
+  // General site/concept content first — help with any site, concepts, or references
+  const general = getGeneralKnowledgeResponse(query);
+  if (general) return general;
+
   if (/clear|reset|show all|remove filter/.test(q)) {
     return {
       text: "Filters cleared! You're now viewing the full catalog. What would you like to explore next?",
@@ -192,10 +317,10 @@ function generateResponse(
   const matched = matchModels(query, models);
   if (matched.length === 0) {
     return {
-      text: "Hmm, I couldn't find models matching that. Try keywords like EU, 8GB, code, or local-hostable — or ask about a specific model by name!",
+      text: "I couldn't find models matching that. Try: EU, 8GB, code, or local-hostable — or ask about a specific model by name. Or ask me about the site (Overview, Methodology), concepts (sovereignty, ethics score), or external references.",
       ids: [],
       actions: [{ label: "Clear filter", type: "clear" }],
-      suggestedPrompts: ["Show me EU models", "8GB VRAM models", "Tell me about Llama"],
+      suggestedPrompts: ["What is the Overview page?", "How does the methodology work?", "Show me EU models"],
     };
   }
   const names = matched.slice(0, 5).map((m) => m.name).join(", ");
@@ -242,9 +367,9 @@ function ModelDetailCard({
     <div className="mt-3 rounded-lg border border-slate-600/60 bg-slate-800/50 p-3 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
       <div className="mb-2 flex items-center gap-2">
         {model.openness_level === "Open Weights" ? (
-          <Server className="h-4 w-4 text-emerald-500 [.light_&]:text-emerald-600" />
+          <Server className="h-4 w-4 text-violet-500 [.light_&]:text-violet-600" />
         ) : (
-          <Cloud className="h-4 w-4 text-amber-500 [.light_&]:text-amber-600" />
+          <Cloud className="h-4 w-4 text-slate-500 [.light_&]:text-slate-600" />
         )}
         <span className="font-medium text-slate-100 [.light_&]:text-slate-900">{model.name}</span>
       </div>
@@ -285,7 +410,7 @@ function ModelDetailCard({
           <button
             type="button"
             onClick={onSelect}
-            className="inline-flex items-center gap-1 rounded bg-amber-500/20 px-2 py-1 text-xs font-medium text-amber-400 hover:bg-amber-500/30 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:hover:bg-amber-200"
+            className="inline-flex items-center gap-1 rounded bg-violet-500/20 px-2 py-1 text-xs font-medium text-violet-400 hover:bg-violet-500/30 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:hover:bg-violet-200"
           >
             Select model
             <ChevronRight className="h-3 w-3" />
@@ -294,7 +419,7 @@ function ModelDetailCard({
         <button
           type="button"
           onClick={onViewDetails}
-          className="inline-flex items-center gap-1 rounded bg-amber-500/20 px-2 py-1 text-xs font-medium text-amber-400 hover:bg-amber-500/30 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:hover:bg-amber-200"
+          className="inline-flex items-center gap-1 rounded bg-violet-500/20 px-2 py-1 text-xs font-medium text-violet-400 hover:bg-violet-500/30 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:hover:bg-violet-200"
         >
           View details
           <ChevronRight className="h-3 w-3" />
@@ -313,14 +438,27 @@ function ModelDetailCard({
 
 export function CatalogChatbot({
   models,
-  onFilterByModels,
-  onSelectModel,
+  onFilterByModels: onFilterByModelsProp,
+  onSelectModel: onSelectModelProp,
   open: controlledOpen,
   onOpenChange,
 }: CatalogChatbotProps) {
+  const router = useRouter();
+  const { actions } = useCatalogActions();
   const [internalOpen, setInternalOpen] = useState(false);
   const open = controlledOpen ?? internalOpen;
   const setOpen = onOpenChange ?? setInternalOpen;
+
+  // Prefer props, then context (catalog page), else navigate to catalog with params
+  const onFilterByModels = onFilterByModelsProp ?? actions?.filterByModels ?? ((ids: string[]) => {
+    const params = new URLSearchParams();
+    if (ids.length > 0) params.set("models", ids.join(","));
+    router.push(ids.length > 0 ? `/?${params}` : "/");
+  });
+  const onSelectModel = onSelectModelProp ?? actions?.selectModel ?? ((model: ComparisonModel | null) => {
+    if (!model) return;
+    router.push(`/?model=${model.id}`);
+  });
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: "assistant", content: GREETING, suggestedPrompts: SUGGESTED_PROMPTS },
@@ -333,6 +471,13 @@ export function CatalogChatbot({
   const panelRef = useRef<HTMLDivElement>(null);
   const isXl = useMediaQuery("(min-width: 1280px)");
   const auth = useOptionalAuth();
+
+  // Open by default on xl (desktop) for integrated OpenShift-style layout
+  useEffect(() => {
+    if (isXl && controlledOpen === undefined && !internalOpen) {
+      setInternalOpen(true);
+    }
+  }, [isXl]); // eslint-disable-line react-hooks/exhaustive-deps
   const user = auth?.user ?? null;
   const [selectModel, setSelectModel] = useState<ComparisonModel | null>(null);
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
@@ -411,9 +556,11 @@ export function CatalogChatbot({
         onFilterByModels?.([action.modelId]);
       } else if (action.type === "clear") {
         onFilterByModels?.([]);
+      } else if (action.type === "navigate" && action.href) {
+        router.push(action.href);
       }
     },
-    [onFilterByModels, onSelectModel]
+    [onFilterByModels, onSelectModel, router]
   );
 
   const resetChat = useCallback(() => {
@@ -454,14 +601,14 @@ export function CatalogChatbot({
         />
       )}
       {clearConfirmOpen && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div
             ref={clearConfirmRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="clear-dialog-title"
             aria-describedby="clear-dialog-desc"
-            className="mx-4 w-full max-w-sm rounded-xl border border-slate-700 bg-zinc-900 p-6 shadow-xl [.light_&]:border-slate-300 [.light_&]:bg-white"
+            className="glass-strong mx-4 w-full max-w-sm rounded-2xl border border-slate-700/50 p-6 shadow-2xl [.light_&]:border-slate-200/60"
           >
             <h3 id="clear-dialog-title" className="text-lg font-semibold text-white [.light_&]:text-slate-900">
               Clear conversation?
@@ -480,7 +627,7 @@ export function CatalogChatbot({
               <button
                 type="button"
                 onClick={handleClearConfirm}
-                className="flex-1 rounded-lg bg-amber-600 py-2 text-sm font-medium text-white hover:bg-amber-500 [.light_&]:bg-amber-600 [.light_&]:hover:bg-amber-500"
+                className="flex-1 rounded-lg bg-emerald-600 py-2 text-sm font-medium text-white hover:bg-emerald-500 [.light_&]:bg-emerald-600 [.light_&]:hover:bg-emerald-500"
               >
                 Clear
               </button>
@@ -488,16 +635,17 @@ export function CatalogChatbot({
           </div>
         </div>
       )}
-      {/* Toggle tab when closed — right edge, Cursor-style */}
+      {/* Toggle tab when closed — right edge, prominent AI branding */}
       {!open && (
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed right-0 top-1/2 z-30 flex h-24 w-8 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-slate-700 bg-slate-800/95 shadow-lg backdrop-blur transition hover:bg-slate-700/95 hover:w-10 [.light_&]:border-slate-300 [.light_&]:bg-slate-100/95 [.light_&]:hover:bg-slate-200/95"
+          className="group fixed right-0 top-1/2 z-30 flex h-20 w-12 -translate-y-1/2 items-center justify-center gap-1.5 rounded-l-xl border border-sky-500/60 border-r-0 bg-gradient-to-br from-sky-500 to-cyan-600 py-3 pl-2 pr-3 shadow-lg shadow-sky-500/30 transition-all hover:w-14 [.light_&]:from-sky-500 [.light_&]:to-cyan-600 [.light_&]:shadow-sky-500/25"
           style={{ top: "50%" }}
-          aria-label="Open AI assistant"
+          aria-label="Open Sovereign AI Assistant"
         >
-          <MessageCircle className="h-4 w-4 rotate-90 text-amber-500 [.light_&]:text-amber-600" />
+          <Sparkles className="h-5 w-5 shrink-0 text-white" aria-hidden />
+          <span className="text-xs font-bold text-white">AI</span>
         </button>
       )}
 
@@ -510,13 +658,13 @@ export function CatalogChatbot({
         />
       )}
 
-      {/* Side panel — overlay on mobile/tablet, pushes content on xl+ */}
+      {/* Side panel — overlay on mobile/tablet; beside content on xl+ (OpenShift-style, outside scroll area) */}
       {open && (
         <div
           ref={panelRef}
-          className={`flex shrink-0 flex-col overflow-hidden border-l border-slate-700 bg-zinc-900 shadow-2xl transition-[width] duration-200 ease-out [.light_&]:border-slate-300 [.light_&]:bg-slate-50 ${
+          className={`chat-panel-bg flex shrink-0 flex-col overflow-hidden rounded-l-2xl border-l border-slate-700/50 shadow-2xl transition-[width] duration-200 ease-out [.light_&]:border-slate-200/60 ${
             isXl
-              ? "sticky top-20 self-start h-[calc(100dvh-5rem)] min-h-[24rem]"
+              ? "h-screen max-h-screen"
               : "fixed inset-y-0 right-0 z-40 flex h-[100dvh] w-[min(100vw-2rem,400px)] flex-col pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] pr-[env(safe-area-inset-right)]"
           }`}
           style={isXl ? { width: `${width}px` } : undefined}
@@ -526,25 +674,25 @@ export function CatalogChatbot({
           <button
             type="button"
             onMouseDown={() => setIsResizing(true)}
-            className="absolute left-0 top-0 z-10 flex h-full w-2 -translate-x-1/2 cursor-col-resize items-center justify-center hover:bg-amber-500/20 focus:outline-none"
+            className="absolute left-0 top-0 z-10 flex h-full w-2 -translate-x-1/2 cursor-col-resize items-center justify-center hover:bg-violet-500/20 focus:outline-none"
             aria-label="Resize panel"
           >
             <div className="h-12 w-1 rounded-full bg-slate-600 opacity-0 transition hover:opacity-100 [.light_&]:bg-slate-400" />
           </button>
           )}
 
-          {/* Header */}
-          <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-700 px-3 py-2.5 [.light_&]:border-slate-200">
+          {/* Header — OpenShift-style with prominent AI branding */}
+          <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-700/60 px-3 py-2.5 [.light_&]:border-slate-200/60">
             <div className="flex min-w-0 flex-1 items-center gap-2">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 text-white">
-                <Bot className="h-4 w-4" />
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border-2 border-violet-500/50 bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-lg shadow-violet-500/20 [.light_&]:border-violet-500/60">
+                <Bot className="h-5 w-5" />
               </div>
               <div className="min-w-0 flex-1">
                 <h3 className="truncate text-sm font-semibold text-white [.light_&]:text-slate-900">
-                  Catalog Assistant
+                  Sovereign AI Assistant
                 </h3>
                 <p className="truncate text-xs text-slate-400 [.light_&]:text-slate-600">
-                  Find sovereign AI models
+                  Help with site content, concepts, and models
                 </p>
               </div>
             </div>
@@ -581,14 +729,52 @@ export function CatalogChatbot({
 
           {/* Messages */}
           <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-            <div className="flex-1 overflow-y-auto p-3 space-y-4">
-              {messages.map((msg, i) => (
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {/* OpenShift-style welcome when conversation is fresh */}
+              {messages.length === 1 &&
+                messages[0].role === "assistant" &&
+                messages[0].suggestedPrompts &&
+                messages[0].suggestedPrompts.length > 0 && (
+                  <div className="flex flex-col items-center gap-6 pb-4">
+                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-violet-500/60 bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-xl shadow-violet-500/25 [.light_&]:border-violet-500/50">
+                      <Bot className="h-8 w-8" />
+                    </div>
+                    <div className="text-center">
+                      <h4 className="text-lg font-semibold text-white [.light_&]:text-slate-900">
+                        Where should we start?
+                      </h4>
+                      <p className="mt-1 text-sm text-slate-400 [.light_&]:text-slate-600">
+                        Site content, concepts, models, or external references
+                      </p>
+                    </div>
+                    <div className="flex w-full flex-wrap justify-center gap-2">
+                      {messages[0].suggestedPrompts.slice(0, 3).map((prompt, j) => (
+                        <button
+                          key={j}
+                          type="button"
+                          onClick={() => handleSend(prompt)}
+                          className="rounded-full border border-slate-600/50 bg-slate-700/50 px-4 py-2.5 text-left text-sm text-slate-300 transition hover:bg-slate-600/60 hover:text-slate-100 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              {messages.map((msg, i) => {
+                const isWelcomeMsg =
+                  i === 0 &&
+                  msg.role === "assistant" &&
+                  msg.suggestedPrompts &&
+                  msg.suggestedPrompts.length > 0;
+                if (isWelcomeMsg) return null;
+                return (
                 <div
                   key={i}
                   className={`flex gap-2.5 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
                 >
                   {msg.role === "assistant" && (
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-500/80 to-amber-600/80 text-white">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-500/80 to-violet-600/80 text-white">
                       <Bot className="h-3.5 w-3.5" />
                     </div>
                   )}
@@ -598,10 +784,10 @@ export function CatalogChatbot({
                     }`}
                   >
                     <div
-                      className={`max-w-full rounded-lg px-3 py-2 text-sm ${
+                      className={`max-w-full rounded-xl px-3 py-2 text-sm backdrop-blur-sm ${
                         msg.role === "user"
-                          ? "bg-amber-500/20 text-amber-100 [.light_&]:bg-amber-100 [.light_&]:text-amber-900"
-                          : "bg-slate-800 text-slate-200 [.light_&]:bg-slate-100 [.light_&]:text-slate-800"
+                          ? "bg-emerald-500/25 text-emerald-100 [.light_&]:bg-emerald-100/90 [.light_&]:text-emerald-900"
+                          : "bg-slate-800/70 text-slate-200 [.light_&]:bg-white/80 [.light_&]:text-slate-800"
                       }`}
                     >
                       <div className="whitespace-pre-wrap break-words">{msg.content}</div>
@@ -628,7 +814,7 @@ export function CatalogChatbot({
                             key={j}
                             type="button"
                             onClick={() => handleAction(action)}
-                            className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-400 transition hover:bg-amber-500/20 [.light_&]:border-amber-500/60 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:hover:bg-amber-200"
+                            className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-400 transition hover:bg-emerald-500/20 [.light_&]:border-emerald-500/60 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-800 [.light_&]:hover:bg-emerald-200"
                           >
                             {action.label}
                           </button>
@@ -636,8 +822,8 @@ export function CatalogChatbot({
                       </div>
                     )}
                     {msg.suggestedPrompts && msg.suggestedPrompts.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5">
-                        <span className="w-full text-xs text-slate-500 [.light_&]:text-slate-600">
+                      <div className="flex flex-wrap gap-2">
+                        <span className="w-full text-xs font-medium uppercase tracking-wider text-slate-500 [.light_&]:text-slate-600">
                           Try:
                         </span>
                         {msg.suggestedPrompts.map((prompt, j) => (
@@ -645,7 +831,7 @@ export function CatalogChatbot({
                             key={j}
                             type="button"
                             onClick={() => handleSend(prompt)}
-                            className="rounded-lg border border-slate-600/60 bg-slate-800/60 px-2.5 py-1.5 text-left text-xs text-slate-300 transition hover:bg-slate-700/80 hover:text-slate-100 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+                            className="rounded-full border border-slate-600/50 bg-slate-700/50 px-3 py-2 text-left text-xs text-slate-300 transition hover:bg-slate-600/60 hover:text-slate-100 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
                           >
                             {prompt}
                           </button>
@@ -654,10 +840,11 @@ export function CatalogChatbot({
                     )}
                   </div>
                 </div>
-              ))}
+              );
+              })}
               {loading && (
                 <div className="flex gap-2.5">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-500/80 to-amber-600/80 text-white">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-500/80 to-violet-600/80 text-white">
                     <Bot className="h-3.5 w-3.5" />
                   </div>
                   <div className="rounded-lg bg-slate-800 px-3 py-2 [.light_&]:bg-slate-100">
@@ -668,8 +855,8 @@ export function CatalogChatbot({
               <div ref={bottomRef} />
             </div>
 
-            {/* Input */}
-            <div className="shrink-0 border-t border-slate-700 p-3 [.light_&]:border-slate-200">
+            {/* Input + disclaimer — always visible at bottom (never scrolls away) */}
+            <div className="shrink-0 space-y-2 border-t border-slate-700/50 p-3 [.light_&]:border-slate-200/60">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -681,17 +868,20 @@ export function CatalogChatbot({
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about models..."
-                  className="min-h-[40px] min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 [.light_&]:border-slate-400 [.light_&]:bg-white [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600"
+                  placeholder="What sovereign AI models fit your needs?"
+                  className="min-h-[44px] min-w-0 flex-1 rounded-xl border border-slate-600/60 bg-slate-800/60 px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 backdrop-blur-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 [.light_&]:border-slate-300/80 [.light_&]:bg-white [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="min-h-[40px] min-w-[40px] shrink-0 rounded-lg bg-amber-500 px-3 py-2 text-white hover:bg-amber-600 disabled:opacity-50"
+                  className="min-h-[44px] min-w-[44px] shrink-0 rounded-xl bg-violet-600 px-3 py-2 text-white hover:bg-violet-500 disabled:opacity-50"
                 >
                   <Send className="h-4 w-4" />
                 </button>
               </form>
+              <p className="text-[11px] text-slate-500 [.light_&]:text-slate-600">
+                {AI_DISCLAIMER}
+              </p>
             </div>
           </div>
         </div>

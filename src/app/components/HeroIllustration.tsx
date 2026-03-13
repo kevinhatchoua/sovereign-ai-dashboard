@@ -20,7 +20,7 @@ export function HeroIllustration({ className }: { className?: string }) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="text-amber-500/40 [.light_&]:text-amber-600/50"
+        className="text-violet-500/40 [.light_&]:text-violet-600/50"
       />
       <path
         d="M140 28L220 60v36c0 20-32 40-80 40S60 116 60 96V60l80-32z"
@@ -28,7 +28,7 @@ export function HeroIllustration({ className }: { className?: string }) {
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="text-amber-500/60 [.light_&]:text-amber-600/70"
+        className="text-violet-500/60 [.light_&]:text-violet-600/70"
       />
       {/* Central node */}
       <circle
@@ -74,7 +74,7 @@ export function HeroIllustration({ className }: { className?: string }) {
         strokeWidth="1"
         fill="none"
         strokeDasharray="3 2"
-        className="text-amber-500/30 [.light_&]:text-amber-500/40"
+        className="text-violet-500/30 [.light_&]:text-violet-500/40"
       />
       <path
         d="M100 92 Q140 104 180 92"
@@ -82,7 +82,7 @@ export function HeroIllustration({ className }: { className?: string }) {
         strokeWidth="1"
         fill="none"
         strokeDasharray="3 2"
-        className="text-amber-500/30 [.light_&]:text-amber-500/40"
+        className="text-violet-500/30 [.light_&]:text-violet-500/40"
       />
     </svg>
   );

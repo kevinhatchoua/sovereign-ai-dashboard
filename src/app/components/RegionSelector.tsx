@@ -86,19 +86,19 @@ export function RegionSelector({
         type="button"
         onClick={() => setOpen((o) => !o)}
         onKeyDown={handleKeyDown}
-        className="flex w-full min-w-0 items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-3 pr-2.5 text-left text-sm text-slate-200 hover:bg-slate-800 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50 sm:min-w-[10rem] sm:w-auto touch-manipulation focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+        className="glass flex w-full min-w-0 items-center gap-2 rounded-xl border-slate-700/50 py-2.5 pl-3 pr-2.5 text-left text-sm text-slate-200 hover:bg-slate-800/60 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/50 sm:min-w-[10rem] sm:w-auto touch-manipulation focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:border-slate-300/70 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-100/80"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listboxId}
         aria-activedescendant={open ? `${listboxId}-option-${activeIndex}` : undefined}
         aria-label="Select current jurisdiction"
       >
-        <MapPin className="h-4 w-4 shrink-0 text-slate-500" aria-hidden />
+        <MapPin className="h-4 w-4 shrink-0 text-slate-500 [.light_&]:text-slate-600" aria-hidden />
         <span className="flex-1 truncate">
           {displayValue ?? placeholder}
         </span>
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-slate-500 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`h-4 w-4 shrink-0 text-slate-500 [.light_&]:text-slate-600 transition-transform ${open ? "rotate-180" : ""}`}
           aria-hidden
         />
       </button>
@@ -107,7 +107,7 @@ export function RegionSelector({
           id={listboxId}
           role="listbox"
           aria-labelledby={triggerId}
-          className="absolute right-0 top-full z-50 mt-1 min-w-full rounded-lg border border-slate-700 bg-slate-800 py-1 shadow-xl"
+          className="glass-strong absolute right-0 top-full z-50 mt-1 min-w-full rounded-xl border border-slate-700/50 py-1 shadow-xl [.light_&]:border-slate-200/60"
         >
           {JURISDICTION_OPTIONS.map((opt, i) => {
             const isSelected = value === opt.value;
@@ -124,10 +124,10 @@ export function RegionSelector({
                     onChange(opt.value);
                     setOpen(false);
                   }}
-                  className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-500 ${
+                  className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-500 ${
                     isSelected
-                      ? "bg-slate-700 text-white"
-                      : "text-slate-300 hover:bg-slate-700/60"
+                      ? "bg-slate-700 text-white [.light_&]:bg-violet-100 [.light_&]:text-violet-900"
+                      : "text-slate-300 hover:bg-slate-700/60 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-100"
                   }`}
                 >
                   {opt.label}

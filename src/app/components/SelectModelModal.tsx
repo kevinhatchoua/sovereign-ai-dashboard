@@ -20,12 +20,12 @@ export function SelectModelModal({ model, user, onClose }: SelectModelModalProps
   const needsPremium = requiresPremium(model.id);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div
         role="dialog"
         aria-modal="true"
         aria-label={`Select ${model.name}`}
-        className="relative w-full max-w-md rounded-xl border border-slate-700 bg-zinc-900 p-6 shadow-2xl [.light_&]:border-slate-300 [.light_&]:bg-white"
+        className="glass-strong relative w-full max-w-md rounded-2xl border border-slate-700/50 p-6 shadow-2xl [.light_&]:border-slate-200/60"
       >
         <button
           type="button"
@@ -45,7 +45,7 @@ export function SelectModelModal({ model, user, onClose }: SelectModelModalProps
 
         {needsPremium ? (
           <>
-            <p className="mb-4 rounded-lg bg-amber-500/10 px-3 py-2 text-sm text-amber-400 [.light_&]:text-amber-800">
+            <p className="mb-4 rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-400 [.light_&]:text-sky-800">
               This model requires a premium subscription. Upgrade options are not currently available.
             </p>
             <button
@@ -58,7 +58,7 @@ export function SelectModelModal({ model, user, onClose }: SelectModelModalProps
           </>
         ) : needsSignup ? (
           <>
-            <p className="mb-4 rounded-lg bg-amber-500/10 px-3 py-2 text-sm text-amber-400 [.light_&]:text-amber-800">
+            <p className="mb-4 rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-400 [.light_&]:text-sky-800">
               This model requires an account. Account creation is not currently available.
             </p>
             <button
@@ -80,7 +80,7 @@ export function SelectModelModal({ model, user, onClose }: SelectModelModalProps
               <button
                 type="button"
                 onClick={onClose}
-                className="flex items-center justify-center gap-2 rounded-lg bg-amber-600 px-4 py-3 text-sm font-medium text-white hover:bg-amber-500"
+                className="flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-medium text-white hover:bg-emerald-500"
               >
                 Got it
               </button>

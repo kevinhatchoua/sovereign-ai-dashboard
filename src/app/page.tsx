@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useRef, useEffect } from "react";
+import { Suspense, useMemo, useState, useRef, useEffect } from "react";
 import {
   Server,
   Cloud,
@@ -16,11 +16,12 @@ import {
   Download,
 } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import registryData from "@/data/registry.json";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { RegionSelector } from "@/app/components/RegionSelector";
 import { VoteButtons } from "@/app/components/VoteButtons";
-import { CatalogChatbot } from "@/app/components/CatalogChatbot";
+import { useCatalogActions } from "@/app/lib/CatalogActionsContext";
 import { ComparisonMatrix } from "@/app/components/ComparisonMatrix";
 import { ModelDetailPanel } from "@/app/components/ModelDetailPanel";
 import { checkCompliance, type Jurisdiction } from "@/app/lib/complianceEngine";
@@ -36,6 +37,8 @@ import {
   getSovereigntyReadiness,
   hasCloudActExposure,
   getFourDimensions,
+  getSovereigntyReadinessColorClasses,
+  getOpennessColorClasses,
 } from "@/app/lib/sovereigntyScore";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import { SovereigntyAssessment } from "@/app/components/SovereigntyAssessment";
@@ -171,7 +174,7 @@ function ModelCard({
 
   return (
     <article
-      className="relative cursor-pointer touch-manipulation rounded-xl border border-slate-700/60 bg-slate-800/50 p-4 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70 sm:p-5 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 [.light_&]:hover:border-slate-400 [.light_&]:hover:bg-slate-100"
+      className="glass-card relative cursor-pointer touch-manipulation rounded-xl border-slate-700/50 p-4 transition hover:border-slate-600/70 hover:shadow-xl sm:p-5 [.light_&]:border-slate-300/70 [.light_&]:hover:border-slate-400/80 [.light_&]:hover:shadow-xl"
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -221,7 +224,7 @@ function ModelCard({
             </button>
             {menuOpen && (
               <div
-                className="absolute right-0 top-full z-50 mt-1 min-w-[10rem] rounded-lg border border-slate-600 bg-slate-800 py-1 shadow-xl"
+                className="glass-strong absolute right-0 top-full z-50 mt-1 min-w-[10rem] rounded-xl border border-slate-600/50 py-1 shadow-xl"
                 role="menu"
               >
                 <button
@@ -274,7 +277,7 @@ function ModelCard({
                 <div
                   ref={tooltipRef}
                   role="tooltip"
-                  className="absolute left-0 top-full z-50 mt-1.5 min-w-[14rem] rounded-lg border border-slate-600 bg-slate-800 p-3 shadow-xl"
+                  className="glass-strong absolute left-0 top-full z-50 mt-1.5 min-w-[14rem] rounded-xl border border-slate-600/50 p-3 shadow-xl"
                 >
                   <p className="mb-2 text-xs font-medium text-slate-300">
                     2026 legal requirements
@@ -297,11 +300,7 @@ function ModelCard({
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); onFilterOpenness?.(model.openness_level as OpennessLevel); }}
-            className={`relative z-20 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition hover:ring-2 hover:ring-slate-500/50 ${
-              isLocalHostable
-                ? "bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-800 [.light_&]:ring-emerald-400"
-                : "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/30 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:ring-amber-500"
-            }`}
+            className={`relative z-20 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 transition hover:ring-2 hover:ring-slate-500/50 ${getOpennessColorClasses(model.openness_level)}`}
             title="Filter by openness"
           >
             {isLocalHostable ? (
@@ -359,23 +358,17 @@ function ModelCard({
           <dd className="flex flex-wrap items-center gap-1.5">
             {(() => {
               const readiness = getSovereigntyReadiness(model);
-              const levelColors =
-                readiness.level === "Advanced"
-                  ? "bg-emerald-500/20 text-emerald-600 ring-emerald-500/30 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-800"
-                  : readiness.level === "Intermediate"
-                    ? "bg-amber-500/20 text-amber-600 ring-amber-500/30 [.light_&]:bg-amber-100 [.light_&]:text-amber-800"
-                    : "bg-slate-500/20 text-slate-600 ring-slate-500/30 [.light_&]:bg-slate-200 [.light_&]:text-slate-700";
               return (
                 <>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-medium ring-1 ${levelColors}`}
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ring-1 ${getSovereigntyReadinessColorClasses(readiness.level)}`}
                     title={`Sovereignty Readiness: ${readiness.level} (${readiness.score}/100)`}
                   >
                     {readiness.label}
                   </span>
                   {hasCloudActExposure(model) && (
                     <span
-                      className="rounded-full bg-amber-500/15 px-2 py-0.5 text-xs text-amber-600 ring-1 ring-amber-500/30 [.light_&]:bg-amber-100 [.light_&]:text-amber-800"
+                      className="rounded-full bg-sky-500/15 px-2 py-0.5 text-xs text-sky-400 ring-1 ring-sky-500/30 [.light_&]:bg-sky-100 [.light_&]:text-sky-800"
                       title="US-based provider; may be subject to Cloud Act"
                     >
                       Cloud Act
@@ -424,7 +417,7 @@ function ModelCard({
   );
 }
 
-export default function Home() {
+function CatalogPage() {
   const [search, setSearch] = useState("");
   const [opennessFilter, setOpennessFilter] = useState<Set<OpennessLevel>>(
     new Set()
@@ -458,6 +451,32 @@ export default function Home() {
     // When null, leave region filter as-is (user may have custom multi-region)
   }, [currentJurisdiction]);
   const [chatbotModelIds, setChatbotModelIds] = useState<Set<string>>(new Set());
+  const searchParams = useSearchParams();
+  const { registerActions } = useCatalogActions();
+
+  const setChatbotFilter = (ids: string[]) => {
+    setChatbotModelIds(ids.length > 0 ? new Set(ids) : new Set());
+  };
+
+  // Register catalog actions so global AI chatbot can filter/select when on this page
+  useEffect(() => {
+    registerActions({ filterByModels: setChatbotFilter, selectModel: setSelectedModel });
+    return () => registerActions(null);
+  }, [registerActions]);
+
+  // Read URL params for deep links from AI chatbot (when navigating from other pages)
+  useEffect(() => {
+    const modelsParam = searchParams.get("models");
+    const modelParam = searchParams.get("model");
+    if (modelsParam) {
+      const ids = modelsParam.split(",").filter(Boolean);
+      setChatbotModelIds(ids.length > 0 ? new Set(ids) : new Set());
+    }
+    if (modelParam) {
+      const m = models.find((x) => x.id === modelParam);
+      if (m) setSelectedModel(m);
+    }
+  }, [searchParams]);
 
   const allLanguages = useMemo(
     () => [...new Set(models.flatMap((m) => m.languages))].sort(),
@@ -663,10 +682,6 @@ export default function Home() {
     });
   };
 
-  const setChatbotFilter = (ids: string[]) => {
-    setChatbotModelIds(ids.length > 0 ? new Set(ids) : new Set());
-  };
-
   const hasActiveFilters =
     regionFilter.size > 0 ||
     opennessFilter.size > 0 ||
@@ -746,7 +761,7 @@ export default function Home() {
   }, [sidebarOpen]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
+    <div className="min-h-screen text-slate-200 [.light_&]:text-slate-900">
       <SiteHeader
         showSearch
         searchValue={search}
@@ -759,7 +774,7 @@ export default function Home() {
         onSidebarToggle={() => setSidebarOpen((o) => !o)}
       />
 
-      <div className="border-b border-slate-800/60 bg-zinc-950/50 [.light_&]:border-slate-300 [.light_&]:bg-slate-50">
+      <div className="glass border-b border-slate-800/40 [.light_&]:border-slate-200/50">
         <div className="mx-auto flex min-w-0 max-w-7xl flex-col gap-4 py-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:py-6 sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
           <div className="min-w-0 flex-1">
             <h1 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
@@ -776,7 +791,7 @@ export default function Home() {
               type="button"
               onClick={() => setAssessmentOpen(true)}
               aria-label="Open Sovereignty Assessment"
-              className="inline-flex items-center gap-2 rounded-lg border border-amber-500/50 bg-amber-500/10 px-4 py-2 text-sm font-medium text-amber-400 transition hover:bg-amber-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:border-amber-600/50 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:hover:bg-amber-200"
+              className="inline-flex items-center gap-2 rounded-lg border border-violet-500/50 bg-violet-500/10 px-4 py-2 text-sm font-medium text-violet-400 transition hover:bg-violet-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:border-violet-600/50 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:hover:bg-violet-200"
             >
               <Shield className="h-4 w-4" aria-hidden />
               Sovereignty Assessment
@@ -798,7 +813,7 @@ export default function Home() {
         )}
         <aside
           aria-label="Filters"
-          className={`fixed inset-y-0 left-0 z-30 w-[min(20rem,100vw-2rem)] max-w-full border-r border-slate-800 bg-zinc-900 p-4 pb-[env(safe-area-inset-bottom)] pt-[calc(1rem+env(safe-area-inset-top))] transition-transform lg:static lg:z-0 lg:translate-x-0 lg:w-64 lg:shrink-0 lg:pt-4 lg:pb-4 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 ${
+          className={`glass-strong fixed inset-y-0 left-0 z-30 w-[min(20rem,100vw-2rem)] max-w-full border-r border-slate-800/50 p-4 pb-[env(safe-area-inset-bottom)] pt-[calc(1rem+env(safe-area-inset-top))] transition-transform lg:static lg:z-0 lg:translate-x-0 lg:w-64 lg:shrink-0 lg:pt-4 lg:pb-4 [.light_&]:border-slate-200/60 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -994,7 +1009,7 @@ export default function Home() {
           </div>
         </aside>
 
-        <main id="main-content" className={`min-w-0 flex-1 overflow-x-hidden ${compareIds.size >= 2 ? "pb-28 sm:pb-24" : "pb-24 sm:pb-0"}`} tabIndex={-1}>
+        <main className={`min-w-0 flex-1 overflow-x-hidden ${compareIds.size >= 2 ? "pb-28 sm:pb-24" : "pb-24 sm:pb-0"}`} tabIndex={-1}>
           <div className="mb-4 flex min-w-0 flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
               <p className="text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
@@ -1013,12 +1028,12 @@ export default function Home() {
                 </button>
                 <div className="flex flex-wrap gap-1.5">
                   {chatbotModelIds.size > 0 && (
-                    <span className="inline-flex items-center gap-1 rounded bg-amber-500/20 px-2 py-0.5 text-xs text-amber-400 [.light_&]:bg-amber-100 [.light_&]:text-amber-800">
+                    <span className="inline-flex items-center gap-1 rounded bg-violet-500/20 px-2 py-0.5 text-xs text-violet-400 [.light_&]:bg-violet-100 [.light_&]:text-violet-800">
                       Assistant filter ({chatbotModelIds.size})
                       <button
                         type="button"
                         onClick={() => setChatbotModelIds(new Set())}
-                        className="flex min-h-[28px] min-w-[28px] touch-manipulation items-center justify-center rounded hover:bg-amber-500/30"
+                        className="flex min-h-[28px] min-w-[28px] touch-manipulation items-center justify-center rounded hover:bg-violet-500/30"
                         aria-label="Clear assistant filter"
                       >
                         <X className="h-3 w-3" aria-hidden />
@@ -1113,7 +1128,7 @@ export default function Home() {
                           onClick={toggle}
                           className={`inline-flex min-h-[44px] items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition touch-manipulation ${
                             active
-                              ? "bg-amber-500/25 text-amber-400 ring-2 ring-amber-500/60 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:ring-amber-500"
+                              ? "bg-violet-500/25 text-violet-400 ring-2 ring-violet-500/60 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:ring-violet-500"
                               : "bg-slate-800/60 text-slate-400 ring-1 ring-slate-600/50 hover:bg-slate-700/70 hover:text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-600 [.light_&]:ring-slate-300 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-800"
                           }`}
                         >
@@ -1153,7 +1168,7 @@ export default function Home() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-slate-700/60 bg-slate-800/30 p-12 text-center [.light_&]:border-slate-300 [.light_&]:bg-slate-100">
+            <div className="glass-card flex flex-col items-center justify-center gap-4 rounded-xl border-slate-700/50 p-12 text-center [.light_&]:border-slate-300/70">
               <EmptyStateIllustration className="h-20 w-32 text-slate-500 [.light_&]:text-slate-400" />
               <p className="text-slate-500 [.light_&]:text-slate-700">
                 No models match your filters. Try adjusting search or filters.
@@ -1161,16 +1176,10 @@ export default function Home() {
             </div>
           )}
         </main>
-
-        <CatalogChatbot
-          models={models}
-          onFilterByModels={setChatbotFilter}
-          onSelectModel={setSelectedModel}
-        />
       </div>
 
       {compareIds.size >= 2 && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-700 bg-zinc-900/95 py-3 shadow-lg backdrop-blur [.light_&]:border-slate-300 [.light_&]:bg-white/95 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <div className="glass fixed bottom-0 left-0 right-0 z-40 border-t border-slate-700/50 py-3 shadow-lg [.light_&]:border-slate-200/60 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <div className="mx-auto flex min-w-0 max-w-7xl flex-wrap items-center justify-between gap-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:flex-nowrap sm:gap-4 sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
             <p className="text-sm text-slate-400 [.light_&]:text-slate-700">
               {compareIds.size} model{compareIds.size !== 1 ? "s" : ""} selected
@@ -1215,5 +1224,13 @@ export default function Home() {
         isOpen={assessmentOpen}
       />
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-zinc-950" />}>
+      <CatalogPage />
+    </Suspense>
   );
 }

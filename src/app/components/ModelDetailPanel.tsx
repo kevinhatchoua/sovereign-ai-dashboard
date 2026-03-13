@@ -26,6 +26,8 @@ import {
   getFourDimensions,
   getSovereigntyReadiness,
   hasCloudActExposure,
+  getSovereigntyReadinessColorClasses,
+  getOpennessColorClasses,
 } from "@/app/lib/sovereigntyScore";
 import { SOVEREIGN_PLATFORMS, getCompatiblePlatforms } from "@/app/lib/sovereignPlatforms";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
@@ -130,12 +132,12 @@ export function ModelDetailPanel({
       />
       <aside
         ref={panelRef}
-        className="fixed inset-x-0 top-0 z-50 flex h-full max-h-[100dvh] w-full flex-col border-l border-slate-700 bg-zinc-900 shadow-2xl [.light_&]:border-slate-300 [.light_&]:bg-white sm:inset-x-auto sm:left-auto sm:right-0 sm:max-w-lg pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
+        className="glass-strong fixed inset-x-0 top-0 z-50 flex h-full max-h-[100dvh] w-full flex-col border-l border-slate-700/50 shadow-2xl [.light_&]:border-slate-200/60 sm:inset-x-auto sm:left-auto sm:right-0 sm:max-w-lg pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
         role="dialog"
         aria-modal="true"
         aria-label={`Details for ${model.name}`}
       >
-        <div className="flex shrink-0 items-center justify-between border-b border-slate-700 px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] [.light_&]:border-slate-200">
+        <div className="flex shrink-0 items-center justify-between border-b border-slate-700/50 px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] [.light_&]:border-slate-200/60">
           <h2 className="min-w-0 truncate text-lg font-semibold text-white [.light_&]:text-slate-900">{model.name}</h2>
           <button
             type="button"
@@ -153,13 +155,9 @@ export function ModelDetailPanel({
             <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-700">
               Overview
             </h3>
-            <div className="space-y-3 rounded-lg border border-slate-700 bg-slate-800/50 p-4 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
+            <div className="glass space-y-3 rounded-xl border-slate-700/50 p-4 [.light_&]:border-slate-200/60">
               <div className="flex items-center gap-3">
-                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
-                  model.openness_level === "Open Weights"
-                    ? "bg-emerald-500/20 text-emerald-400 [.light_&]:text-emerald-700 [.light_&]:bg-emerald-100"
-                    : "bg-amber-500/20 text-amber-400 [.light_&]:text-amber-800 [.light_&]:bg-amber-100"
-                }`}>
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${getOpennessColorClasses(model.openness_level)}`}>
                   {model.openness_level === "Open Weights" ? <Server className="h-3.5 w-3.5" /> : <Cloud className="h-3.5 w-3.5" />}
                   {model.openness_level}
                 </span>
@@ -261,7 +259,7 @@ export function ModelDetailPanel({
                       href={links.download}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg border border-emerald-600/40 bg-emerald-500/10 px-3 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-500/20 [.light_&]:border-emerald-500/60 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-700 [.light_&]:hover:bg-emerald-200"
+                      className="inline-flex items-center gap-2 rounded-lg border border-violet-600/40 bg-violet-500/10 px-3 py-2 text-sm font-medium text-violet-400 transition hover:bg-violet-500/20 [.light_&]:border-violet-500/60 [.light_&]:bg-violet-100 [.light_&]:text-violet-700 [.light_&]:hover:bg-violet-200"
                     >
                       <Download className="h-4 w-4" />
                       Download from Hugging Face
@@ -277,15 +275,9 @@ export function ModelDetailPanel({
             <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
               Sovereignty Assessment
             </h3>
-            <div className="space-y-3 rounded-lg border border-slate-700 bg-slate-800/50 p-4 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
+            <div className="glass space-y-3 rounded-xl border-slate-700/50 p-4 [.light_&]:border-slate-200/60">
               {(() => {
                 const readiness = getSovereigntyReadiness(model);
-                const levelColors =
-                  readiness.level === "Advanced"
-                    ? "bg-emerald-500/20 text-emerald-600 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-800"
-                    : readiness.level === "Intermediate"
-                      ? "bg-amber-500/20 text-amber-600 [.light_&]:bg-amber-100 [.light_&]:text-amber-800"
-                      : "bg-slate-500/20 text-slate-600 [.light_&]:bg-slate-200 [.light_&]:text-slate-700";
                 return (
                   <>
                     <div className="flex items-center justify-between">
@@ -293,13 +285,13 @@ export function ModelDetailPanel({
                         Readiness
                       </span>
                       <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${levelColors}`}
+                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${getSovereigntyReadinessColorClasses(readiness.level)}`}
                       >
                         {readiness.label} ({readiness.score}/100)
                       </span>
                     </div>
                     {hasCloudActExposure(model) && (
-                      <p className="text-xs text-amber-600 [.light_&]:text-amber-800">
+                      <p className="text-xs text-sky-500 [.light_&]:text-sky-700">
                         US-based provider; may be subject to Cloud Act.
                       </p>
                     )}
@@ -316,9 +308,9 @@ export function ModelDetailPanel({
                           <p
                             className={`text-xs ${
                               d.level === "high"
-                                ? "text-emerald-500 [.light_&]:text-emerald-700"
+                                ? "text-blue-500 [.light_&]:text-blue-700"
                                 : d.level === "medium"
-                                  ? "text-amber-500 [.light_&]:text-amber-700"
+                                  ? "text-indigo-500 [.light_&]:text-indigo-700"
                                   : "text-slate-500 [.light_&]:text-slate-600"
                             }`}
                           >
@@ -531,7 +523,7 @@ export function ModelDetailPanel({
             <button
               type="button"
               onClick={() => setDisputeModalOpen(true)}
-              className="flex w-full items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-400 hover:bg-amber-500/20 [.light_&]:border-amber-400 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:hover:bg-amber-200"
+              className="flex w-full items-center gap-2 rounded-lg border border-violet-500/30 bg-violet-500/10 px-3 py-2 text-sm text-violet-400 hover:bg-violet-500/20 [.light_&]:border-violet-400 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:hover:bg-violet-200"
             >
               <AlertCircle className="h-4 w-4 shrink-0" />
               Report Compliance Dispute
@@ -566,14 +558,14 @@ export function ModelDetailPanel({
                     <p><strong>{model.name}</strong> — {model.provider} ({model.origin_country})</p>
                     <p>{getModelDescription(model)}</p>
                     <p>Sovereignty Readiness: {getSovereigntyReadiness(model).label} ({getSovereigntyReadiness(model).score}/100)</p>
-                    {hasCloudActExposure(model) && <p className="text-amber-700">US Cloud Act exposure</p>}
+                    {hasCloudActExposure(model) && <p className="text-sky-600">US Cloud Act exposure</p>}
                     <p>Ethics Score: {computeEthicsScore(model)}/100</p>
                     <p>Openness: {model.openness_level} · Data residency: {model.data_residency ? "Yes" : "No"}</p>
                   </div>
                   <button
                     type="button"
                     onClick={() => window.print()}
-                    className="mt-4 w-full rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600"
+                    className="mt-4 w-full rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500"
                   >
                     Print / Save as PDF
                   </button>

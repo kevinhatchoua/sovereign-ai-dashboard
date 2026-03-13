@@ -20,14 +20,14 @@ export function DataSovereigntyIllustration({ className }: { className?: string 
         stroke="currentColor"
         strokeWidth="2"
         fill="none"
-        className="text-amber-500 [.light_&]:text-amber-600"
+        className="text-violet-500 [.light_&]:text-violet-600"
       />
       <circle
         cx="100"
         cy="60"
         r="6"
         fill="currentColor"
-        className="text-amber-500 [.light_&]:text-amber-600"
+        className="text-violet-500 [.light_&]:text-violet-600"
       />
       {/* Four dimension nodes */}
       {[
@@ -60,7 +60,7 @@ export function DataSovereigntyIllustration({ className }: { className?: string 
             cy={p.y}
             r="4"
             fill="currentColor"
-            className="text-amber-500/80 [.light_&]:text-amber-600"
+            className="text-violet-500/80 [.light_&]:text-violet-600"
           />
         </g>
       ))}

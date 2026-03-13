@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function MethodologyPage() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
+    <div className="min-h-screen text-slate-200 [.light_&]:text-slate-900">
       <SiteHeader />
 
       <main
@@ -43,7 +43,7 @@ export default function MethodologyPage() {
 
         <section className="mb-10" aria-labelledby="dimensions-heading">
           <h2 id="dimensions-heading" className="mb-4 flex items-center gap-2 text-xl font-semibold text-white [.light_&]:text-slate-900">
-            <Database className="h-5 w-5 shrink-0 text-amber-500 [.light_&]:text-amber-600" aria-hidden="true" />
+            <Database className="h-5 w-5 shrink-0 text-blue-500 [.light_&]:text-blue-600" aria-hidden="true" />
             Four Dimensions of Sovereignty (McKinsey)
           </h2>
           <p className="mb-4 text-slate-200 [.light_&]:text-slate-700">
@@ -89,7 +89,7 @@ export default function MethodologyPage() {
 
         <section className="mb-10" aria-labelledby="readiness-heading">
           <h2 id="readiness-heading" className="mb-4 flex items-center gap-2 text-xl font-semibold text-white [.light_&]:text-slate-900">
-            <Server className="h-5 w-5 shrink-0 text-amber-500 [.light_&]:text-amber-600" aria-hidden="true" />
+            <Server className="h-5 w-5 shrink-0 text-blue-500 [.light_&]:text-blue-600" aria-hidden="true" />
             Sovereignty Readiness Levels
           </h2>
           <p className="mb-4 text-slate-200 [.light_&]:text-slate-700">
@@ -99,15 +99,15 @@ export default function MethodologyPage() {
           </p>
           <ul className="space-y-2 text-slate-200 [.light_&]:text-slate-700" role="list">
             <li>
-              <strong className="text-emerald-300 [.light_&]:text-emerald-800">Advanced (75–100):</strong>{" "}
+              <strong className="text-blue-400 [.light_&]:text-blue-700">Advanced (75–100):</strong>{" "}
               Strong posture across dimensions; suitable for high-sensitivity use cases.
             </li>
             <li>
-              <strong className="text-amber-300 [.light_&]:text-amber-800">Intermediate (50–74):</strong>{" "}
+              <strong className="text-indigo-400 [.light_&]:text-indigo-700">Intermediate (50–74):</strong>{" "}
               Moderate posture; review jurisdiction and hosting options.
             </li>
             <li>
-              <strong className="text-slate-300 [.light_&]:text-slate-800">Foundation (0–49):</strong>{" "}
+              <strong className="text-slate-400 [.light_&]:text-slate-700">Foundation (0–49):</strong>{" "}
               Baseline; may require additional controls for sovereign deployment.
             </li>
           </ul>
@@ -115,7 +115,7 @@ export default function MethodologyPage() {
 
         <section className="mb-10" aria-labelledby="cloud-act-heading">
           <h2 id="cloud-act-heading" className="mb-4 flex items-center gap-2 text-xl font-semibold text-white [.light_&]:text-slate-900">
-            <ShieldAlert className="h-5 w-5 shrink-0 text-amber-500 [.light_&]:text-amber-600" aria-hidden="true" />
+            <ShieldAlert className="h-5 w-5 shrink-0 text-sky-500 [.light_&]:text-sky-600" aria-hidden="true" />
             US Cloud Act Exposure
           </h2>
           <p className="mb-4 text-slate-200 [.light_&]:text-slate-700">
@@ -155,7 +155,7 @@ export default function MethodologyPage() {
         <nav className="mt-12" aria-label="Back to catalog">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:focus-visible:ring-offset-white"
+            className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:focus-visible:ring-offset-white"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back to catalog

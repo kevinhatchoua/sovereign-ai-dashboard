@@ -156,7 +156,7 @@ function ComparisonRow<T>({
           key={m.id}
           className={`text-sm ${
             bestIdx === i && highlightBest
-              ? "font-semibold text-emerald-600 [.light_&]:text-emerald-700"
+              ? "font-semibold text-blue-600 [.light_&]:text-blue-700"
               : "text-slate-400 [.light_&]:text-slate-600"
           }`}
         >
@@ -223,7 +223,7 @@ function SectionHeader({
 }) {
   return (
     <div className="flex items-center gap-2 border-b border-slate-700/60 bg-slate-800/30 px-4 py-2 [.light_&]:border-slate-200 [.light_&]:bg-slate-100">
-      <Icon className="h-4 w-4 text-amber-500 [.light_&]:text-amber-600" />
+      <Icon className="h-4 w-4 text-violet-500 [.light_&]:text-violet-600" />
       <span className="text-sm font-semibold uppercase tracking-wider text-slate-400 [.light_&]:text-slate-700">
         {title}
       </span>
@@ -363,7 +363,7 @@ export function ComparisonMatrix({
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden
       />
@@ -372,9 +372,9 @@ export function ComparisonMatrix({
         role="dialog"
         aria-modal="true"
         aria-label="Model Comparison"
-        className="relative z-10 flex max-h-[90dvh] w-full flex-col rounded-t-2xl border border-b-0 border-slate-700 bg-zinc-900 shadow-2xl sm:max-h-[85vh] sm:w-auto sm:min-w-[min(100vw-2rem,42rem)] sm:max-w-5xl sm:rounded-xl sm:border-b [.light_&]:border-slate-300 [.light_&]:bg-white"
+        className="glass-strong relative z-10 flex max-h-[90dvh] w-full flex-col rounded-t-2xl border border-b-0 border-slate-700/50 shadow-2xl sm:max-h-[85vh] sm:w-auto sm:min-w-[min(100vw-2rem,42rem)] sm:max-w-5xl sm:rounded-2xl sm:border [.light_&]:border-slate-200/60"
       >
-        <div className="flex shrink-0 items-center justify-between border-b border-slate-700 px-4 py-3 [.light_&]:border-slate-200">
+        <div className="flex shrink-0 items-center justify-between border-b border-slate-700/50 px-4 py-3 [.light_&]:border-slate-200/60">
           <h2 className="text-lg font-semibold text-white [.light_&]:text-slate-900">
             Model Comparison
           </h2>
@@ -529,8 +529,8 @@ export function ComparisonMatrix({
         {/* Verdict & Footer */}
         <div className="flex flex-col gap-3 border-t border-slate-700 px-4 py-4 [.light_&]:border-slate-200">
           {verdict && (
-            <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 [.light_&]:border-emerald-400 [.light_&]:bg-emerald-50">
-              <p className="text-sm font-medium text-emerald-400 [.light_&]:text-emerald-800">
+            <div className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-4 py-3 [.light_&]:border-blue-400 [.light_&]:bg-blue-50">
+              <p className="text-sm font-medium text-blue-400 [.light_&]:text-blue-800">
                 Recommendation
               </p>
               <p className="text-sm text-slate-300 [.light_&]:text-slate-700">

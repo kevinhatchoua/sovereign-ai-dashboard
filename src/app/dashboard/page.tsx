@@ -41,7 +41,7 @@ function StatCard({
   href?: string;
 }) {
   const content = (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-slate-300 hover:shadow [.dark_&]:border-slate-700 [.dark_&]:bg-slate-800/50 [.dark_&]:hover:border-slate-600">
+    <div className="glass-card rounded-xl border-slate-200/60 p-4 transition hover:shadow-lg [.dark_&]:border-slate-700/50 [.dark_&]:hover:border-slate-600/70">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs font-medium uppercase tracking-wider text-slate-500 [.dark_&]:text-slate-400">
@@ -56,12 +56,12 @@ function StatCard({
             </p>
           )}
         </div>
-        <Icon className="h-8 w-8 text-amber-500/80 [.dark_&]:text-amber-400" />
+        <Icon className="h-8 w-8 text-violet-500/80 [.dark_&]:text-violet-400" />
       </div>
       {href && (
         <Link
           href={href}
-          className="mt-3 flex items-center gap-1 text-xs font-medium text-amber-600 hover:text-amber-700 [.dark_&]:text-amber-400"
+          className="mt-3 flex items-center gap-1 text-xs font-medium text-violet-600 hover:text-violet-700 [.dark_&]:text-violet-400"
         >
           View
           <ArrowRight className="h-3 w-3" />
@@ -79,7 +79,7 @@ function StatCard({
 function BarChart({
   data,
   max,
-  color = "bg-amber-500",
+  color = "bg-violet-500",
 }: {
   data: { label: string; value: number }[];
   max?: number;
@@ -145,7 +145,7 @@ export default function DashboardPage() {
   }, {});
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
+    <div className="min-h-screen text-slate-200 [.light_&]:text-slate-900">
       <SiteHeader />
 
       <main id="main-content" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" tabIndex={-1}>
@@ -196,33 +196,33 @@ export default function DashboardPage() {
 
         {/* Secondary metrics */}
         <div className="mb-10 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm [.dark_&]:border-slate-700 [.dark_&]:bg-slate-800/50">
+          <div className="glass-card rounded-xl border-slate-200/60 p-5 [.dark_&]:border-slate-700/50">
             <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-600 [.dark_&]:text-slate-400">
-              <Cloud className="h-4 w-4" />
+              <Cloud className="h-4 w-4" aria-hidden />
               Openness Split
             </h2>
             <div className="flex gap-4">
-              <div className="flex-1 rounded-lg bg-emerald-500/15 p-4">
-                <p className="text-2xl font-bold text-emerald-700 [.dark_&]:text-emerald-400">
+              <div className="flex-1 rounded-lg bg-violet-500/15 p-4">
+                <p className="text-2xl font-bold text-violet-700 [.dark_&]:text-violet-400">
                   {openWeights.length}
                 </p>
-                <p className="text-xs text-emerald-600 [.dark_&]:text-emerald-500">
+                <p className="text-xs text-violet-600 [.dark_&]:text-violet-500">
                   Open Weights
                 </p>
               </div>
-              <div className="flex-1 rounded-lg bg-amber-500/15 p-4">
-                <p className="text-2xl font-bold text-amber-700 [.dark_&]:text-amber-400">
+              <div className="flex-1 rounded-lg bg-slate-500/15 p-4">
+                <p className="text-2xl font-bold text-slate-700 [.dark_&]:text-slate-400">
                   {apiOnly.length}
                 </p>
-                <p className="text-xs text-amber-600 [.dark_&]:text-amber-500">
+                <p className="text-xs text-slate-600 [.dark_&]:text-slate-500">
                   API-only
                 </p>
               </div>
             </div>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm [.dark_&]:border-slate-700 [.dark_&]:bg-slate-800/50">
+          <div className="glass-card rounded-xl border-slate-200/60 p-5 [.dark_&]:border-slate-700/50">
             <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-600 [.dark_&]:text-slate-400">
-              <ShieldCheck className="h-4 w-4" />
+              <ShieldCheck className="h-4 w-4" aria-hidden />
               Risk Indicators
             </h2>
             <p className="text-sm text-slate-600 [.dark_&]:text-slate-400">
@@ -236,16 +236,16 @@ export default function DashboardPage() {
 
         {/* Charts */}
         <div className="mb-10 grid gap-8 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm [.dark_&]:border-slate-700 [.dark_&]:bg-slate-800/50">
+          <div className="glass-card rounded-xl border-slate-200/60 p-5 [.dark_&]:border-slate-700/50">
             <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-600 [.dark_&]:text-slate-400">
-              <BarChart3 className="h-4 w-4" />
+              <BarChart3 className="h-4 w-4" aria-hidden />
               Models by Provider
             </h2>
             <BarChart data={topProviders} />
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm [.dark_&]:border-slate-700 [.dark_&]:bg-slate-800/50">
+          <div className="glass-card rounded-xl border-slate-200/60 p-5 [.dark_&]:border-slate-700/50">
             <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-600 [.dark_&]:text-slate-400">
-              <Globe className="h-4 w-4" />
+              <Globe className="h-4 w-4" aria-hidden />
               Models by Origin
             </h2>
             <BarChart data={topOrigins} />
@@ -253,9 +253,9 @@ export default function DashboardPage() {
         </div>
 
         {/* Sovereignty distribution */}
-        <div className="mb-10 rounded-xl border border-slate-200 bg-white p-5 shadow-sm [.dark_&]:border-slate-700 [.dark_&]:bg-slate-800/50">
+        <div className="glass-card mb-10 rounded-xl border-slate-200/60 p-5 [.dark_&]:border-slate-700/50">
           <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-600 [.dark_&]:text-slate-400">
-            <Award className="h-4 w-4" />
+            <Award className="h-4 w-4" aria-hidden />
             Sovereignty Readiness Distribution
           </h2>
           <div className="flex flex-wrap gap-4">
@@ -276,9 +276,9 @@ export default function DashboardPage() {
         </div>
 
         {/* News & Updates - will be a client component that fetches */}
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm [.dark_&]:border-slate-700 [.dark_&]:bg-slate-800/50">
+        <div className="glass-card rounded-xl border-slate-200/60 p-5 [.dark_&]:border-slate-700/50">
           <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-600 [.dark_&]:text-slate-400">
-            <TrendingUp className="h-4 w-4" />
+            <TrendingUp className="h-4 w-4" aria-hidden />
             News & Updates
           </h2>
           <NewsFeed />
@@ -315,7 +315,7 @@ function NewsFeedClient() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12" aria-live="polite" aria-busy="true">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-amber-500 border-t-transparent" aria-hidden />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" aria-hidden />
         <span className="sr-only">Loading news</span>
       </div>
     );
@@ -323,7 +323,7 @@ function NewsFeedClient() {
 
   if (error) {
     return (
-      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 [.dark_&]:border-amber-800 [.dark_&]:bg-amber-900/20 [.dark_&]:text-amber-200">
+      <div className="rounded-lg border border-violet-200 bg-violet-50 p-4 text-sm text-violet-800 [.dark_&]:border-violet-800 [.dark_&]:bg-violet-900/20 [.dark_&]:text-violet-200">
         <p>{error}</p>
         <p className="mt-2 text-xs">
           Configure RSS_FEED_URL in .env to add custom feeds. Default: Hugging Face blog.

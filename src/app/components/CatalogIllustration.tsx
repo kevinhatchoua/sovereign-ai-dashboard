@@ -54,12 +54,12 @@ export function CatalogIllustration({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"
-        className="text-amber-500 [.light_&]:text-amber-600"
+        className="text-violet-500 [.light_&]:text-violet-600"
       />
       <path
         d="M100 26l12 5v6c0 4-4 8-12 8s-12-4-12-8v-6l12-5z"
         fill="currentColor"
-        className="text-amber-500/30 [.light_&]:text-amber-600/40"
+        className="text-violet-500/30 [.light_&]:text-violet-600/40"
       />
       {/* Dots on cards */}
       <circle cx="75" cy="55" r="2" fill="currentColor" className="text-slate-500/60" />
