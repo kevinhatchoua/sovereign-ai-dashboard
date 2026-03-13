@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { SiteHeader } from "@/app/components/SiteHeader";
 import {
-  ShieldCheck,
   BarChart3,
   Server,
   Cloud,
@@ -12,6 +12,7 @@ import {
   ArrowRight,
   Database,
   Globe,
+  ShieldCheck,
 } from "lucide-react";
 import registryData from "@/data/registry.json";
 import {
@@ -143,44 +144,8 @@ export default function DashboardPage() {
   }, {});
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 [.dark_&]:bg-zinc-950 [.dark_&]:text-slate-200">
-      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/95 backdrop-blur [.dark_&]:border-slate-800 [.dark_&]:bg-zinc-950/95">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-lg font-semibold text-slate-900 [.dark_&]:text-white"
-          >
-            <ShieldCheck className="h-5 w-5 text-amber-500" />
-            Sovereign AI
-          </Link>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 [.dark_&]:text-slate-400 [.dark_&]:hover:bg-slate-800"
-            >
-              Models
-            </Link>
-            <Link
-              href="/dashboard"
-              className="rounded-lg bg-amber-500/20 px-3 py-2 text-sm font-medium text-amber-700 [.dark_&]:bg-amber-400"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/methodology"
-              className="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 [.dark_&]:text-slate-400 [.dark_&]:hover:bg-slate-800"
-            >
-              Methodology
-            </Link>
-            <Link
-              href="/admin"
-              className="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 [.dark_&]:text-slate-400 [.dark_&]:hover:bg-slate-800"
-            >
-              Admin
-            </Link>
-          </div>
-        </nav>
-      </header>
+    <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
+      <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8">

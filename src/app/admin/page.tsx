@@ -10,6 +10,8 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
+import { SiteHeader } from "@/app/components/SiteHeader";
+import { ThemeToggle } from "@/app/components/ThemeToggle";
 import { supabase } from "@/app/lib/supabase";
 
 type Dispute = {
@@ -103,26 +105,23 @@ export default function AdminPage() {
   const pending = disputes.filter((d) => d.status === "pending");
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-slate-200">
-      <header className="border-b border-slate-800 bg-zinc-900/50">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
-          <h1 className="flex items-center gap-2 text-xl font-semibold text-white">
-            <Shield className="h-6 w-6 text-amber-500" />
-            Admin Dashboard
-          </h1>
+    <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
+      <SiteHeader
+        adminExtras={
           <div className="flex items-center gap-3">
-            <span className="text-sm text-slate-400">{user?.email}</span>
+            <ThemeToggle />
+            <span className="text-sm text-slate-400 [.light_&]:text-slate-600">{user?.email}</span>
             <button
               type="button"
               onClick={signOut}
-              className="flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700"
+              className="flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 [.light_&]:border-slate-400 [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-300"
             >
               <LogOut className="h-4 w-4" />
               Sign out
             </button>
           </div>
-        </div>
-      </header>
+        }
+      />
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <section>

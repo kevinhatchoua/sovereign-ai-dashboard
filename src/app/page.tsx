@@ -2,26 +2,23 @@
 
 import { useMemo, useState, useRef, useEffect } from "react";
 import {
-  Search,
   Server,
   Cloud,
   Shield,
   MapPin,
   ChevronDown,
-  Filter,
   AlertTriangle,
   GitCompare,
   MoreVertical,
   X,
   LayoutGrid,
-  ShieldCheck,
   ExternalLink,
   Download,
 } from "lucide-react";
 import Link from "next/link";
 import registryData from "@/data/registry.json";
+import { SiteHeader } from "@/app/components/SiteHeader";
 import { RegionSelector } from "@/app/components/RegionSelector";
-import { ThemeToggle } from "@/app/components/ThemeToggle";
 import { VoteButtons } from "@/app/components/VoteButtons";
 import { CatalogChatbot } from "@/app/components/CatalogChatbot";
 import { ComparisonMatrix } from "@/app/components/ComparisonMatrix";
@@ -741,86 +738,18 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
-      <header className="sticky top-0 z-10 border-b border-slate-800 bg-zinc-950/95 backdrop-blur [.light_&]:border-slate-300 [.light_&]:bg-white/95 pt-[env(safe-area-inset-top)]">
-        <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
-          <div className="flex min-w-0 shrink-0 items-center gap-3 sm:gap-6">
-            <Link
-              href="/"
-              className="flex min-w-0 items-center gap-2 text-base font-semibold tracking-tight text-white hover:text-slate-200 sm:text-lg [.light_&]:text-slate-900 [.light_&]:hover:text-slate-800"
-            >
-              <ShieldCheck className="h-5 w-5 shrink-0 text-amber-500 sm:h-6 sm:w-6" />
-              <span className="truncate">Sovereign AI</span>
-            </Link>
-            <div className="hidden items-center gap-1 sm:flex">
-              <Link
-                href="/dashboard"
-                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
-              >
-                Dashboard
-              </Link>
-              <span className="rounded-lg bg-slate-800/80 px-3 py-1.5 text-sm font-medium text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-800">
-                Models
-              </span>
-              <button
-                type="button"
-                onClick={() => setAssessmentOpen(true)}
-                className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
-              >
-                <Shield className="h-4 w-4" />
-                Assessment
-              </button>
-              <Link
-                href="/methodology"
-                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
-              >
-                Methodology
-              </Link>
-              <Link
-                href="/admin"
-                className="rounded-lg px-3 py-1.5 text-sm text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
-              >
-                Admin
-              </Link>
-            </div>
-          </div>
-          <div className="flex min-w-0 flex-1 basis-full items-center gap-2 sm:basis-auto sm:flex-initial sm:pl-4 lg:pl-8">
-            <div className="hidden shrink-0 sm:block">
-              <RegionSelector
-                value={currentJurisdiction}
-                onChange={setCurrentJurisdiction}
-                placeholder="Jurisdiction"
-              />
-            </div>
-            <div className="relative min-w-0 flex-1">
-              <Search
-                className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 shrink-0 text-slate-500"
-                aria-hidden
-              />
-              <input
-                type="search"
-                placeholder="Search models..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full min-w-0 rounded-lg border border-slate-700 bg-slate-800/80 py-2.5 pl-10 pr-4 text-base text-slate-200 placeholder-slate-500 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600/50 [.light_&]:border-slate-400 [.light_&]:bg-slate-100 [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600 [.light_&]:focus:border-amber-500 [.light_&]:focus:ring-amber-500/30 sm:py-2"
-                aria-label="Search models"
-              />
-            </div>
-            <div className="flex shrink-0 items-center gap-1">
-              <ThemeToggle />
-              <button
-                type="button"
-                onClick={() => setSidebarOpen((o) => !o)}
-                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800 lg:hidden [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-200"
-                aria-expanded={sidebarOpen}
-                aria-label="Toggle filters"
-              >
-                <Filter className="h-4 w-4" />
-                <span className="ml-1.5 sm:hidden">Filters</span>
-              </button>
-            </div>
-          </div>
-        </nav>
-      </header>
+      <SiteHeader
+        onAssessmentClick={() => setAssessmentOpen(true)}
+        showSearch
+        searchValue={search}
+        onSearchChange={setSearch}
+        showRegionSelector
+        jurisdiction={currentJurisdiction}
+        onJurisdictionChange={setCurrentJurisdiction}
+        showFilterButton
+        sidebarOpen={sidebarOpen}
+        onSidebarToggle={() => setSidebarOpen((o) => !o)}
+      />
 
       <div className="border-b border-slate-800/60 bg-zinc-950/50 [.light_&]:border-slate-300 [.light_&]:bg-slate-50">
         <div className="mx-auto max-w-7xl py-6 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
@@ -1206,6 +1135,12 @@ export default function Home() {
             </p>
           )}
         </main>
+
+        <CatalogChatbot
+          models={models}
+          onFilterByModels={setChatbotFilter}
+          onSelectModel={setSelectedModel}
+        />
       </div>
 
       {compareIds.size >= 2 && (
@@ -1246,12 +1181,6 @@ export default function Home() {
           openDisputeOnMount={openDisputeOnMount}
         />
       )}
-
-      <CatalogChatbot
-        models={models}
-        onFilterByModels={setChatbotFilter}
-        onSelectModel={setSelectedModel}
-      />
 
       <SovereigntyAssessment
         models={models}

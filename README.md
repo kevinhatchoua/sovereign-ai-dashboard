@@ -33,6 +33,24 @@ This open-source dashboard provides a real-time, community-verified registry of 
 - **`python scripts/expand_registry_from_hf.py`** — Add top text-generation models from Hugging Face (validated data only).
 - **`python scripts/clean_registry.py`** — Remove mock fields (run before production).
 
+### Public API
+
+Consume the registry programmatically. Base URL: `https://your-domain.com/api` (or `http://localhost:3000/api` locally).
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/models` | GET | List models. Query params: `jurisdiction` (EU\|IN\|US), `openness` (Open Weights\|API), `provider`, `country`, `q` (search), `page`, `limit` |
+| `/api/models/[id]` | GET | Single model by ID |
+| `/api/stats` | GET | Aggregate stats. Query params: `jurisdiction` (optional) |
+| `/api/news` | GET | RSS news feed (sovereign AI / open models) |
+| `/api/export` | GET | Bulk export. Query params: `format` (json\|csv) |
+| `/api/webhook/submit` | POST | Model submission (requires `X-Webhook-Secret` if `WEBHOOK_SECRET` set) |
+| `/api/feed/models` | GET | RSS feed of top models |
+
+**Embeddable badge:** `<script src="https://your-domain.com/embed.js" data-model="llama-3.1" data-jurisdiction="EU"></script>`
+
+**Example:** `GET /api/models?jurisdiction=EU&limit=10`
+
 ## 🚦 Getting Started
 
 1. **Clone the repo:** `git clone https://github.com/kevinhatchoua/sovereign-ai-dashboard.git`

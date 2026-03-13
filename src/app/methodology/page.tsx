@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ShieldCheck, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { SiteHeader } from "@/app/components/SiteHeader";
 
 export const metadata = {
   title: "Open Methodology | Sovereign AI",
@@ -9,25 +10,8 @@ export const metadata = {
 
 export default function MethodologyPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <header className="border-b border-slate-200 bg-white">
-        <nav className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to catalog
-          </Link>
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-lg font-semibold text-slate-900"
-          >
-            <ShieldCheck className="h-5 w-5 text-amber-500" />
-            Sovereign AI
-          </Link>
-        </nav>
-      </header>
+    <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
+      <SiteHeader />
 
       <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         <h1 className="mb-2 text-3xl font-bold tracking-tight text-slate-900">
