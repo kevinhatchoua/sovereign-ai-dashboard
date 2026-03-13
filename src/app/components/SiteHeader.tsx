@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShieldCheck, Shield } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { SovereignLogo } from "./SovereignLogo";
 import { RegionSelector } from "./RegionSelector";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
 
@@ -11,7 +11,6 @@ const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/", label: "Models" },
   { href: "/methodology", label: "Methodology" },
-  { href: "/admin", label: "Admin" },
 ] as const;
 
 const linkBase =
@@ -23,8 +22,6 @@ const linkActive =
   linkBase;
 
 export type SiteHeaderProps = {
-  /** Assessment button opens modal on main page only */
-  onAssessmentClick?: () => void;
   /** Main page: search + region + filter */
   showSearch?: boolean;
   searchValue?: string;
@@ -40,7 +37,6 @@ export type SiteHeaderProps = {
 };
 
 export function SiteHeader({
-  onAssessmentClick,
   showSearch,
   searchValue = "",
   onSearchChange,
@@ -53,18 +49,17 @@ export function SiteHeader({
   adminExtras,
 }: SiteHeaderProps) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/admin");
   const isLogin = pathname === "/admin/login";
 
   if (isLogin) {
     return (
       <header className="border-b border-slate-800 bg-zinc-950/95 [.light_&]:border-slate-300 [.light_&]:bg-white">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8" aria-label="Main">
           <Link
             href="/"
             className="flex items-center gap-2 text-base font-semibold text-white [.light_&]:text-slate-900"
           >
-            <ShieldCheck className="h-5 w-5 text-amber-500" />
+            <SovereignLogo className="h-6 w-6 text-amber-500 [.light_&]:text-amber-600" />
             Sovereign AI
           </Link>
           <Link
@@ -78,17 +73,15 @@ export function SiteHeader({
     );
   }
 
-  const isModels = pathname === "/";
-
   return (
     <header className="sticky top-0 z-10 border-b border-slate-800 bg-zinc-950/95 backdrop-blur pt-[env(safe-area-inset-top)] [.light_&]:border-slate-300 [.light_&]:bg-white/95">
-      <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
+      <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8" aria-label="Main">
         <div className="flex min-w-0 shrink-0 items-center gap-3 sm:gap-6">
           <Link
             href="/"
             className="flex min-w-0 items-center gap-2 text-base font-semibold tracking-tight text-white hover:text-slate-200 sm:text-lg [.light_&]:text-slate-900 [.light_&]:hover:text-slate-800"
           >
-            <ShieldCheck className="h-5 w-5 shrink-0 text-amber-500 sm:h-6 sm:w-6" />
+            <SovereignLogo className="h-5 w-5 shrink-0 text-amber-500 sm:h-6 sm:w-6 [.light_&]:text-amber-600" />
             <span className="truncate">Sovereign AI</span>
           </Link>
           <div className="hidden items-center gap-1 sm:flex">
@@ -106,16 +99,6 @@ export function SiteHeader({
                 </Link>
               );
             })}
-            {onAssessmentClick && isModels && (
-              <button
-                type="button"
-                onClick={onAssessmentClick}
-                className={`flex items-center gap-1.5 ${linkInactive}`}
-              >
-                <Shield className="h-4 w-4" />
-                Assessment
-              </button>
-            )}
           </div>
         </div>
 

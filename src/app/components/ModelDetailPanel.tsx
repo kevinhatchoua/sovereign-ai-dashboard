@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import {
   X,
@@ -32,6 +32,7 @@ import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
 import { VoteButtons } from "@/app/components/VoteButtons";
 import { DisputeModal } from "@/app/components/DisputeModal";
+import { useDialogAccessibility } from "@/app/lib/useDialogAccessibility";
 
 function Sparkline({ data }: { data: number[] }) {
   if (!data || data.length < 2) return null;
@@ -78,6 +79,9 @@ export function ModelDetailPanel({
   const [disputeModalOpen, setDisputeModalOpen] = useState(false);
   const [executiveSummaryOpen, setExecutiveSummaryOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const panelRef = useRef<HTMLElement>(null);
+
+  useDialogAccessibility(!!model, onClose, panelRef);
 
   useEffect(() => {
     setMounted(true);
@@ -125,8 +129,10 @@ export function ModelDetailPanel({
         aria-hidden
       />
       <aside
+        ref={panelRef}
         className="fixed inset-x-0 top-0 z-50 flex h-full max-h-[100dvh] w-full flex-col border-l border-slate-700 bg-zinc-900 shadow-2xl [.light_&]:border-slate-300 [.light_&]:bg-white sm:inset-x-auto sm:left-auto sm:right-0 sm:max-w-lg pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
         role="dialog"
+        aria-modal="true"
         aria-label={`Details for ${model.name}`}
       >
         <div className="flex shrink-0 items-center justify-between border-b border-slate-700 px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] [.light_&]:border-slate-200">

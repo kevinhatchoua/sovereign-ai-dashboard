@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { X, FileDown, Shield, Award, Cpu, BarChart3, Globe, Code, Info } from "lucide-react";
 import { jsPDF } from "jspdf";
@@ -12,6 +12,7 @@ import {
   hasCloudActExposure,
   getFourDimensions,
 } from "@/app/lib/sovereigntyScore";
+import { useDialogAccessibility } from "@/app/lib/useDialogAccessibility";
 
 const JURISDICTION_LABEL: Record<Jurisdiction, string> = {
   EU: "EU",
@@ -241,6 +242,10 @@ export function ComparisonMatrix({
   jurisdiction,
   onClose,
 }: ComparisonMatrixProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useDialogAccessibility(true, onClose, dialogRef);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -362,7 +367,13 @@ export function ComparisonMatrix({
         onClick={onClose}
         aria-hidden
       />
-      <div className="relative z-10 flex max-h-[90dvh] w-full flex-col rounded-t-2xl border border-b-0 border-slate-700 bg-zinc-900 shadow-2xl sm:max-h-[85vh] sm:w-auto sm:min-w-[min(100vw-2rem,42rem)] sm:max-w-5xl sm:rounded-xl sm:border-b [.light_&]:border-slate-300 [.light_&]:bg-white">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Model Comparison"
+        className="relative z-10 flex max-h-[90dvh] w-full flex-col rounded-t-2xl border border-b-0 border-slate-700 bg-zinc-900 shadow-2xl sm:max-h-[85vh] sm:w-auto sm:min-w-[min(100vw-2rem,42rem)] sm:max-w-5xl sm:rounded-xl sm:border-b [.light_&]:border-slate-300 [.light_&]:bg-white"
+      >
         <div className="flex shrink-0 items-center justify-between border-b border-slate-700 px-4 py-3 [.light_&]:border-slate-200">
           <h2 className="text-lg font-semibold text-white [.light_&]:text-slate-900">
             Model Comparison

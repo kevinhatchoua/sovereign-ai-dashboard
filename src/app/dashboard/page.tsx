@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { SiteHeader } from "@/app/components/SiteHeader";
+import { CatalogIllustration } from "@/app/components/CatalogIllustration";
 import {
   BarChart3,
   Server,
@@ -147,14 +148,19 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
       <SiteHeader />
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl [.dark_&]:text-white">
-            Catalog Overview
-          </h1>
-          <p className="mt-1 text-slate-600 [.dark_&]:text-slate-400">
-            Quick glance at sovereign AI models. Data refreshes with catalog updates.
-          </p>
+      <main id="main-content" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" tabIndex={-1}>
+        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl [.dark_&]:text-white">
+              Catalog Overview
+            </h1>
+            <p className="mt-1 text-slate-600 [.dark_&]:text-slate-400">
+              Quick glance at sovereign AI models. Data refreshes with catalog updates.
+            </p>
+          </div>
+          <div className="hidden shrink-0 sm:block">
+            <CatalogIllustration className="h-16 w-28 text-slate-500/70 [.light_&]:text-slate-400/80" />
+          </div>
         </div>
 
         {/* Key metrics */}
@@ -308,8 +314,9 @@ function NewsFeedClient() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-amber-500 border-t-transparent" />
+      <div className="flex items-center justify-center py-12" aria-live="polite" aria-busy="true">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-amber-500 border-t-transparent" aria-hidden />
+        <span className="sr-only">Loading news</span>
       </div>
     );
   }
@@ -335,22 +342,39 @@ function NewsFeedClient() {
 
   return (
     <div className="space-y-3">
-      {items.slice(0, 8).map((item, i) => (
-        <a
-          key={i}
-          href={item.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block rounded-lg border border-slate-100 p-3 transition hover:border-slate-200 hover:bg-slate-50 [.dark_&]:border-slate-700 [.dark_&]:hover:bg-slate-800/50"
-        >
-          <p className="text-sm font-medium text-slate-900 [.dark_&]:text-white">
-            {item.title}
-          </p>
-          <p className="mt-0.5 text-xs text-slate-500 [.dark_&]:text-slate-400">
-            {item.date}
-          </p>
-        </a>
-      ))}
+      {items.slice(0, 8).map((item, i) => {
+        const isInternal = item.link.startsWith("/");
+        const className =
+          "block rounded-lg border border-slate-100 p-3 transition hover:border-slate-200 hover:bg-slate-50 [.dark_&]:border-slate-700 [.dark_&]:hover:bg-slate-800/50";
+        const content = (
+          <>
+            <p className="text-sm font-medium text-slate-900 [.dark_&]:text-white">
+              {item.title}
+            </p>
+            <p className="mt-0.5 text-xs text-slate-500 [.dark_&]:text-slate-400">
+              {item.date}
+            </p>
+          </>
+        );
+        if (isInternal) {
+          return (
+            <Link key={i} href={item.link} className={className}>
+              {content}
+            </Link>
+          );
+        }
+        return (
+          <a
+            key={i}
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={className}
+          >
+            {content}
+          </a>
+        );
+      })}
     </div>
   );
 }

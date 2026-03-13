@@ -123,7 +123,7 @@ export default function AdminPage() {
         }
       />
 
-      <main className="mx-auto max-w-4xl px-4 py-8">
+      <main id="main-content" className="mx-auto max-w-4xl px-4 py-8" tabIndex={-1}>
         <section>
           <h2 className="mb-4 flex items-center gap-2 text-lg font-medium text-slate-300">
             <AlertCircle className="h-5 w-5" />

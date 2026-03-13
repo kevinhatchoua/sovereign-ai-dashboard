@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { X, ChevronRight, Shield, CheckCircle } from "lucide-react";
+import { useDialogAccessibility } from "@/app/lib/useDialogAccessibility";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
 
 type AssessmentStep = "intro" | "jurisdiction" | "sensitivity" | "hosting" | "results";
@@ -43,6 +44,9 @@ export function SovereigntyAssessment({
   const [jurisdiction, setJurisdiction] = useState<string | null>(null);
   const [sensitivity, setSensitivity] = useState<string | null>(null);
   const [hosting, setHosting] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useDialogAccessibility(isOpen, onClose, dialogRef);
 
   const runRecommendation = () => {
     const filtered = models.filter((m) => {
@@ -62,8 +66,10 @@ export function SovereigntyAssessment({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div
+        ref={dialogRef}
         className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-slate-200 bg-white shadow-xl sm:max-w-md"
         role="dialog"
+        aria-modal="true"
         aria-label="Sovereignty Assessment"
       >
         <div className="sticky top-0 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3">

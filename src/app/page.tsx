@@ -39,6 +39,8 @@ import {
 } from "@/app/lib/sovereigntyScore";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import { SovereigntyAssessment } from "@/app/components/SovereigntyAssessment";
+import { HeroIllustration } from "@/app/components/HeroIllustration";
+import { EmptyStateIllustration } from "@/app/components/EmptyStateIllustration";
 
 type OpennessLevel = "Open Weights" | "API";
 
@@ -739,7 +741,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
       <SiteHeader
-        onAssessmentClick={() => setAssessmentOpen(true)}
         showSearch
         searchValue={search}
         onSearchChange={setSearch}
@@ -752,21 +753,35 @@ export default function Home() {
       />
 
       <div className="border-b border-slate-800/60 bg-zinc-950/50 [.light_&]:border-slate-300 [.light_&]:bg-slate-50">
-        <div className="mx-auto max-w-7xl py-6 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
-          <h2 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
-            {currentJurisdiction
-              ? `Results for ${currentJurisdiction === "EU" ? "EU" : currentJurisdiction === "IN" ? "India" : "USA"} Jurisdiction`
-              : `Build with AI you own — ${filtered.length}+ models`}
-          </h2>
-          <p className="text-slate-400 [.light_&]:text-slate-800">
-            {currentJurisdiction
-              ? "Models filtered by your selected jurisdiction. Change jurisdiction in the header to see others."
-              : `Explore ${models.length}+ models for sovereign deployment—full ownership, data control, and domestic infrastructure. Filter by jurisdiction, openness, and compliance.`}
-          </p>
+        <div className="mx-auto flex min-w-0 max-w-7xl flex-col gap-4 py-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:py-6 sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
+          <div className="min-w-0 flex-1">
+            <h1 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
+              {currentJurisdiction
+                ? `Results for ${currentJurisdiction === "EU" ? "EU" : currentJurisdiction === "IN" ? "India" : "USA"} Jurisdiction`
+                : `Build with AI you own — ${filtered.length}+ models`}
+            </h1>
+            <p className="mb-3 text-slate-400 [.light_&]:text-slate-800">
+              {currentJurisdiction
+                ? "Models filtered by your selected jurisdiction. Change jurisdiction in the header to see others."
+                : `Explore ${models.length}+ models for sovereign deployment—full ownership, data control, and domestic infrastructure. Filter by jurisdiction, openness, and compliance.`}
+            </p>
+            <button
+              type="button"
+              onClick={() => setAssessmentOpen(true)}
+              aria-label="Open Sovereignty Assessment"
+              className="inline-flex items-center gap-2 rounded-lg border border-amber-500/50 bg-amber-500/10 px-4 py-2 text-sm font-medium text-amber-400 transition hover:bg-amber-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:border-amber-600/50 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:hover:bg-amber-200"
+            >
+              <Shield className="h-4 w-4" aria-hidden />
+              Sovereignty Assessment
+            </button>
+          </div>
+          <div className="hidden shrink-0 lg:block">
+            <HeroIllustration className="h-20 w-36 text-slate-500/60 [.light_&]:text-slate-400/70" />
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-7xl gap-6 py-6 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
+      <div className="mx-auto flex min-w-0 max-w-7xl gap-4 py-6 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:gap-6 sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
         {sidebarOpen && (
           <div
             className="fixed inset-0 z-20 bg-black/50 lg:hidden"
@@ -775,6 +790,7 @@ export default function Home() {
           />
         )}
         <aside
+          aria-label="Filters"
           className={`fixed inset-y-0 left-0 z-30 w-[min(20rem,100vw-2rem)] max-w-full border-r border-slate-800 bg-zinc-900 p-4 pb-[env(safe-area-inset-bottom)] pt-[calc(1rem+env(safe-area-inset-top))] transition-transform lg:static lg:z-0 lg:translate-x-0 lg:w-64 lg:shrink-0 lg:pt-4 lg:pb-4 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
@@ -971,8 +987,8 @@ export default function Home() {
           </div>
         </aside>
 
-        <main className={`min-w-0 flex-1 ${compareIds.size >= 2 ? "pb-28 sm:pb-24" : "pb-24 sm:pb-0"}`}>
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 overflow-hidden">
+        <main id="main-content" className={`min-w-0 flex-1 overflow-x-hidden ${compareIds.size >= 2 ? "pb-28 sm:pb-24" : "pb-24 sm:pb-0"}`} tabIndex={-1}>
+          <div className="mb-4 flex min-w-0 flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
               <p className="text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
                 {filtered.length.toLocaleString()} model{filtered.length !== 1 ? "s" : ""}
@@ -1106,7 +1122,7 @@ export default function Home() {
               })()}
             </div>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
+          <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
             {filtered.map((model) => (
               <ModelCard
                 key={model.id}
@@ -1130,9 +1146,12 @@ export default function Home() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <p className="rounded-xl border border-slate-700/60 bg-slate-800/30 p-8 text-center text-slate-500 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700">
-              No models match your filters. Try adjusting search or filters.
-            </p>
+            <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-slate-700/60 bg-slate-800/30 p-12 text-center [.light_&]:border-slate-300 [.light_&]:bg-slate-100">
+              <EmptyStateIllustration className="h-20 w-32 text-slate-500 [.light_&]:text-slate-400" />
+              <p className="text-slate-500 [.light_&]:text-slate-700">
+                No models match your filters. Try adjusting search or filters.
+              </p>
+            </div>
           )}
         </main>
 
@@ -1145,7 +1164,7 @@ export default function Home() {
 
       {compareIds.size >= 2 && (
         <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-700 bg-zinc-900/95 py-3 shadow-lg backdrop-blur [.light_&]:border-slate-300 [.light_&]:bg-white/95 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
+          <div className="mx-auto flex min-w-0 max-w-7xl flex-wrap items-center justify-between gap-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:flex-nowrap sm:gap-4 sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
             <p className="text-sm text-slate-400 [.light_&]:text-slate-700">
               {compareIds.size} model{compareIds.size !== 1 ? "s" : ""} selected
               for comparison (max {MAX_COMPARE})

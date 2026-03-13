@@ -36,7 +36,7 @@ export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen flex-col bg-zinc-950 text-slate-200 [.light_&]:bg-white [.light_&]:text-slate-900">
       <SiteHeader />
-      <div className="flex flex-1 items-center justify-center py-12">
+      <main id="main-content" className="flex flex-1 items-center justify-center py-12" tabIndex={-1}>
       <div className="w-full max-w-sm rounded-xl border border-slate-700/60 bg-slate-800/50 p-6 shadow-xl">
         <div className="mb-6 flex items-center gap-2">
           <Shield className="h-8 w-8 text-amber-500" />
@@ -96,7 +96,7 @@ export default function AdminLoginPage() {
           Supabase Dashboard for additional security.
         </p>
       </div>
-      </div>
+      </main>
     </div>
   );
 }

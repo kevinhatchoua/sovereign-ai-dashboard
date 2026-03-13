@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { X, Send, Loader2 } from "lucide-react";
 import { supabase } from "@/app/lib/supabase";
+import { useDialogAccessibility } from "@/app/lib/useDialogAccessibility";
 
 type DisputeModalProps = {
   modelId: string;
@@ -16,6 +17,9 @@ export function DisputeModal({ modelId, modelName, onClose }: DisputeModalProps)
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const honeypotRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useDialogAccessibility(true, onClose, dialogRef);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +48,13 @@ export function DisputeModal({ modelId, modelName, onClose }: DisputeModalProps)
   if (done) {
     return (
       <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-        <div className="mx-4 w-full max-w-md rounded-xl border border-slate-700 bg-zinc-900 p-6 shadow-xl">
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Dispute submitted"
+          className="mx-4 w-full max-w-md rounded-xl border border-slate-700 bg-zinc-900 p-6 shadow-xl"
+        >
           <p className="text-center text-slate-200">
             Thank you. Your compliance dispute has been submitted for review.
           </p>
@@ -62,7 +72,13 @@ export function DisputeModal({ modelId, modelName, onClose }: DisputeModalProps)
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="mx-4 w-full max-w-md rounded-xl border border-slate-700 bg-zinc-900 p-6 shadow-xl">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Report Compliance Dispute"
+        className="mx-4 w-full max-w-md rounded-xl border border-slate-700 bg-zinc-900 p-6 shadow-xl"
+      >
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-lg font-semibold text-white">
             Report Compliance Dispute

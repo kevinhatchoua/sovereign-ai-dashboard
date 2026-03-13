@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useDialogAccessibility } from "@/app/lib/useDialogAccessibility";
 import {
   MessageCircle,
   Send,
@@ -17,10 +18,13 @@ import {
   Trash2,
 } from "lucide-react";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
+import { useMediaQuery } from "@/app/lib/useMediaQuery";
+import { useOptionalAuth } from "@/app/lib/AuthContext";
+import { SelectModelModal } from "@/app/components/SelectModelModal";
 
 type ChatAction = {
   label: string;
-  type: "filter" | "view_model" | "clear";
+  type: "filter" | "view_model" | "clear" | "select_model";
   modelId?: string;
   model?: ComparisonModel;
 };
@@ -53,11 +57,13 @@ const SUGGESTED_PROMPTS = [
   "Need models for coding or development?",
   "Prefer local-hostable or API-only?",
   "Show me the most popular models",
+  "Compare Llama and Mistral",
+  "Best model for 8GB VRAM",
 ];
 
-const GREETING = `Hey there! 👋 I'm your catalog guide. I can help you find the perfect AI model for your needs.
+const GREETING = `Hey there! 👋 I'm your catalog guide. I can help you find, compare, and **select** sovereign AI models for your needs.
 
-What would you like to explore?`;
+Ask about hardware, compliance, tasks, or a specific model—then use **Select model** to get started.`;
 
 function getMinVramGb(m: ComparisonModel): number | null {
   const v4 = m.intelligence?.vram_4bit_gb;
@@ -105,6 +111,7 @@ function matchModels(query: string, models: ComparisonModel[]): ComparisonModel[
     const matchIndia = /india/.test(q) && m.compliance_tags.some((t) => t.includes("India"));
     const matchVram8 = /8\s*gb|8gb/.test(q) && vram != null && vram <= 8;
     const matchVram16 = /16\s*gb|16gb/.test(q) && vram != null && vram <= 16;
+    const matchVram24 = /24\s*gb|24gb/.test(q) && vram != null && vram <= 24;
     const matchCode =
       /code|coding|programming|developer/.test(q) && m.task_categories.includes("code");
     const matchLocal =
@@ -123,6 +130,7 @@ function matchModels(query: string, models: ComparisonModel[]): ComparisonModel[
       matchIndia ||
       matchVram8 ||
       matchVram16 ||
+      matchVram24 ||
       matchCode ||
       matchLocal ||
       matchApi ||
@@ -175,6 +183,7 @@ function generateResponse(
       ids: [],
       modelDetails: modelDetail,
       actions: [
+        { label: "Select model", type: "select_model", model: modelDetail },
         { label: "View full details", type: "view_model", model: modelDetail },
         { label: "Filter to this model", type: "filter", modelId: modelDetail.id },
       ],
@@ -202,7 +211,10 @@ function generateResponse(
     ids: matched.map((m) => m.id),
     actions: [
       ...(matched.length > 0
-        ? [{ label: "View first result", type: "view_model" as const, model: matched[0] }]
+        ? [
+            { label: "Select first result", type: "select_model" as const, model: matched[0] },
+            { label: "View first result", type: "view_model" as const, model: matched[0] },
+          ]
         : []),
       { label: "Clear filter", type: "clear" as const },
     ],
@@ -217,10 +229,12 @@ function ModelDetailCard({
   model,
   onViewDetails,
   onFilter,
+  onSelect,
 }: {
   model: ComparisonModel;
   onViewDetails: () => void;
   onFilter: () => void;
+  onSelect?: () => void;
 }) {
   const intel = model.intelligence;
   const vram = getMinVramGb(model);
@@ -267,6 +281,16 @@ function ModelDetailCard({
         )}
       </div>
       <div className="mt-2 flex flex-wrap gap-1.5">
+        {onSelect && (
+          <button
+            type="button"
+            onClick={onSelect}
+            className="inline-flex items-center gap-1 rounded bg-amber-500/20 px-2 py-1 text-xs font-medium text-amber-400 hover:bg-amber-500/30 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:hover:bg-amber-200"
+          >
+            Select model
+            <ChevronRight className="h-3 w-3" />
+          </button>
+        )}
         <button
           type="button"
           onClick={onViewDetails}
@@ -307,6 +331,13 @@ export function CatalogChatbot({
   const [isResizing, setIsResizing] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const isXl = useMediaQuery("(min-width: 1280px)");
+  const auth = useOptionalAuth();
+  const user = auth?.user ?? null;
+  const [selectModel, setSelectModel] = useState<ComparisonModel | null>(null);
+  const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
+  const clearConfirmRef = useRef<HTMLDivElement>(null);
+  useDialogAccessibility(clearConfirmOpen, () => setClearConfirmOpen(false), clearConfirmRef);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -372,7 +403,9 @@ export function CatalogChatbot({
 
   const handleAction = useCallback(
     (action: ChatAction) => {
-      if (action.type === "view_model" && action.model) {
+      if (action.type === "select_model" && action.model) {
+        setSelectModel(action.model);
+      } else if (action.type === "view_model" && action.model) {
         onSelectModel?.(action.model);
       } else if (action.type === "filter" && action.modelId) {
         onFilterByModels?.([action.modelId]);
@@ -383,22 +416,78 @@ export function CatalogChatbot({
     [onFilterByModels, onSelectModel]
   );
 
-  const handleNewChat = useCallback(() => {
+  const resetChat = useCallback(() => {
     setMessages([
       { role: "assistant", content: GREETING, suggestedPrompts: SUGGESTED_PROMPTS },
     ]);
+    setInput("");
+    setSelectModel(null);
     onFilterByModels?.([]);
   }, [onFilterByModels]);
 
-  const handleClear = useCallback(() => {
-    setMessages([
-      { role: "assistant", content: GREETING, suggestedPrompts: SUGGESTED_PROMPTS },
-    ]);
-    onFilterByModels?.([]);
-  }, [onFilterByModels]);
+  const handleNewChat = useCallback(() => {
+    resetChat();
+    setClearConfirmOpen(false);
+  }, [resetChat]);
+
+  const handleClearClick = useCallback(() => {
+    const hasConversation = messages.length > 1;
+    if (hasConversation) {
+      setClearConfirmOpen(true);
+    } else {
+      resetChat();
+    }
+  }, [messages.length, resetChat]);
+
+  const handleClearConfirm = useCallback(() => {
+    resetChat();
+    setClearConfirmOpen(false);
+  }, [resetChat]);
 
   return (
     <>
+      {selectModel && (
+        <SelectModelModal
+          model={selectModel}
+          user={user}
+          onClose={() => setSelectModel(null)}
+        />
+      )}
+      {clearConfirmOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div
+            ref={clearConfirmRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="clear-dialog-title"
+            aria-describedby="clear-dialog-desc"
+            className="mx-4 w-full max-w-sm rounded-xl border border-slate-700 bg-zinc-900 p-6 shadow-xl [.light_&]:border-slate-300 [.light_&]:bg-white"
+          >
+            <h3 id="clear-dialog-title" className="text-lg font-semibold text-white [.light_&]:text-slate-900">
+              Clear conversation?
+            </h3>
+            <p id="clear-dialog-desc" className="mt-2 text-sm text-slate-400 [.light_&]:text-slate-600">
+              This will remove all messages and reset the assistant. Your catalog filters will also be cleared.
+            </p>
+            <div className="mt-6 flex gap-3">
+              <button
+                type="button"
+                onClick={() => setClearConfirmOpen(false)}
+                className="flex-1 rounded-lg border border-slate-600 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800 [.light_&]:border-slate-300 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-100"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleClearConfirm}
+                className="flex-1 rounded-lg bg-amber-600 py-2 text-sm font-medium text-white hover:bg-amber-500 [.light_&]:bg-amber-600 [.light_&]:hover:bg-amber-500"
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Toggle tab when closed — right edge, Cursor-style */}
       {!open && (
         <button
@@ -412,14 +501,28 @@ export function CatalogChatbot({
         </button>
       )}
 
-      {/* Side panel — pushes content when open */}
+      {/* Backdrop when overlay (mobile/tablet) */}
+      {open && !isXl && (
+        <div
+          className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm"
+          onClick={() => setOpen(false)}
+          aria-hidden
+        />
+      )}
+
+      {/* Side panel — overlay on mobile/tablet, pushes content on xl+ */}
       {open && (
         <div
           ref={panelRef}
-          className="relative flex shrink-0 flex-col border-l border-slate-700 bg-zinc-900 transition-[width] duration-200 ease-out [.light_&]:border-slate-300 [.light_&]:bg-slate-50"
-          style={{ width: `${width}px` }}
+          className={`flex shrink-0 flex-col overflow-hidden border-l border-slate-700 bg-zinc-900 shadow-2xl transition-[width] duration-200 ease-out [.light_&]:border-slate-300 [.light_&]:bg-slate-50 ${
+            isXl
+              ? "sticky top-20 self-start h-[calc(100dvh-5rem)] min-h-[24rem]"
+              : "fixed inset-y-0 right-0 z-40 flex h-[100dvh] w-[min(100vw-2rem,400px)] flex-col pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] pr-[env(safe-area-inset-right)]"
+          }`}
+          style={isXl ? { width: `${width}px` } : undefined}
         >
-          {/* Resize handle */}
+          {/* Resize handle — only on xl */}
+          {isXl && (
           <button
             type="button"
             onMouseDown={() => setIsResizing(true)}
@@ -428,6 +531,7 @@ export function CatalogChatbot({
           >
             <div className="h-12 w-1 rounded-full bg-slate-600 opacity-0 transition hover:opacity-100 [.light_&]:bg-slate-400" />
           </button>
+          )}
 
           {/* Header */}
           <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-700 px-3 py-2.5 [.light_&]:border-slate-200">
@@ -449,17 +553,17 @@ export function CatalogChatbot({
                 type="button"
                 onClick={handleNewChat}
                 className="rounded p-2 text-slate-400 hover:bg-slate-800 hover:text-slate-200 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
-                title="New chat"
+                title="New chat — start a fresh conversation and clear filters"
                 aria-label="New chat"
               >
                 <Plus className="h-4 w-4" />
               </button>
               <button
                 type="button"
-                onClick={handleClear}
+                onClick={handleClearClick}
                 className="rounded p-2 text-slate-400 hover:bg-slate-800 hover:text-slate-200 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
-                title="Clear chat"
-                aria-label="Clear chat"
+                title="Clear conversation — removes all messages and resets the assistant"
+                aria-label="Clear conversation"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
@@ -467,7 +571,7 @@ export function CatalogChatbot({
                 type="button"
                 onClick={() => setOpen(false)}
                 className="rounded p-2 text-slate-400 hover:bg-slate-800 hover:text-slate-200 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
-                title="Close panel"
+                title="Close panel — collapse the assistant to the side"
                 aria-label="Close panel"
               >
                 <PanelRightClose className="h-4 w-4" />
@@ -508,6 +612,7 @@ export function CatalogChatbot({
                           onFilter={() =>
                             onFilterByModels?.(msg.modelDetails ? [msg.modelDetails.id] : [])
                           }
+                          onSelect={() => setSelectModel(msg.modelDetails!)}
                         />
                       )}
                       {msg.modelIds && msg.modelIds.length > 0 && !msg.modelDetails && (
