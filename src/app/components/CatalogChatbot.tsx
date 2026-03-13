@@ -75,6 +75,14 @@ What would you like to know?`;
 
 const AI_DISCLAIMER = "Always review AI-generated content prior to use.";
 
+/** Conversational greetings/courtesies — handle first so "hi" doesn't match Hindi */
+const CONVERSATIONAL_PATTERNS: Array<{ pattern: RegExp; text: string }> = [
+  { pattern: /^(hi|hello|hey|howdy|yo|hiya|hi there|good (morning|afternoon|evening)|how are you|what'?s up|sup)[!.]?$/i, text: "Hi! How can I help you today? I can answer questions about the site, sovereignty concepts, or help you find models by hardware, region, or task." },
+  { pattern: /^(thanks?|thank you|thx|ty)[!.]?$/i, text: "You're welcome! Let me know if you have any other questions about the catalog or sovereignty." },
+  { pattern: /^(bye|goodbye|see you|later)[!.]?$/i, text: "Goodbye! Feel free to come back if you need help finding models or understanding sovereignty." },
+  { pattern: /^(ok|okay|got it|alright|sure|cheers?)[!.]?$/i, text: "Great! What else can I help you with?" },
+];
+
 /** General site/concept knowledge — answers before model-specific logic */
 function getGeneralKnowledgeResponse(query: string): {
   text: string;
@@ -83,6 +91,17 @@ function getGeneralKnowledgeResponse(query: string): {
   suggestedPrompts?: string[];
 } | null {
   const q = query.toLowerCase().trim();
+
+  // Conversational greetings/courtesies first (prevents "hi" from matching Hindi)
+  for (const { pattern, text } of CONVERSATIONAL_PATTERNS) {
+    if (pattern.test(q)) {
+      return {
+        text,
+        ids: [],
+        suggestedPrompts: SUGGESTED_PROMPTS.slice(0, 3),
+      };
+    }
+  }
 
   // Overview / Dashboard page
   if (/overview|dashboard|catalog overview|what is the overview|overview page|go to overview/.test(q)) {
