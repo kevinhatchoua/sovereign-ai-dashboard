@@ -140,21 +140,21 @@ export function getSovereigntyReadiness(model: ComparisonModel): {
   return { level: "Foundation", score, label: "Foundation" };
 }
 
-/** Tailwind classes for sovereignty readiness — blue/indigo scale (distinct from ethics green/amber) */
+/** Tailwind classes for sovereignty readiness — PatternFly blue/gray scale */
 export function getSovereigntyReadinessColorClasses(level: ReadinessLevel): string {
   switch (level) {
     case "Advanced":
-      return "bg-blue-500/20 text-blue-400 ring-1 ring-blue-500/30 [.light_&]:bg-blue-100 [.light_&]:text-blue-800 [.light_&]:ring-blue-400";
+      return "bg-blue-600/20 text-blue-400 ring-1 ring-blue-600/30 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:ring-blue-400";
     case "Intermediate":
-      return "bg-indigo-500/20 text-indigo-400 ring-1 ring-indigo-500/30 [.light_&]:bg-indigo-100 [.light_&]:text-indigo-800 [.light_&]:ring-indigo-400";
+      return "bg-slate-500/25 text-slate-300 ring-1 ring-slate-500/30 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:ring-slate-400";
     case "Foundation":
-      return "bg-slate-500/20 text-slate-400 ring-1 ring-slate-500/30 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:ring-slate-400";
+      return "bg-slate-600/20 text-slate-400 ring-1 ring-slate-600/30 [.light_&]:bg-slate-200 [.light_&]:text-slate-600 [.light_&]:ring-slate-400";
   }
 }
 
-/** Tailwind classes for openness — violet (self-hostable) / slate (API) — reserves green/amber for ethics */
+/** Tailwind classes for openness — PatternFly blue (self-hostable) / slate (API) */
 export function getOpennessColorClasses(openness: "Open Weights" | "API"): string {
   return openness === "Open Weights"
-    ? "bg-violet-500/20 text-violet-400 ring-1 ring-violet-500/30 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:ring-violet-400"
+    ? "bg-blue-600/20 text-blue-400 ring-1 ring-blue-600/30 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:ring-blue-400"
     : "bg-slate-500/20 text-slate-400 ring-1 ring-slate-500/30 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:ring-slate-400";
 }

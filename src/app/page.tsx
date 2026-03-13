@@ -368,7 +368,7 @@ function ModelCard({
                   </span>
                   {hasCloudActExposure(model) && (
                     <span
-                      className="rounded-full bg-sky-500/15 px-2 py-0.5 text-xs text-sky-400 ring-1 ring-sky-500/30 [.light_&]:bg-sky-100 [.light_&]:text-sky-800"
+                      className="rounded-full bg-slate-500/15 px-2 py-0.5 text-xs text-slate-400 ring-1 ring-slate-500/30 [.light_&]:bg-slate-100 [.light_&]:text-slate-700"
                       title="US-based provider; may be subject to Cloud Act"
                     >
                       Cloud Act
@@ -791,7 +791,7 @@ function CatalogPage() {
               type="button"
               onClick={() => setAssessmentOpen(true)}
               aria-label="Open Sovereignty Assessment"
-              className="inline-flex items-center gap-2 rounded-lg border border-violet-500/50 bg-violet-500/10 px-4 py-2 text-sm font-medium text-violet-400 transition hover:bg-violet-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:border-violet-600/50 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:hover:bg-violet-200"
+              className="inline-flex items-center gap-2 rounded-lg border border-blue-600/50 bg-blue-600/10 px-4 py-2 text-sm font-medium text-blue-400 transition hover:bg-blue-600/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:border-blue-600/50 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
             >
               <Shield className="h-4 w-4" aria-hidden />
               Sovereignty Assessment
@@ -1028,12 +1028,12 @@ function CatalogPage() {
                 </button>
                 <div className="flex flex-wrap gap-1.5">
                   {chatbotModelIds.size > 0 && (
-                    <span className="inline-flex items-center gap-1 rounded bg-violet-500/20 px-2 py-0.5 text-xs text-violet-400 [.light_&]:bg-violet-100 [.light_&]:text-violet-800">
+                    <span className="inline-flex items-center gap-1 rounded bg-blue-600/20 px-2 py-0.5 text-xs text-blue-400 [.light_&]:bg-blue-50 [.light_&]:text-blue-800">
                       Assistant filter ({chatbotModelIds.size})
                       <button
                         type="button"
                         onClick={() => setChatbotModelIds(new Set())}
-                        className="flex min-h-[28px] min-w-[28px] touch-manipulation items-center justify-center rounded hover:bg-violet-500/30"
+                        className="flex min-h-[28px] min-w-[28px] touch-manipulation items-center justify-center rounded hover:bg-blue-600/30"
                         aria-label="Clear assistant filter"
                       >
                         <X className="h-3 w-3" aria-hidden />
@@ -1128,7 +1128,7 @@ function CatalogPage() {
                           onClick={toggle}
                           className={`inline-flex min-h-[44px] items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition touch-manipulation ${
                             active
-                              ? "bg-violet-500/25 text-violet-400 ring-2 ring-violet-500/60 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:ring-violet-500"
+                              ? "bg-blue-600/25 text-blue-400 ring-2 ring-blue-600/60 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:ring-blue-600"
                               : "bg-slate-800/60 text-slate-400 ring-1 ring-slate-600/50 hover:bg-slate-700/70 hover:text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-600 [.light_&]:ring-slate-300 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-800"
                           }`}
                         >

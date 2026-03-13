@@ -367,7 +367,7 @@ function ModelDetailCard({
     <div className="mt-3 rounded-lg border border-slate-600/60 bg-slate-800/50 p-3 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
       <div className="mb-2 flex items-center gap-2">
         {model.openness_level === "Open Weights" ? (
-          <Server className="h-4 w-4 text-violet-500 [.light_&]:text-violet-600" />
+          <Server className="h-4 w-4 text-blue-600 [.light_&]:text-blue-600" />
         ) : (
           <Cloud className="h-4 w-4 text-slate-500 [.light_&]:text-slate-600" />
         )}
@@ -410,7 +410,7 @@ function ModelDetailCard({
           <button
             type="button"
             onClick={onSelect}
-            className="inline-flex items-center gap-1 rounded bg-violet-500/20 px-2 py-1 text-xs font-medium text-violet-400 hover:bg-violet-500/30 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:hover:bg-violet-200"
+            className="inline-flex items-center gap-1 rounded bg-blue-600/20 px-2 py-1 text-xs font-medium text-blue-400 hover:bg-blue-600/30 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
           >
             Select model
             <ChevronRight className="h-3 w-3" />
@@ -419,7 +419,7 @@ function ModelDetailCard({
         <button
           type="button"
           onClick={onViewDetails}
-          className="inline-flex items-center gap-1 rounded bg-violet-500/20 px-2 py-1 text-xs font-medium text-violet-400 hover:bg-violet-500/30 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:hover:bg-violet-200"
+          className="inline-flex items-center gap-1 rounded bg-blue-600/20 px-2 py-1 text-xs font-medium text-blue-400 hover:bg-blue-600/30 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
         >
           View details
           <ChevronRight className="h-3 w-3" />
@@ -640,7 +640,7 @@ export function CatalogChatbot({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="group fixed right-0 top-1/2 z-30 flex h-20 w-12 -translate-y-1/2 items-center justify-center gap-1.5 rounded-l-xl border border-sky-500/60 border-r-0 bg-gradient-to-br from-sky-500 to-cyan-600 py-3 pl-2 pr-3 shadow-lg shadow-sky-500/30 transition-all hover:w-14 [.light_&]:from-sky-500 [.light_&]:to-cyan-600 [.light_&]:shadow-sky-500/25"
+          className="group fixed right-0 top-1/2 z-30 flex h-20 w-12 -translate-y-1/2 items-center justify-center gap-1.5 rounded-l-xl border border-teal-600/60 border-r-0 bg-teal-600 py-3 pl-2 pr-3 shadow-lg shadow-teal-600/30 transition-all hover:w-14 [.light_&]:bg-teal-600 [.light_&]:shadow-teal-600/25"
           style={{ top: "50%" }}
           aria-label="Open Sovereign AI Assistant"
         >
@@ -674,7 +674,7 @@ export function CatalogChatbot({
           <button
             type="button"
             onMouseDown={() => setIsResizing(true)}
-            className="absolute left-0 top-0 z-10 flex h-full w-2 -translate-x-1/2 cursor-col-resize items-center justify-center hover:bg-violet-500/20 focus:outline-none"
+            className="absolute left-0 top-0 z-10 flex h-full w-2 -translate-x-1/2 cursor-col-resize items-center justify-center hover:bg-blue-600/20 focus:outline-none"
             aria-label="Resize panel"
           >
             <div className="h-12 w-1 rounded-full bg-slate-600 opacity-0 transition hover:opacity-100 [.light_&]:bg-slate-400" />
@@ -684,7 +684,7 @@ export function CatalogChatbot({
           {/* Header — OpenShift-style with prominent AI branding */}
           <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-700/60 px-3 py-2.5 [.light_&]:border-slate-200/60">
             <div className="flex min-w-0 flex-1 items-center gap-2">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border-2 border-violet-500/50 bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-lg shadow-violet-500/20 [.light_&]:border-violet-500/60">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border-2 border-blue-600/50 bg-gradient-to-br from-blue-600 to-blue-600 text-white shadow-lg shadow-blue-600/20 [.light_&]:border-blue-600/60">
                 <Bot className="h-5 w-5" />
               </div>
               <div className="min-w-0 flex-1">
@@ -736,7 +736,7 @@ export function CatalogChatbot({
                 messages[0].suggestedPrompts &&
                 messages[0].suggestedPrompts.length > 0 && (
                   <div className="flex flex-col items-center gap-6 pb-4">
-                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-violet-500/60 bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-xl shadow-violet-500/25 [.light_&]:border-violet-500/50">
+                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-blue-600/60 bg-gradient-to-br from-blue-600 to-blue-600 text-white shadow-xl shadow-blue-600/25 [.light_&]:border-blue-600/50">
                       <Bot className="h-8 w-8" />
                     </div>
                     <div className="text-center">
@@ -774,7 +774,7 @@ export function CatalogChatbot({
                   className={`flex gap-2.5 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
                 >
                   {msg.role === "assistant" && (
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-500/80 to-violet-600/80 text-white">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600/80 to-blue-600/80 text-white">
                       <Bot className="h-3.5 w-3.5" />
                     </div>
                   )}
@@ -844,7 +844,7 @@ export function CatalogChatbot({
               })}
               {loading && (
                 <div className="flex gap-2.5">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-500/80 to-violet-600/80 text-white">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600/80 to-blue-600/80 text-white">
                     <Bot className="h-3.5 w-3.5" />
                   </div>
                   <div className="rounded-lg bg-slate-800 px-3 py-2 [.light_&]:bg-slate-100">
@@ -869,12 +869,12 @@ export function CatalogChatbot({
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="What sovereign AI models fit your needs?"
-                  className="min-h-[44px] min-w-0 flex-1 rounded-xl border border-slate-600/60 bg-slate-800/60 px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 backdrop-blur-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 [.light_&]:border-slate-300/80 [.light_&]:bg-white [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600"
+                  className="min-h-[44px] min-w-0 flex-1 rounded-xl border border-slate-600/60 bg-slate-800/60 px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 backdrop-blur-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 [.light_&]:border-slate-300/80 [.light_&]:bg-white [.light_&]:text-slate-900 [.light_&]:placeholder-slate-600"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="min-h-[44px] min-w-[44px] shrink-0 rounded-xl bg-violet-600 px-3 py-2 text-white hover:bg-violet-500 disabled:opacity-50"
+                  className="min-h-[44px] min-w-[44px] shrink-0 rounded-xl bg-blue-600 px-3 py-2 text-white hover:bg-blue-600 disabled:opacity-50"
                 >
                   <Send className="h-4 w-4" />
                 </button>

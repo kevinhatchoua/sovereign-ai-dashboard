@@ -56,12 +56,12 @@ function StatCard({
             </p>
           )}
         </div>
-        <Icon className="h-8 w-8 text-violet-500/80 [.dark_&]:text-violet-400" />
+        <Icon className="h-8 w-8 text-blue-600/80 [.dark_&]:text-blue-400" />
       </div>
       {href && (
         <Link
           href={href}
-          className="mt-3 flex items-center gap-1 text-xs font-medium text-violet-600 hover:text-violet-700 [.dark_&]:text-violet-400"
+          className="mt-3 flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700 [.dark_&]:text-blue-400"
         >
           View
           <ArrowRight className="h-3 w-3" />
@@ -79,7 +79,7 @@ function StatCard({
 function BarChart({
   data,
   max,
-  color = "bg-violet-500",
+  color = "bg-blue-600",
 }: {
   data: { label: string; value: number }[];
   max?: number;
@@ -202,11 +202,11 @@ export default function DashboardPage() {
               Openness Split
             </h2>
             <div className="flex gap-4">
-              <div className="flex-1 rounded-lg bg-violet-500/15 p-4">
-                <p className="text-2xl font-bold text-violet-700 [.dark_&]:text-violet-400">
+              <div className="flex-1 rounded-lg bg-blue-600/15 p-4">
+                <p className="text-2xl font-bold text-blue-700 [.dark_&]:text-blue-400">
                   {openWeights.length}
                 </p>
-                <p className="text-xs text-violet-600 [.dark_&]:text-violet-500">
+                <p className="text-xs text-blue-600 [.dark_&]:text-blue-600">
                   Open Weights
                 </p>
               </div>
@@ -315,7 +315,7 @@ function NewsFeedClient() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12" aria-live="polite" aria-busy="true">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" aria-hidden />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" aria-hidden />
         <span className="sr-only">Loading news</span>
       </div>
     );
@@ -323,7 +323,7 @@ function NewsFeedClient() {
 
   if (error) {
     return (
-      <div className="rounded-lg border border-violet-200 bg-violet-50 p-4 text-sm text-violet-800 [.dark_&]:border-violet-800 [.dark_&]:bg-violet-900/20 [.dark_&]:text-violet-200">
+      <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm text-blue-800 [.dark_&]:border-blue-800 [.dark_&]:bg-blue-900/20 [.dark_&]:text-blue-200">
         <p>{error}</p>
         <p className="mt-2 text-xs">
           Configure RSS_FEED_URL in .env to add custom feeds. Default: Hugging Face blog.

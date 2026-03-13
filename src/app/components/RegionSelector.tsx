@@ -86,7 +86,7 @@ export function RegionSelector({
         type="button"
         onClick={() => setOpen((o) => !o)}
         onKeyDown={handleKeyDown}
-        className="glass flex w-full min-w-0 items-center gap-2 rounded-xl border-slate-700/50 py-2.5 pl-3 pr-2.5 text-left text-sm text-slate-200 hover:bg-slate-800/60 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/50 sm:min-w-[10rem] sm:w-auto touch-manipulation focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:border-slate-300/70 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-100/80"
+        className="glass flex w-full min-w-0 items-center gap-2 rounded-xl border-slate-700/50 py-2.5 pl-3 pr-2.5 text-left text-sm text-slate-200 hover:bg-slate-800/60 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/50 sm:min-w-[10rem] sm:w-auto touch-manipulation focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:border-slate-300/70 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-100/80"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listboxId}
@@ -124,9 +124,9 @@ export function RegionSelector({
                     onChange(opt.value);
                     setOpen(false);
                   }}
-                  className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-500 ${
+                  className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600 ${
                     isSelected
-                      ? "bg-slate-700 text-white [.light_&]:bg-violet-100 [.light_&]:text-violet-900"
+                      ? "bg-slate-700 text-white [.light_&]:bg-blue-50 [.light_&]:text-blue-900"
                       : "text-slate-300 hover:bg-slate-700/60 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-100"
                   }`}
                 >

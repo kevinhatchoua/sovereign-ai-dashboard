@@ -74,7 +74,7 @@ export function SovereigntyAssessment({
       >
         <div className="sticky top-0 flex items-center justify-between border-b border-slate-700/50 px-4 py-3 [.light_&]:border-slate-200/60">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-white [.light_&]:text-slate-900">
-            <Shield className="h-5 w-5 text-violet-500" aria-hidden />
+            <Shield className="h-5 w-5 text-blue-600" aria-hidden />
             Sovereignty Assessment
           </h2>
           <button
@@ -119,7 +119,7 @@ export function SovereigntyAssessment({
                     }}
                     className={`glass flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm ${
                       jurisdiction === j.id
-                        ? "border-violet-500/70 bg-violet-500/20 text-violet-400 [.light_&]:bg-violet-50 [.light_&]:text-violet-900"
+                        ? "border-blue-600/70 bg-blue-600/20 text-blue-400 [.light_&]:bg-blue-50 [.light_&]:text-blue-900"
                         : "border-slate-700/50 text-slate-300 hover:bg-slate-800/60 [.light_&]:border-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-50"
                     }`}
                   >
@@ -145,7 +145,7 @@ export function SovereigntyAssessment({
                     }}
                     className={`glass flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm ${
                       sensitivity === s.id
-                        ? "border-violet-500/70 bg-violet-500/20 text-violet-400 [.light_&]:bg-violet-50 [.light_&]:text-violet-900"
+                        ? "border-blue-600/70 bg-blue-600/20 text-blue-400 [.light_&]:bg-blue-50 [.light_&]:text-blue-900"
                         : "border-slate-700/50 text-slate-300 hover:bg-slate-800/60 [.light_&]:border-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-50"
                     }`}
                   >
@@ -171,7 +171,7 @@ export function SovereigntyAssessment({
                     }}
                     className={`glass flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm ${
                       hosting === h.id
-                        ? "border-violet-500/70 bg-violet-500/20 text-violet-400 [.light_&]:bg-violet-50 [.light_&]:text-violet-900"
+                        ? "border-blue-600/70 bg-blue-600/20 text-blue-400 [.light_&]:bg-blue-50 [.light_&]:text-blue-900"
                         : "border-slate-700/50 text-slate-300 hover:bg-slate-800/60 [.light_&]:border-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-50"
                     }`}
                   >

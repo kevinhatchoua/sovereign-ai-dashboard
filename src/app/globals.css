@@ -8,6 +8,11 @@
 .dark {
   --app-bg: #0c0c0e;
   --app-bg-gradient: linear-gradient(135deg, #0c0c0e 0%, #131316 50%, #0a0a0c 100%);
+  --app-bg-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  --app-bg-glass: var(--app-bg-noise),
+    radial-gradient(ellipse 90% 60% at 15% 10%, rgba(80, 90, 140, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 85%, rgba(50, 70, 100, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(100, 110, 150, 0.12) 0%, transparent 50%);
   --app-surface: rgba(24, 24, 27, 0.7);
   --app-surface-solid: #18181b;
   --app-surface-hover: rgba(39, 39, 42, 0.8);
@@ -23,6 +28,11 @@
 .light {
   --app-bg: #f8fafc;
   --app-bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  --app-bg-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  --app-bg-glass: var(--app-bg-noise),
+    radial-gradient(ellipse 90% 60% at 15% 10%, rgba(180, 200, 230, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 85%, rgba(160, 180, 220, 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(200, 215, 240, 0.2) 0%, transparent 50%);
   --app-surface: rgba(255, 255, 255, 0.72);
   --app-surface-solid: #ffffff;
   --app-surface-hover: rgba(241, 245, 249, 0.9);
@@ -48,8 +58,9 @@ html {
 }
 
 body {
+  /* Apple-style glass background: base gradient + subtle radial orbs for depth; content sits on top with own surfaces */
   background: var(--app-bg);
-  background-image: var(--app-bg-gradient);
+  background-image: var(--app-bg-glass), var(--app-bg-gradient);
   background-attachment: fixed;
   color: var(--app-text);
   font-family: Arial, Helvetica, sans-serif;
@@ -85,14 +96,14 @@ body {
   box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.08);
 }
 
-/* AI chat panel — distinct translucent background (OpenShift-style) */
+/* AI chat panel — PatternFly-style: subtle gray/blue tint */
 .chat-panel-bg {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, rgba(28, 25, 65, 0.95) 100%);
+  background: linear-gradient(180deg, rgba(21, 21, 21, 0.98) 0%, rgba(31, 31, 31, 0.95) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 .light .chat-panel-bg {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(238, 242, 255, 0.92) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(242, 242, 242, 0.92) 100%);
 }
 
 /* Skip link: visually hidden until focused (WCAG 2.4.1 Bypass Blocks) */
@@ -112,7 +123,7 @@ body {
 .skip-link:focus {
   left: 1rem;
   top: 1rem;
-  outline: 2px solid #7c3aed;
+  outline: 2px solid #0066cc;
   outline-offset: 2px;
 }
 

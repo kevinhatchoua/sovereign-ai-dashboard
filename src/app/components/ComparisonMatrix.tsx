@@ -223,7 +223,7 @@ function SectionHeader({
 }) {
   return (
     <div className="flex items-center gap-2 border-b border-slate-700/60 bg-slate-800/30 px-4 py-2 [.light_&]:border-slate-200 [.light_&]:bg-slate-100">
-      <Icon className="h-4 w-4 text-violet-500 [.light_&]:text-violet-600" />
+      <Icon className="h-4 w-4 text-blue-600 [.light_&]:text-blue-600" />
       <span className="text-sm font-semibold uppercase tracking-wider text-slate-400 [.light_&]:text-slate-700">
         {title}
       </span>

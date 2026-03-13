@@ -259,7 +259,7 @@ export function ModelDetailPanel({
                       href={links.download}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg border border-violet-600/40 bg-violet-500/10 px-3 py-2 text-sm font-medium text-violet-400 transition hover:bg-violet-500/20 [.light_&]:border-violet-500/60 [.light_&]:bg-violet-100 [.light_&]:text-violet-700 [.light_&]:hover:bg-violet-200"
+                      className="inline-flex items-center gap-2 rounded-lg border border-blue-600/40 bg-blue-600/10 px-3 py-2 text-sm font-medium text-blue-400 transition hover:bg-blue-600/20 [.light_&]:border-blue-600/60 [.light_&]:bg-blue-50 [.light_&]:text-blue-700 [.light_&]:hover:bg-blue-200"
                     >
                       <Download className="h-4 w-4" />
                       Download from Hugging Face
@@ -291,7 +291,7 @@ export function ModelDetailPanel({
                       </span>
                     </div>
                     {hasCloudActExposure(model) && (
-                      <p className="text-xs text-sky-500 [.light_&]:text-sky-700">
+                      <p className="text-xs text-slate-500 [.light_&]:text-slate-700">
                         US-based provider; may be subject to Cloud Act.
                       </p>
                     )}
@@ -523,7 +523,7 @@ export function ModelDetailPanel({
             <button
               type="button"
               onClick={() => setDisputeModalOpen(true)}
-              className="flex w-full items-center gap-2 rounded-lg border border-violet-500/30 bg-violet-500/10 px-3 py-2 text-sm text-violet-400 hover:bg-violet-500/20 [.light_&]:border-violet-400 [.light_&]:bg-violet-100 [.light_&]:text-violet-800 [.light_&]:hover:bg-violet-200"
+              className="flex w-full items-center gap-2 rounded-lg border border-blue-600/30 bg-blue-600/10 px-3 py-2 text-sm text-blue-400 hover:bg-blue-600/20 [.light_&]:border-blue-400 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
             >
               <AlertCircle className="h-4 w-4 shrink-0" />
               Report Compliance Dispute
@@ -558,7 +558,7 @@ export function ModelDetailPanel({
                     <p><strong>{model.name}</strong> — {model.provider} ({model.origin_country})</p>
                     <p>{getModelDescription(model)}</p>
                     <p>Sovereignty Readiness: {getSovereigntyReadiness(model).label} ({getSovereigntyReadiness(model).score}/100)</p>
-                    {hasCloudActExposure(model) && <p className="text-sky-600">US Cloud Act exposure</p>}
+                    {hasCloudActExposure(model) && <p className="text-slate-600">US Cloud Act exposure</p>}
                     <p>Ethics Score: {computeEthicsScore(model)}/100</p>
                     <p>Openness: {model.openness_level} · Data residency: {model.data_residency ? "Yes" : "No"}</p>
                   </div>

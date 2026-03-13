@@ -45,7 +45,7 @@ export function SelectModelModal({ model, user, onClose }: SelectModelModalProps
 
         {needsPremium ? (
           <>
-            <p className="mb-4 rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-400 [.light_&]:text-sky-800">
+            <p className="mb-4 rounded-lg bg-slate-500/10 px-3 py-2 text-sm text-slate-400 [.light_&]:text-slate-700">
               This model requires a premium subscription. Upgrade options are not currently available.
             </p>
             <button
@@ -58,7 +58,7 @@ export function SelectModelModal({ model, user, onClose }: SelectModelModalProps
           </>
         ) : needsSignup ? (
           <>
-            <p className="mb-4 rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-400 [.light_&]:text-sky-800">
+            <p className="mb-4 rounded-lg bg-slate-500/10 px-3 py-2 text-sm text-slate-400 [.light_&]:text-slate-700">
               This model requires an account. Account creation is not currently available.
             </p>
             <button

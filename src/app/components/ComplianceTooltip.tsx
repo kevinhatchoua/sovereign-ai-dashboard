@@ -93,7 +93,7 @@ export function ComplianceTooltip({ term }: { term: string }) {
             setOpen((o) => !o);
           }
         }}
-        className="ml-0.5 inline-flex min-h-[24px] min-w-[24px] items-center justify-center text-slate-500 hover:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-1 [.light_&]:text-slate-600 [.light_&]:hover:text-slate-700"
+        className="ml-0.5 inline-flex min-h-[24px] min-w-[24px] items-center justify-center text-slate-500 hover:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 [.light_&]:text-slate-600 [.light_&]:hover:text-slate-700"
         aria-label={`Info about ${term}`}
         aria-expanded={open}
         aria-describedby={open ? tooltipId : undefined}

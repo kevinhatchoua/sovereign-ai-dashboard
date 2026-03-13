@@ -115,7 +115,7 @@ export default function MethodologyPage() {
 
         <section className="mb-10" aria-labelledby="cloud-act-heading">
           <h2 id="cloud-act-heading" className="mb-4 flex items-center gap-2 text-xl font-semibold text-white [.light_&]:text-slate-900">
-            <ShieldAlert className="h-5 w-5 shrink-0 text-sky-500 [.light_&]:text-sky-600" aria-hidden="true" />
+            <ShieldAlert className="h-5 w-5 shrink-0 text-slate-500 [.light_&]:text-slate-600" aria-hidden="true" />
             US Cloud Act Exposure
           </h2>
           <p className="mb-4 text-slate-200 [.light_&]:text-slate-700">
@@ -155,7 +155,7 @@ export default function MethodologyPage() {
         <nav className="mt-12" aria-label="Back to catalog">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:focus-visible:ring-offset-white"
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:focus-visible:ring-offset-white"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back to catalog
