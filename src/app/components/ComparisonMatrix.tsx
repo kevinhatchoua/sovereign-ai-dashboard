@@ -381,14 +381,14 @@ export function ComparisonMatrix({
           <button
             type="button"
             onClick={onClose}
-            className="min-h-[44px] min-w-[44px] touch-manipulation rounded-lg p-2 text-slate-400 hover:bg-slate-800 hover:text-white [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-100 [.light_&]:hover:text-slate-900"
+            className="flex min-h-[44px] min-w-[44px] touch-manipulation items-center justify-center rounded-lg p-2 text-slate-400 hover:bg-slate-800 hover:text-white [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-100 [.light_&]:hover:text-slate-900"
             aria-label="Close"
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5" aria-hidden />
           </button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-auto">
+        <div className="min-h-0 flex-1 overflow-auto" role="region" aria-label="Comparison table">
           {/* Header row */}
           <div
             className="grid min-w-0 gap-4 border-b-2 border-slate-700 bg-slate-800/50 px-4 py-4 [.light_&]:border-slate-200 [.light_&]:bg-slate-50"

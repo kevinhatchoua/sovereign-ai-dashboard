@@ -14,7 +14,7 @@ const NAV_ITEMS = [
 ] as const;
 
 const linkBase =
-  "rounded-lg px-3 py-1.5 text-sm transition sm:py-2 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900";
+  "rounded-lg px-3 py-1.5 text-sm transition sm:py-2 flex items-center touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:focus-visible:ring-offset-white [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900";
 const linkInactive =
   "text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 " + linkBase;
 const linkActive =
@@ -79,12 +79,12 @@ export function SiteHeader({
         <div className="flex min-w-0 shrink-0 items-center gap-3 sm:gap-6">
           <Link
             href="/"
-            className="flex min-w-0 items-center gap-2 text-base font-semibold tracking-tight text-white hover:text-slate-200 sm:text-lg [.light_&]:text-slate-900 [.light_&]:hover:text-slate-800"
+            className="flex min-w-0 items-center gap-2 text-base font-semibold tracking-tight text-white hover:text-slate-200 sm:text-lg [.light_&]:text-slate-900 [.light_&]:hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-lg [.light_&]:focus-visible:ring-offset-white"
           >
-            <SovereignLogo className="h-5 w-5 shrink-0 text-amber-500 sm:h-6 sm:w-6 [.light_&]:text-amber-600" />
+            <SovereignLogo className="h-5 w-5 shrink-0 text-amber-500 sm:h-6 sm:w-6 [.light_&]:text-amber-600" aria-hidden />
             <span className="truncate">Sovereign AI</span>
           </Link>
-          <div className="hidden items-center gap-1 sm:flex">
+          <div className="hidden items-center gap-1 sm:flex sm:min-h-0">
             {NAV_ITEMS.map(({ href, label }) => {
               const active =
                 (href === "/" && pathname === "/") ||

@@ -174,7 +174,13 @@ function ModelCard({
       className="relative cursor-pointer touch-manipulation rounded-xl border border-slate-700/60 bg-slate-800/50 p-4 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/70 sm:p-5 [.light_&]:border-slate-300 [.light_&]:bg-slate-50 [.light_&]:hover:border-slate-400 [.light_&]:hover:bg-slate-100"
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && onClick()}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      aria-label={`View details for ${model.name}`}
     >
       {/* Overlay below content so interactive elements (z-20) receive clicks first */}
       <div
@@ -206,11 +212,12 @@ function ModelCard({
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
-              className="rounded p-1 text-slate-500 hover:bg-slate-700 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+              className="flex min-h-[44px] min-w-[44px] touch-manipulation items-center justify-center rounded p-2 text-slate-500 hover:bg-slate-700 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
               aria-label="Card actions"
               aria-expanded={menuOpen}
+              aria-haspopup="menu"
             >
-              <MoreVertical className="h-4 w-4" />
+              <MoreVertical className="h-4 w-4" aria-hidden />
             </button>
             {menuOpen && (
               <div
@@ -715,8 +722,8 @@ export default function Home() {
       : null;
     document.title = jurisdictionLabel
       ? `Sovereign AI | Results for ${jurisdictionLabel} Jurisdiction`
-      : `Sovereign AI | Build with AI You Own — ${filtered.length}+ models`;
-  }, [currentJurisdiction, filtered.length]);
+      : "Sovereign AI | Build with AI You Own";
+  }, [currentJurisdiction]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -758,12 +765,12 @@ export default function Home() {
             <h1 className="mb-1 text-2xl font-bold tracking-tight text-white sm:text-3xl [.light_&]:text-slate-900">
               {currentJurisdiction
                 ? `Results for ${currentJurisdiction === "EU" ? "EU" : currentJurisdiction === "IN" ? "India" : "USA"} Jurisdiction`
-                : `Build with AI you own — ${filtered.length}+ models`}
+                : "Build with AI you own"}
             </h1>
             <p className="mb-3 text-slate-400 [.light_&]:text-slate-800">
               {currentJurisdiction
                 ? "Models filtered by your selected jurisdiction. Change jurisdiction in the header to see others."
-                : `Explore ${models.length}+ models for sovereign deployment—full ownership, data control, and domestic infrastructure. Filter by jurisdiction, openness, and compliance.`}
+                : "Explore models for sovereign deployment—full ownership, data control, and domestic infrastructure. Filter by jurisdiction, openness, and compliance."}
             </p>
             <button
               type="button"
@@ -999,7 +1006,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={clearAllFilters}
-                  className="flex items-center gap-1 rounded-lg border border-slate-600 px-2.5 py-1 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-300 [.light_&]:border-slate-500 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+                  className="flex min-h-[36px] min-w-[36px] touch-manipulation items-center justify-center gap-1 rounded-lg border border-slate-600 px-2.5 py-1.5 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-300 [.light_&]:border-slate-500 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
                 >
                   <X className="h-3 w-3" />
                   Clear filters
@@ -1011,10 +1018,10 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={() => setChatbotModelIds(new Set())}
-                        className="rounded hover:bg-amber-500/30"
+                        className="flex min-h-[28px] min-w-[28px] touch-manipulation items-center justify-center rounded hover:bg-amber-500/30"
                         aria-label="Clear assistant filter"
                       >
-                        <X className="h-3 w-3" />
+                        <X className="h-3 w-3" aria-hidden />
                       </button>
                     </span>
                   )}
@@ -1031,10 +1038,10 @@ export default function Home() {
                           else if (providerFilter.has(f)) toggleProvider(f);
                           else toggleCountry(f);
                         }}
-                        className="rounded hover:bg-slate-600"
+                        className="flex min-h-[28px] min-w-[28px] touch-manipulation items-center justify-center rounded hover:bg-slate-600"
                         aria-label={`Remove ${f} filter`}
                       >
-                        <X className="h-3 w-3" />
+                        <X className="h-3 w-3" aria-hidden />
                       </button>
                     </span>
                   ))}
@@ -1104,7 +1111,7 @@ export default function Home() {
                           key={c.id}
                           type="button"
                           onClick={toggle}
-                          className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition touch-manipulation ${
+                          className={`inline-flex min-h-[44px] items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition touch-manipulation ${
                             active
                               ? "bg-amber-500/25 text-amber-400 ring-2 ring-amber-500/60 [.light_&]:bg-amber-100 [.light_&]:text-amber-800 [.light_&]:ring-amber-500"
                               : "bg-slate-800/60 text-slate-400 ring-1 ring-slate-600/50 hover:bg-slate-700/70 hover:text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-600 [.light_&]:ring-slate-300 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-800"
@@ -1172,7 +1179,7 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setMatrixOpen(true)}
-              className="inline-flex items-center gap-2 rounded-lg bg-slate-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-500"
+              className="inline-flex min-h-[44px] touch-manipulation items-center gap-2 rounded-lg bg-slate-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
             >
               <GitCompare className="h-4 w-4" aria-hidden />
               Compare Models

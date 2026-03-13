@@ -184,14 +184,16 @@ export function VoteButtons({
       <button
         type="button"
         onClick={() => handleVote(1)}
-        className={`rounded p-0.5 transition ${
+        className={`flex items-center justify-center rounded p-1 transition touch-manipulation ${
+          compact ? "min-h-[36px] min-w-[36px]" : "min-h-[44px] min-w-[44px]"
+        } ${
           data.userVote === 1
             ? "text-emerald-400"
             : "text-slate-500 hover:text-slate-400"
         }`}
         aria-label="Upvote"
       >
-        <ThumbsUp className={compact ? "h-3.5 w-3.5" : "h-4 w-4"} />
+        <ThumbsUp className={compact ? "h-3.5 w-3.5" : "h-4 w-4"} aria-hidden />
       </button>
       <span
         className="min-w-[1.5rem] text-center text-xs text-slate-500"
@@ -202,14 +204,16 @@ export function VoteButtons({
       <button
         type="button"
         onClick={() => handleVote(-1)}
-        className={`rounded p-0.5 transition ${
+        className={`flex items-center justify-center rounded p-1 transition touch-manipulation ${
+          compact ? "min-h-[36px] min-w-[36px]" : "min-h-[44px] min-w-[44px]"
+        } ${
           data.userVote === -1
             ? "text-red-400"
             : "text-slate-500 hover:text-slate-400"
         }`}
         aria-label="Downvote"
       >
-        <ThumbsDown className={compact ? "h-3.5 w-3.5" : "h-4 w-4"} />
+        <ThumbsDown className={compact ? "h-3.5 w-3.5" : "h-4 w-4"} aria-hidden />
       </button>
       </div>
       {showSentiment && data.total > 0 && (
