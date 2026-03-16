@@ -12,6 +12,7 @@ import {
   AlertTriangle,
   ExternalLink,
   Gamepad2,
+  Leaf,
 } from "lucide-react";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import referencedModelsData from "@/data/referencedModels.json";
@@ -141,6 +142,41 @@ const SECTIONS = [
             Limited signals; proceed with caution
           </li>
         </ul>
+      </>
+    ),
+  },
+  {
+    id: "environmental",
+    icon: Leaf,
+    title: "Environmental Impact",
+    content: (
+      <>
+        <p className="mb-3">
+          Training and running large language models has a real environmental footprint (energy use,
+          carbon emissions). We do not yet include environmental impact in our Ethics Score or as a
+          separate metric, because we require <strong>validated, attributable data</strong>—e.g.
+          from provider model cards, peer‑reviewed studies, or tools like the{" "}
+          <a
+            href="https://huggingface.co/docs/transformers/main/en/model_doc/bigbird_pegasus#environmental-impact"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 hover:underline [.light_&]:text-blue-600"
+          >
+            Hugging Face carbon footprint
+          </a>{" "}
+          documentation.
+        </p>
+        <p className="mb-3">
+          When such data is available and cited, we may show it in the model detail panel and
+          optionally fold it into the ethics score or a dedicated environmental section. Reputable
+          sources we consider: ML CO2 impact research (e.g. Strubell et al., &quot;Energy and Policy
+          Considerations for Deep Learning in NLP&quot;), provider sustainability reports, and
+          official model cards.
+        </p>
+        <p className="text-sm text-slate-400 [.light_&]:text-slate-600">
+          If you have a peer‑reviewed or official source for a model&apos;s carbon or energy data,
+          please contribute it via our contribution guidelines.
+        </p>
       </>
     ),
   },

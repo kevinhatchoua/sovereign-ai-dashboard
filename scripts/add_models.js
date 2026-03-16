@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 /**
  * Adds 100 models to registry.json with varied, realistic data.
+ *
+ * ⚠️ DEV/TEST ONLY: This script generates SYNTHETIC data (e.g. fictional model names
+ * like Nexus, Apex, Pulse). Its output must NOT be used as the production registry.
+ * Production registry entries must be real models with cited sources per
+ * CONTRIBUTING.md and DATA_SOURCES.md. Use this script only for local or CI testing.
  */
 const fs = require("fs");
 const path = require("path");

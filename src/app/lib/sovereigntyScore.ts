@@ -157,11 +157,8 @@ export function getCloudActBadgeClasses(): string {
 }
 
 /**
- * Openness badges — Blue = Local-hostable (primary), Slate = API-only (neutral).
- * API-only uses white text on slate for WCAG AA contrast.
+ * Openness badges — same neutral styling for both Local-hostable and API-only.
  */
-export function getOpennessColorClasses(openness: "Open Weights" | "API"): string {
-  return openness === "Open Weights"
-    ? "bg-blue-600 text-white ring-1 ring-blue-500 [.light_&]:bg-blue-600 [.light_&]:text-white [.light_&]:ring-blue-500"
-    : "bg-slate-600 text-white ring-1 ring-slate-500 [.light_&]:bg-slate-600 [.light_&]:text-white [.light_&]:ring-slate-500";
+export function getOpennessColorClasses(_openness: "Open Weights" | "API"): string {
+  return "bg-slate-600 text-white ring-1 ring-slate-500 [.light_&]:bg-slate-600 [.light_&]:text-white [.light_&]:ring-slate-500";
 }

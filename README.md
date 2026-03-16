@@ -20,6 +20,7 @@ This open-source dashboard provides a real-time, community-verified registry of 
 - **Sovereignty Score:** A proprietary metric based on data residency, model openness, and infrastructure autonomy.
 - **Comparison Matrix:** Side-by-side legal risk analysis for top-tier models (Llama, Mistral, GPT, etc.).
 - **Automated Watcher:** A GitHub Action that monitors regulatory changes and alerts the community to compliance shifts.
+- **AI Assistant:** In-app chat (powered by Groq + Llama) answers questions about the site, models, sovereignty concepts, and the founder (Kevin Hatchoua). It responds to emoji, light jokes, and human-like banter. It can point you to the open source community (Hugging Face, GitHub) and suggest where to search the web for the latest information; optional integration with a search API (e.g. Serper, Tavily) can be added for live web lookup.
 
 ## 🛠️ Tech Stack
 
@@ -47,7 +48,7 @@ Consume the registry programmatically. Base URL: `https://your-domain.com/api` (
 | `/api/export` | GET | Bulk export. Query params: `format` (json\|csv) |
 | `/api/webhook/submit` | POST | Model submission (requires `X-Webhook-Secret` if `WEBHOOK_SECRET` set) |
 | `/api/feed/models` | GET | RSS feed of top models |
-| `/api/chat` | POST | AI assistant chat (requires `GROQ_API_KEY`; uses Llama 3.3 70B, free & open source) |
+| `/api/chat` | POST | AI assistant chat: answers queries about the app, site content, founder (Kevin Hatchoua), models, and sovereignty; supports emoji, jokes, and human-like replies; can point to open source community and suggest web search for latest info (requires `GROQ_API_KEY`; uses Llama 3.3 70B) |
 | `/api/chat` | GET | Check if `GROQ_API_KEY` is configured (visit in browser to verify) |
 
 **Embeddable badge:** `<script src="https://your-domain.com/embed.js" data-model="llama-3.1" data-jurisdiction="EU"></script>`
@@ -71,6 +72,10 @@ The dashboard uses an Apple Glass–inspired design: frosted glass surfaces with
 - **Admin Dashboard:** `/admin` is protected by Supabase Auth. Add your email to `admin_emails` in Supabase to grant access. Enable MFA in Supabase Dashboard for additional security.
 - **CSP:** Content Security Policy headers mitigate XSS and clickjacking.
 - See [SECURITY.md](SECURITY.md) for vulnerability reporting.
+
+## 👤 Founder
+
+**Kevin Hatchoua** created and leads the Sovereign AI Transparency Dashboard. The project is open source and community-oriented. You can reach out or contribute via the [GitHub repository](https://github.com/kevinhatchoua/sovereign-ai-dashboard).
 
 ## 🤝 Community & Governance
 

@@ -6,7 +6,7 @@ type ExtendedModel = ComparisonModel & {
   huggingface_id?: string;
 };
 
-/** Provider homepage fallbacks when home_page not in registry */
+/** Provider homepage fallbacks when home_page not in registry (learn more / view on provider) */
 const PROVIDER_HOMEPAGES: Record<string, string> = {
   "Mistral AI": "https://mistral.ai",
   "Meta": "https://ai.meta.com",
@@ -16,6 +16,7 @@ const PROVIDER_HOMEPAGES: Record<string, string> = {
   "Microsoft": "https://www.microsoft.com/en-us/research",
   "NVIDIA": "https://www.nvidia.com/en-us/ai-data-science",
   "Hugging Face": "https://huggingface.co",
+  "HuggingFaceTB": "https://huggingface.co",
   "Alibaba Cloud": "https://www.alibabacloud.com",
   "Technology Innovation Institute": "https://www.tii.ae",
   "Allen Institute for AI": "https://allenai.org",
@@ -23,6 +24,28 @@ const PROVIDER_HOMEPAGES: Record<string, string> = {
   "Cohere": "https://cohere.com",
   "Stability AI": "https://stability.ai",
   "IBM": "https://www.ibm.com/watson",
+  "Amazon": "https://aws.amazon.com/machine-learning",
+  "AI21 Labs": "https://www.ai21.com",
+  "Aleph Alpha": "https://aleph-alpha.com",
+  "Baidu": "https://cloud.baidu.com",
+  "ByteDance": "https://www.bytedance.com",
+  "EleutherAI": "https://www.eleuther.ai",
+  "Essential AI": "https://www.essential.ai",
+  "LMSYS": "https://lmsys.org",
+  "Liquid AI": "https://liquid.ai",
+  "MiniMax": "https://api.minimax.chat",
+  "01.AI": "https://01.ai",
+  "RedHatAI": "https://github.com/redhat-na/red-hat-ai",
+  "Replicate": "https://replicate.com",
+  "TinyLlama": "https://huggingface.co/TinyLlama",
+  "Zhipu AI": "https://open.bigmodel.cn",
+  "apple": "https://machinelearning.apple.com",
+  "h2oai": "https://h2o.ai",
+  "bigscience": "https://huggingface.co/bigscience",
+  "mlx-community": "https://github.com/ml-explore",
+  "lmstudio-community": "https://lmstudio.ai",
+  "llamafactory": "https://github.com/hiyoufu/LLaMA-Factory",
+  "zai-org": "https://huggingface.co/zai-org",
 };
 
 /** Registry id -> Hugging Face model id (for download links when huggingface_id not in registry) */
@@ -76,8 +99,9 @@ export function getModelLinks(model: ComparisonModel): ModelLinks {
     if (hfId) {
       download = `https://huggingface.co/${hfId}`;
     } else {
-      // Fallback: search Hugging Face for the model name so users can find it
-      const searchQuery = encodeURIComponent(model.name);
+      // Fallback: search Hugging Face so users can find the model (prefer name, then id)
+      const searchTerm = (model.name?.trim() || model.id || "").replace(/\s+/g, " ");
+      const searchQuery = encodeURIComponent(searchTerm || "LLM");
       download = `https://huggingface.co/models?search=${searchQuery}`;
     }
   }

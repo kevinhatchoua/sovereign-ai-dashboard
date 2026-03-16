@@ -5,6 +5,8 @@ import type { ComparisonModel } from "./registryNormalizer";
  * - Data Sovereignty (50%): open weights, data residency, sovereign deployment
  * - Transparency (50%): openness, compliance tags, documentation (training_cutoff)
  * Bias mitigation excluded until we have authoritative bias data.
+ * Environmental impact (carbon/energy) excluded until we have validated per-model data from
+ * provider model cards or peer‑reviewed studies; see Learn page and model detail panel.
  */
 export function computeEthicsScore(model: ComparisonModel): number {
   let sovereignty = 0;

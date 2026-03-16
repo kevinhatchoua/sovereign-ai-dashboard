@@ -19,6 +19,7 @@ import {
   ExternalLink,
   Download,
   FileText,
+  Leaf,
 } from "lucide-react";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
 import { computeEthicsScore, getEthicsScoreColorClasses } from "@/app/lib/ethicsScore";
@@ -333,6 +334,22 @@ export function ModelDetailPanel({
             </div>
           </section>
 
+          {/* Environmental impact */}
+          <section className="mb-6">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
+              <Leaf className="h-4 w-4" aria-hidden />
+              Environmental Impact
+            </h3>
+            <div className="rounded-lg border border-slate-700 bg-slate-800/50 p-3 [.light_&]:border-slate-200 [.light_&]:bg-slate-50">
+              <p className="text-sm text-slate-300 [.light_&]:text-slate-700">
+                We do not yet score environmental impact per model. When we have validated data (e.g. carbon footprint or energy use from provider model cards or peer‑reviewed studies), we will display it here and may incorporate it into our ethics or a dedicated metric.
+              </p>
+              <p className="mt-2 text-xs text-slate-500 [.light_&]:text-slate-600">
+                Reputable sources: Hugging Face model cards, ML CO2 impact research (e.g. Strubell et al.), and provider sustainability reports. See <Link href="/learn#environmental" className="text-blue-400 hover:underline [.light_&]:text-blue-600">Learn</Link> for more.
+              </p>
+            </div>
+          </section>
+
           {/* Supply chain & vendor risk */}
           <section className="mb-6">
             <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
@@ -549,7 +566,7 @@ export function ModelDetailPanel({
                 onClick={() => setExecutiveSummaryOpen(false)}
               >
                 <div
-                  className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-slate-200 bg-white p-6 shadow-xl"
+                  className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-slate-200 bg-white p-6 shadow-xl [.light_&]:border-slate-200"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="mb-4 flex items-center justify-between">
@@ -558,25 +575,91 @@ export function ModelDetailPanel({
                       type="button"
                       onClick={() => setExecutiveSummaryOpen(false)}
                       className="rounded p-2 text-slate-500 hover:bg-slate-100"
+                      aria-label="Close"
                     >
                       <X className="h-5 w-5" />
                     </button>
                   </div>
-                  <div className="space-y-3 text-sm text-slate-700">
-                    <p><strong>{model.name}</strong> — {model.provider} ({model.origin_country})</p>
-                    <p>{getModelDescription(model)}</p>
-                    <p>Sovereignty Readiness: {getSovereigntyReadiness(model).label} ({getSovereigntyReadiness(model).score}/100)</p>
-                    {hasCloudActExposure(model) && <p className="text-slate-600">US Cloud Act exposure</p>}
-                    <p>Ethics Score: {computeEthicsScore(model)}/100</p>
-                    <p>Openness: {model.openness_level} · Data residency: {model.data_residency ? "Yes" : "No"}</p>
+                  <div className="space-y-4 text-sm text-slate-700">
+                    <p className="text-slate-600">
+                      This summary provides a concise sovereign AI assessment of <strong>{model.name}</strong> for deployment, compliance, and risk decisions. It is based on our open methodology (McKinsey Four Dimensions, Red Hat/SUSE frameworks).
+                    </p>
+
+                    <div>
+                      <h4 className="mb-1 font-semibold text-slate-900">Overview</h4>
+                      <p><strong>{model.name}</strong> by {model.provider} (origin: {model.origin_country}). {getModelDescription(model)}</p>
+                    </div>
+
+                    <div>
+                      <h4 className="mb-1 font-semibold text-slate-900">Sovereign AI Assessment</h4>
+                      <p>
+                        <strong>Sovereignty Readiness:</strong> {getSovereigntyReadiness(model).label} ({getSovereigntyReadiness(model).score}/100).
+                        {getSovereigntyReadiness(model).score >= 75 && " Strong posture for sovereign deployment; suitable for high-sensitivity use cases."}
+                        {getSovereigntyReadiness(model).score >= 50 && getSovereigntyReadiness(model).score < 75 && " Moderate posture; review jurisdiction and hosting options before deployment."}
+                        {getSovereigntyReadiness(model).score < 50 && " Baseline; may require additional controls for sovereign or regulated environments."}
+                      </p>
+                      <ul className="mt-2 list-inside list-disc space-y-0.5 text-slate-600">
+                        {getFourDimensions(model).map((d) => (
+                          <li key={d.dimension}>
+                            <strong>{d.label}:</strong> {d.score}/100 ({d.level}) — {d.description}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h4 className="mb-1 font-semibold text-slate-900">Ethics &amp; Openness</h4>
+                      <p><strong>Ethics Score:</strong> {computeEthicsScore(model)}/100 (Data Sovereignty + Transparency). Openness: <strong>{model.openness_level}</strong>. Data residency: {model.data_residency ? "Yes" : "No"}.</p>
+                    </div>
+
+                    <div>
+                      <h4 className="mb-1 font-semibold text-slate-900">Compliance &amp; Risk</h4>
+                      <p>
+                        {model.compliance_tags.length > 0 ? `Compliance tags: ${model.compliance_tags.join(", ")}. ` : ""}
+                        {hasCloudActExposure(model) ? "US Cloud Act exposure: this model is from a US-based provider or has US origin; consider jurisdictional risk for strict data sovereignty requirements." : "No US Cloud Act exposure flagged."}
+                      </p>
+                    </div>
+
+                    {(model.task_categories.length > 0 || model.intelligence?.context_window || model.intelligence?.vram_4bit_gb != null) && (
+                      <div>
+                        <h4 className="mb-1 font-semibold text-slate-900">Technical Snapshot</h4>
+                        <p>
+                          {model.task_categories.length > 0 && `Tasks: ${model.task_categories.map((t) => t.replace(/-/g, " ")).join(", ")}. `}
+                          {model.intelligence?.context_window != null && `Context window: ${(model.intelligence.context_window / 1000).toFixed(0)}k tokens. `}
+                          {(model.intelligence?.vram_4bit_gb != null || model.intelligence?.vram_8bit_gb != null) && `VRAM: ${model.intelligence?.vram_4bit_gb ?? model.intelligence?.vram_8bit_gb}GB+ (4-bit or 8-bit).`}
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="rounded-lg bg-slate-100 p-3 text-slate-700">
+                      <h4 className="mb-1 font-semibold text-slate-900">Suitability</h4>
+                      <p>
+                        {getSovereigntyReadiness(model).score >= 75 && !hasCloudActExposure(model) && "Well suited for sovereign deployment and regulated sectors (e.g. EU, India) where data residency and control are required."}
+                        {getSovereigntyReadiness(model).score >= 75 && hasCloudActExposure(model) && "Strong overall posture; note US jurisdictional exposure for data sovereignty–sensitive deployments."}
+                        {getSovereigntyReadiness(model).score >= 50 && getSovereigntyReadiness(model).score < 75 && "Suitable for many use cases; verify compliance tags and hosting options for your jurisdiction."}
+                        {getSovereigntyReadiness(model).score < 50 && "Review methodology and compliance before use in regulated or sovereignty-sensitive contexts."}
+                      </p>
+                    </div>
+
+                    <p className="text-xs text-slate-500">
+                      Methodology: McKinsey Four Dimensions of Sovereignty; Red Hat Digital Sovereignty Readiness; SUSE Cloud Sovereignty Framework. For full details and references, see the Methodology and Learn pages. This tool is for informational purposes only and does not constitute legal advice.
+                    </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => window.print()}
-                    className="mt-4 w-full rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500"
-                  >
-                    Print / Save as PDF
-                  </button>
+                  <div className="mt-4 flex gap-2">
+                    <Link
+                      href="/methodology"
+                      className="flex-1 rounded-lg border border-slate-300 px-4 py-2 text-center text-sm font-medium text-slate-700 hover:bg-slate-50"
+                    >
+                      Methodology
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => window.print()}
+                      className="flex-1 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500"
+                    >
+                      Print / Save as PDF
+                    </button>
+                  </div>
                 </div>
               </div>
             )}

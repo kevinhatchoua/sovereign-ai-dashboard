@@ -6,6 +6,7 @@ Thank you for helping us build a more transparent AI ecosystem! We welcome contr
 
 In this project, we prioritize **Proof over Opinion**.
 
+- **Real data only:** All data on the site must be **validated, real, and backed by reputable sources**. No synthetic, placeholder, or mock data in production. See [DATA_SOURCES.md](DATA_SOURCES.md) for where each type of data comes from and how it is verified.
 - **Data Submissions:** All updates to `registry.json` must be accompanied by a link to a public government database, official model card, or legal audit.
 - **AI-Assisted Code:** If you use Cursor/Claude/ChatGPT to generate code for this repo, you **must** disclose it in your PR and verify the logic yourself. "The AI said so" is not a valid explanation for a legal compliance filter.
 

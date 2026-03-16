@@ -66,12 +66,13 @@ const SUGGESTED_PROMPTS = [
 
 const GREETING = `I'm your Sovereign AI Assistant. I can help with:
 
-• **Site content** — Overview, Methodology, Models
+• **Site & content** — Overview, Methodology, Models, Learn, AI Games
 • **Concepts** — sovereignty, compliance, ethics scores, Cloud Act
 • **Finding models** — by hardware, region, task, or name
-• **External references** — Hugging Face, McKinsey, EU AI Act, etc.
+• **Founder** — Kevin Hatchoua created this project
+• **Feedback, jokes & emoji** — send thoughts, emoji, or ask for a joke
 
-What would you like to know?`;
+I can also point you to the open source community (Hugging Face, GitHub) or suggest where to search for the latest info. What would you like to know?`;
 
 const AI_DISCLAIMER = "Always review AI-generated content prior to use.";
 
@@ -82,6 +83,15 @@ const CONVERSATIONAL_PATTERNS: Array<{ pattern: RegExp; text: string }> = [
   { pattern: /^(bye|goodbye|see you|later)[!.]?$/i, text: "Goodbye! Feel free to come back if you need help finding models or understanding sovereignty." },
   { pattern: /^(ok|okay|got it|alright|sure|cheers?)[!.]?$/i, text: "Great! What else can I help you with?" },
 ];
+
+/** Emoji-only or very short non-search queries — let the API handle (jokes, emoji, quirks) */
+function isEmojiOrShortQuirk(msg: string): boolean {
+  const t = msg.trim();
+  if (t.length === 0) return false;
+  if (t.length <= 3 && /^[\p{Emoji}\p{Symbol}\s]+$/u.test(t)) return true;
+  if (/^(tell me a joke|joke|something funny|make me laugh|🤣|😀|😊|😂|👍|🙌)$/i.test(t)) return true;
+  return false;
+}
 
 /** General site/concept knowledge — answers before model-specific logic */
 function getGeneralKnowledgeResponse(query: string): {
@@ -180,6 +190,24 @@ function getGeneralKnowledgeResponse(query: string): {
         { label: "Go to Methodology", type: "navigate", href: "/methodology" },
       ],
       suggestedPrompts: ["Show me EU models", "What is the Overview?", "Best model for 8GB VRAM"],
+    };
+  }
+
+  // Founder / who built this
+  if (/who (built|created|made|runs|owns)|founder|kevin|hatchoua|creator|author|team behind/.test(q)) {
+    return {
+      text: "**Kevin Hatchoua** created and leads the Sovereign AI Transparency Dashboard. It's an open-source project to help developers and enterprises navigate sovereign AI, data residency, and compliance. You can reach out or contribute via the GitHub repo linked in the app.",
+      ids: [],
+      suggestedPrompts: ["What is the Overview?", "How does the methodology work?", "Show me EU models"],
+    };
+  }
+
+  // Feedback / contact
+  if (/feedback|contact|reach (you|out)|get in touch|suggest|compliment|complaint/.test(q)) {
+    return {
+      text: "Thanks for your interest! You can share feedback or get in touch via the project's **GitHub** repository (see links in the app). For compliance or data corrections, use **Report Compliance Dispute** on any model's details.",
+      ids: [],
+      suggestedPrompts: ["Who built this?", "Go to Methodology", "Show me models"],
     };
   }
 
@@ -292,6 +320,15 @@ function generateResponse(
   suggestedPrompts?: string[];
 } {
   const q = query.toLowerCase().trim();
+
+  // Emoji-only or joke/quirks — let API respond; use friendly fallback if API unavailable
+  if (isEmojiOrShortQuirk(query)) {
+    return {
+      text: "😊 I'm here! Ask me anything about the site, models, or ask for a joke.",
+      ids: [],
+      suggestedPrompts: ["Tell me a joke", "Who built this?", "What is sovereignty?"],
+    };
+  }
 
   // General site/concept content first — help with any site, concepts, or references
   const general = getGeneralKnowledgeResponse(query);

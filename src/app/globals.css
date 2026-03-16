@@ -7,11 +7,12 @@
 :root,
 .dark {
   --app-bg: #0a0a0c;
-  --app-bg-gradient: linear-gradient(160deg, #0a0a0c 0%, #0f0f12 40%, #08080a 100%);
+  --app-bg-gradient: linear-gradient(165deg, #0a0a0c 0%, #0d0e14 25%, #0f1018 50%, #0c0d12 75%, #08090c 100%);
   --app-bg-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   --app-bg-glass: var(--app-bg-noise),
-    radial-gradient(ellipse 100% 80% at 20% 0%, rgba(120, 130, 180, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 60% at 80% 100%, rgba(80, 90, 140, 0.12) 0%, transparent 50%);
+    radial-gradient(ellipse 120% 90% at 15% 0%, rgba(100, 115, 180, 0.22) 0%, transparent 45%),
+    radial-gradient(ellipse 90% 70% at 85% 100%, rgba(70, 85, 150, 0.18) 0%, transparent 45%),
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(60, 70, 120, 0.08) 0%, transparent 60%);
   --app-surface: rgba(28, 28, 31, 0.65);
   --app-surface-solid: #1c1c1f;
   --app-surface-hover: rgba(44, 44, 48, 0.75);
@@ -27,11 +28,12 @@
 /* Light mode: Apple-style frosted glass */
 .light {
   --app-bg: #f5f5f7;
-  --app-bg-gradient: linear-gradient(160deg, #f5f5f7 0%, #e8e8ed 50%, #ffffff 100%);
+  --app-bg-gradient: linear-gradient(165deg, #f8f8fa 0%, #eef0f5 30%, #e6e8f0 55%, #e8eaf2 80%, #f0f2f8 100%);
   --app-bg-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   --app-bg-glass: var(--app-bg-noise),
-    radial-gradient(ellipse 100% 80% at 20% 0%, rgba(255, 255, 255, 0.9) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 60% at 80% 100%, rgba(220, 225, 240, 0.6) 0%, transparent 50%);
+    radial-gradient(ellipse 120% 90% at 10% 0%, rgba(255, 255, 255, 0.95) 0%, rgba(235, 238, 250, 0.5) 40%, transparent 70%),
+    radial-gradient(ellipse 90% 70% at 90% 100%, rgba(225, 230, 248, 0.7) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(240, 242, 252, 0.4) 0%, transparent 55%);
   --app-surface: rgba(255, 255, 255, 0.65);
   --app-surface-solid: #ffffff;
   --app-surface-hover: rgba(255, 255, 255, 0.85);
