@@ -14,6 +14,7 @@ import {
   LayoutGrid,
   ExternalLink,
   Download,
+  Gamepad2,
 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -39,12 +40,14 @@ import {
   getFourDimensions,
   getSovereigntyReadinessColorClasses,
   getOpennessColorClasses,
+  getCloudActBadgeClasses,
 } from "@/app/lib/sovereigntyScore";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import { SovereigntyAssessment } from "@/app/components/SovereigntyAssessment";
 import { HeroIllustration } from "@/app/components/HeroIllustration";
 import { EmptyStateIllustration } from "@/app/components/EmptyStateIllustration";
 import { MetricsHelpPanel } from "@/app/components/MetricsHelpPanel";
+import { CommunityShowcaseBanner } from "@/app/components/CommunityShowcaseBanner";
 
 type OpennessLevel = "Open Weights" | "API";
 
@@ -72,6 +75,7 @@ const TASK_LABELS: Record<string, string> = {
   "text-generation": "Text generation",
   conversational: "Conversational",
   code: "Code",
+  games: "Games",
   "question-answering": "Q&A",
   summarization: "Summarization",
   vision: "Vision",
@@ -175,7 +179,7 @@ function ModelCard({
 
   return (
     <article
-      className="glass-card relative cursor-pointer touch-manipulation rounded-xl border-slate-700/50 p-4 transition hover:border-slate-600/70 hover:shadow-xl sm:p-5 [.light_&]:border-slate-300/70 [.light_&]:hover:border-slate-400/80 [.light_&]:hover:shadow-xl"
+      className="glass-card relative cursor-pointer touch-manipulation rounded-xl border-slate-700/50 p-4 transition duration-300 hover:border-slate-600/70 hover:shadow-xl hover:-translate-y-0.5 sm:p-5 [.light_&]:border-slate-300/70 [.light_&]:hover:border-slate-400/80 [.light_&]:hover:shadow-xl"
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -197,7 +201,7 @@ function ModelCard({
       >
       <div className="mb-3 flex items-start justify-between gap-2">
         <label
-          className="relative z-20 flex cursor-pointer items-center gap-2 text-sm text-slate-400 [.light_&]:text-slate-700"
+          className="relative z-20 flex cursor-pointer items-center gap-2 text-sm text-slate-500 [.light_&]:text-slate-600"
           onClick={(e) => e.stopPropagation()}
         >
           <input
@@ -216,7 +220,7 @@ function ModelCard({
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
-              className="flex min-h-[44px] min-w-[44px] touch-manipulation items-center justify-center rounded p-2 text-slate-500 hover:bg-slate-700 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+              className="flex min-h-[44px] min-w-[44px] touch-manipulation items-center justify-center rounded p-2 text-slate-500 hover:bg-slate-700/70 hover:text-slate-400 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-800"
               aria-label="Card actions"
               aria-expanded={menuOpen}
               aria-haspopup="menu"
@@ -231,7 +235,7 @@ function ModelCard({
                 <button
                   type="button"
                   onClick={() => { onOpenDetails?.(); setMenuOpen(false); }}
-                  className="block w-full px-3 py-2 text-left text-sm text-slate-300 hover:bg-slate-700"
+                  className="block w-full px-3 py-2 text-left text-sm text-slate-400 hover:bg-slate-700/70 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
                   role="menuitem"
                 >
                   View details
@@ -240,7 +244,7 @@ function ModelCard({
                   type="button"
                   onClick={() => { onCompareChange(!compareChecked); setMenuOpen(false); }}
                   disabled={compareDisabled && !compareChecked}
-                  className="block w-full px-3 py-2 text-left text-sm text-slate-300 hover:bg-slate-700 disabled:opacity-50"
+                  className="block w-full px-3 py-2 text-left text-sm text-slate-400 hover:bg-slate-700/70 hover:text-slate-300 disabled:opacity-50 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
                   role="menuitem"
                 >
                   {compareChecked ? "Remove from compare" : "Add to compare"}
@@ -248,7 +252,7 @@ function ModelCard({
                 <button
                   type="button"
                   onClick={() => { onReportDispute?.(); setMenuOpen(false); }}
-                  className="block w-full px-3 py-2 text-left text-sm text-slate-300 hover:bg-slate-700"
+                  className="block w-full px-3 py-2 text-left text-sm text-slate-400 hover:bg-slate-700/70 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
                   role="menuitem"
                 >
                   Report dispute
@@ -313,10 +317,10 @@ function ModelCard({
           </button>
         </div>
       </div>
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); onFilterProvider?.(model.provider); }}
-        className="relative z-20 mb-1 block text-left text-sm text-slate-400 transition hover:text-slate-300 hover:underline [.light_&]:text-slate-700 [.light_&]:hover:text-slate-900"
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onFilterProvider?.(model.provider); }}
+        className="relative z-20 mb-1 block text-left text-sm text-slate-500 transition hover:text-slate-400 hover:underline [.light_&]:text-slate-600 [.light_&]:hover:text-slate-800"
         title="Filter by provider"
       >
         {model.provider}
@@ -325,11 +329,11 @@ function ModelCard({
         {getModelDescription(model)}
       </p>
 
-      {/* Simplified list-based metadata */}
+      {/* Metadata — labels: muted, values: body */}
       <dl className="space-y-1.5 text-xs">
         {(model.task_categories.length > 0 || getMinVramGb(model) != null) && (
           <div className="flex items-start gap-2">
-            <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0 pt-0.5">
+            <dt className="text-slate-500 w-16 shrink-0 pt-0.5 [.light_&]:text-slate-500">
               {model.task_categories.length > 0 ? "Tasks:" : "Hardware:"}
             </dt>
             <dd>
@@ -347,7 +351,7 @@ function ModelCard({
           </div>
         )}
         <div className="flex items-center gap-2 pt-1">
-          <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0">Ethics:</dt>
+          <dt className="text-slate-500 w-16 shrink-0 [.light_&]:text-slate-500">Ethics:</dt>
           <dd>
             <span className={`font-medium ${getEthicsScoreColorClasses(computeEthicsScore(model))}`}>
               {computeEthicsScore(model)}/100
@@ -355,21 +359,21 @@ function ModelCard({
           </dd>
         </div>
         <div className="flex items-center gap-2 pt-1">
-          <dt className="text-slate-500 [.light_&]:text-slate-600 w-16 shrink-0">Sovereignty:</dt>
+          <dt className="text-slate-500 w-16 shrink-0 [.light_&]:text-slate-500">Sovereignty:</dt>
           <dd className="flex flex-wrap items-center gap-1.5">
             {(() => {
               const readiness = getSovereigntyReadiness(model);
               return (
                 <>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-medium ring-1 ${getSovereigntyReadinessColorClasses(readiness.level)}`}
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${getSovereigntyReadinessColorClasses(readiness.level)}`}
                     title={`Sovereignty Readiness: ${readiness.level} (${readiness.score}/100)`}
                   >
                     {readiness.label}
                   </span>
                   {hasCloudActExposure(model) && (
                       <span
-                        className="rounded-full bg-slate-600 px-2 py-0.5 text-xs text-slate-200 ring-1 ring-slate-500 [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:ring-slate-400"
+                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${getCloudActBadgeClasses()}`}
                         title="US-based provider; may be subject to Cloud Act"
                       >
                         Cloud Act
@@ -392,7 +396,7 @@ function ModelCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:text-slate-800"
+                className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-400 [.light_&]:text-slate-600 [.light_&]:hover:text-slate-800"
               >
                 <ExternalLink className="h-3.5 w-3.5" />
                 Learn more
@@ -404,7 +408,7 @@ function ModelCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:text-slate-800"
+                className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-400 [.light_&]:text-slate-600 [.light_&]:hover:text-slate-800"
               >
                 <Download className="h-3.5 w-3.5" />
                 Download from source
@@ -469,6 +473,7 @@ function CatalogPage() {
   useEffect(() => {
     const modelsParam = searchParams.get("models");
     const modelParam = searchParams.get("model");
+    const taskParam = searchParams.get("task");
     if (modelsParam) {
       const ids = modelsParam.split(",").filter(Boolean);
       setChatbotModelIds(ids.length > 0 ? new Set(ids) : new Set());
@@ -476,6 +481,9 @@ function CatalogPage() {
     if (modelParam) {
       const m = models.find((x) => x.id === modelParam);
       if (m) setSelectedModel(m);
+    }
+    if (taskParam === "games") {
+      setTaskFilter(new Set(["games"]));
     }
   }, [searchParams]);
 
@@ -804,6 +812,8 @@ function CatalogPage() {
         </div>
       </div>
 
+      <CommunityShowcaseBanner models={models} />
+
       <div className="mx-auto flex min-w-0 max-w-7xl gap-4 py-6 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:gap-6 sm:pl-6 sm:pr-6 lg:pl-8 lg:pr-8">
         {sidebarOpen && (
           <div
@@ -1098,15 +1108,18 @@ function CatalogPage() {
             <div className="flex flex-wrap items-center gap-2">
               {(() => {
                 const quickChips = [
-                  { id: "GDPR", label: "GDPR", isOpenness: false },
-                  { id: "EU AI Act Ready", label: "EU AI Act Ready", isOpenness: false },
-                  { id: "Data residency", label: "Data residency", isOpenness: false },
-                  { id: "Local-hostable", label: "Local-hostable", isOpenness: true },
+                  { id: "GDPR", label: "GDPR", isOpenness: false, isTask: false },
+                  { id: "EU AI Act Ready", label: "EU AI Act Ready", isOpenness: false, isTask: false },
+                  { id: "Data residency", label: "Data residency", isOpenness: false, isTask: false },
+                  { id: "Local-hostable", label: "Local-hostable", isOpenness: true, isTask: false },
+                  { id: "Games", label: "Games", isOpenness: false, isTask: true },
                 ];
                 const anyActive = quickChips.some((c) =>
                   c.isOpenness
                     ? opennessFilter.size === 1 && opennessFilter.has("Open Weights")
-                    : complianceTagFilter.has(c.id)
+                    : c.isTask
+                      ? taskFilter.has("games")
+                      : complianceTagFilter.has(c.id)
                 );
                 return (
                   <>
@@ -1118,9 +1131,12 @@ function CatalogPage() {
                     {quickChips.map((c) => {
                       const active = c.isOpenness
                         ? opennessFilter.size === 1 && opennessFilter.has("Open Weights")
-                        : complianceTagFilter.has(c.id);
+                        : c.isTask
+                          ? taskFilter.has("games")
+                          : complianceTagFilter.has(c.id);
                       const toggle = () => {
                         if (c.isOpenness) filterToOpenness("Open Weights");
+                        else if (c.isTask) toggleTask("games");
                         else toggleComplianceTag(c.id);
                       };
                       return (
@@ -1137,6 +1153,7 @@ function CatalogPage() {
                           {c.id === "Local-hostable" && <Server className="h-3.5 w-3.5" />}
                           {c.id === "Data residency" && <MapPin className="h-3.5 w-3.5" />}
                           {(c.id === "GDPR" || c.id === "EU AI Act Ready") && <Shield className="h-3.5 w-3.5" />}
+                          {c.id === "Games" && <Gamepad2 className="h-3.5 w-3.5" />}
                           {c.label}
                         </button>
                       );
@@ -1147,8 +1164,13 @@ function CatalogPage() {
             </div>
           </div>
           <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
-            {filtered.map((model) => (
-              <ModelCard
+            {filtered.map((model, index) => (
+              <div
+                key={model.id}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${Math.min(index * 50, 400)}ms` }}
+              >
+                <ModelCard
                 key={model.id}
                 model={model}
                 currentJurisdiction={currentJurisdiction}
@@ -1167,6 +1189,7 @@ function CatalogPage() {
                   setOpenDisputeOnMount(true);
                 }}
               />
+              </div>
             ))}
           </div>
           {filtered.length === 0 && (

@@ -26,8 +26,13 @@ const LANGUAGE_LABELS: Record<string, string> = {
 };
 
 const TASK_LABELS: Record<string, string> = {
-  "text-generation": "Text gen", conversational: "Conversational", code: "Code",
-  "question-answering": "Q&A", summarization: "Summarization", vision: "Vision",
+  "text-generation": "Text gen",
+  conversational: "Conversational",
+  code: "Code",
+  games: "Games",
+  "question-answering": "Q&A",
+  summarization: "Summarization",
+  vision: "Vision",
 };
 
 function getMinVramGb(m: ComparisonModel): number | null {

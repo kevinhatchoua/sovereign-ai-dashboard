@@ -1,0 +1,23 @@
+[
+  {
+    "id": "openai-gpt-4",
+    "name": "GPT-4",
+    "provider": "OpenAI",
+    "link": "https://openai.com",
+    "note": "API-only. Referenced when community apps use it."
+  },
+  {
+    "id": "anthropic-claude",
+    "name": "Claude",
+    "provider": "Anthropic",
+    "link": "https://anthropic.com",
+    "note": "API-only. Referenced when community apps use it."
+  },
+  {
+    "id": "stability-stable-diffusion",
+    "name": "Stable Diffusion",
+    "provider": "Stability AI",
+    "link": "https://stability.ai",
+    "note": "Image generation. Open weights available."
+  }
+]

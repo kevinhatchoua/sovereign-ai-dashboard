@@ -1,0 +1,57 @@
+[
+  {
+    "id": "sovereign-quest",
+    "title": "Sovereign Quest",
+    "href": "#",
+    "description": "Text adventure game with dynamic NPCs. Built with Llama 3.2 for EU deployment.",
+    "type": "game",
+    "modelId": "meta-llama-llama-3-2-3b-instruct",
+    "externalModelId": null,
+    "date": "2026-01",
+    "region": "EU"
+  },
+  {
+    "id": "local-chat-assistant",
+    "title": "Local Chat Assistant",
+    "href": "#",
+    "description": "Privacy-first desktop app for code and writing. Runs fully offline.",
+    "type": "app",
+    "modelId": "mistralai-mistral-7b-instruct-v0-2",
+    "externalModelId": null,
+    "date": "2026-01",
+    "region": "EU"
+  },
+  {
+    "id": "indie-rpg-npcs",
+    "title": "Indie RPG NPC Generator",
+    "href": "#",
+    "description": "Procedural dialogue and quest generation for indie game devs.",
+    "type": "game",
+    "modelId": "qwen3",
+    "externalModelId": null,
+    "date": "2025-12",
+    "region": "Global"
+  },
+  {
+    "id": "compliance-dashboard",
+    "title": "Compliance Dashboard",
+    "href": "#",
+    "description": "Internal tool for GDPR-aware document summarization. EU-hosted.",
+    "type": "app",
+    "modelId": null,
+    "externalModelId": "anthropic-claude",
+    "date": "2025-12",
+    "region": "EU"
+  },
+  {
+    "id": "pixel-art-helper",
+    "title": "Pixel Art Helper",
+    "href": "#",
+    "description": "Game asset inspiration and sprite suggestions. Uses open vision models.",
+    "type": "app",
+    "modelId": null,
+    "externalModelId": "stability-stable-diffusion",
+    "date": "2025-11",
+    "region": "US"
+  }
+]

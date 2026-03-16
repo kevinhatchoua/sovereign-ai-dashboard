@@ -14,6 +14,9 @@ import {
   Database,
   Globe,
   ShieldCheck,
+  RefreshCw,
+  Filter,
+  Gamepad2,
 } from "lucide-react";
 import registryData from "@/data/registry.json";
 import {
@@ -113,6 +116,7 @@ export default function DashboardPage() {
   const apiOnly = models.filter((m) => m.openness_level === "API");
   const cloudActExposed = models.filter(hasCloudActExposure);
   const advancedSovereignty = models.filter((m) => getSovereigntyReadiness(m).level === "Advanced");
+  const gamesModels = models.filter((m) => m.task_categories.includes("games"));
   const avgEthics =
     models.length > 0
       ? Math.round(
@@ -197,6 +201,13 @@ export default function DashboardPage() {
             label="Avg Ethics Score"
             value={`${avgEthics}/100`}
             subtext="Across all models"
+          />
+          <StatCard
+            icon={Gamepad2}
+            label="Games & Game AI"
+            value={gamesModels.length}
+            subtext="NPC dialogue, procedural content"
+            href="/games"
           />
         </div>
 
@@ -294,6 +305,21 @@ export default function DashboardPage() {
   );
 }
 
+type NewsItem = {
+  title: string;
+  link: string;
+  date: string;
+  dateRaw: string;
+  source: string;
+  topic: string;
+};
+
+const DATE_FILTERS = [
+  { value: "7", label: "Last 7 days" },
+  { value: "30", label: "Last 30 days" },
+  { value: "all", label: "All" },
+] as const;
+
 function NewsFeed() {
   return (
     <div className="min-h-[200px]">
@@ -303,22 +329,60 @@ function NewsFeed() {
 }
 
 function NewsFeedClient() {
-  const [items, setItems] = useState<{ title: string; link: string; date: string }[]>([]);
+  const [items, setItems] = useState<NewsItem[]>([]);
+  const [topics, setTopics] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [dateFilter, setDateFilter] = useState<string>("all");
+  const [topicFilter, setTopicFilter] = useState<string>("all");
+  const [sourceFilter, setSourceFilter] = useState<string>("all");
+  const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
 
-  useEffect(() => {
+  const fetchNews = () => {
+    setLoading(true);
     fetch("/api/news")
       .then((r) => r.json())
       .then((data) => {
-        if (data.items) setItems(data.items);
-        else setError(data.error ?? "Failed to load");
+        if (data.items) {
+          setItems(data.items);
+          setTopics(data.topics ?? [...new Set(data.items.map((i: NewsItem) => i.topic))]);
+        } else {
+          setError(data.error ?? "Failed to load");
+        }
       })
       .catch(() => setError("Failed to fetch news"))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        setLastRefresh(new Date());
+      });
+  };
+
+  useEffect(() => {
+    fetchNews();
   }, []);
 
-  if (loading) {
+  // Auto-refresh every 30 minutes
+  useEffect(() => {
+    const interval = setInterval(fetchNews, 30 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const filtered = items.filter((item) => {
+    if (dateFilter !== "all") {
+      const days = parseInt(dateFilter, 10);
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - days);
+      const itemDate = new Date(item.dateRaw);
+      if (itemDate.getTime() < cutoff.getTime()) return false;
+    }
+    if (topicFilter !== "all" && item.topic !== topicFilter) return false;
+    if (sourceFilter !== "all" && item.source !== sourceFilter) return false;
+    return true;
+  });
+
+  const sources = [...new Set(items.map((i) => i.source))].sort();
+
+  if (loading && items.length === 0) {
     return (
       <div className="flex items-center justify-center py-12" aria-live="polite" aria-busy="true">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" aria-hidden />
@@ -327,7 +391,7 @@ function NewsFeedClient() {
     );
   }
 
-  if (error) {
+  if (error && items.length === 0) {
     return (
       <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm text-blue-800 [.dark_&]:border-blue-800 [.dark_&]:bg-blue-900/20 [.dark_&]:text-blue-200">
         <p>{error}</p>
@@ -338,49 +402,119 @@ function NewsFeedClient() {
     );
   }
 
-  if (items.length === 0) {
-    return (
-      <p className="py-8 text-center text-sm text-slate-500 [.dark_&]:text-slate-400">
-        No news items available.
-      </p>
-    );
-  }
-
   return (
-    <div className="space-y-3">
-      {items.slice(0, 8).map((item, i) => {
-        const isInternal = item.link.startsWith("/");
-        const className =
-          "block rounded-lg border border-slate-100 p-3 transition hover:border-slate-200 hover:bg-slate-50 [.dark_&]:border-slate-700 [.dark_&]:hover:bg-slate-800/50";
-        const content = (
-          <>
-            <p className="text-sm font-medium text-slate-900 [.dark_&]:text-white">
-              {item.title}
-            </p>
-            <p className="mt-0.5 text-xs text-slate-500 [.dark_&]:text-slate-400">
-              {item.date}
-            </p>
-          </>
-        );
-        if (isInternal) {
-          return (
-            <Link key={i} href={item.link} className={className}>
-              {content}
-            </Link>
-          );
-        }
-        return (
-          <a
-            key={i}
-            href={item.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={className}
-          >
-            {content}
-          </a>
-        );
-      })}
+    <div className="space-y-4">
+      {/* Filters and refresh */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-2 text-slate-500 [.dark_&]:text-slate-400">
+          <Filter className="h-4 w-4" aria-hidden />
+          <span className="text-xs font-medium uppercase tracking-wider">Filter</span>
+        </div>
+        <select
+          value={dateFilter}
+          onChange={(e) => setDateFilter(e.target.value)}
+          className="rounded-md border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-700 [.dark_&]:border-slate-600 [.dark_&]:bg-slate-800 [.dark_&]:text-slate-200"
+          aria-label="Filter by date"
+        >
+          {DATE_FILTERS.map((f) => (
+            <option key={f.value} value={f.value}>
+              {f.label}
+            </option>
+          ))}
+        </select>
+        <select
+          value={topicFilter}
+          onChange={(e) => setTopicFilter(e.target.value)}
+          className="rounded-md border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-700 [.dark_&]:border-slate-600 [.dark_&]:bg-slate-800 [.dark_&]:text-slate-200"
+          aria-label="Filter by topic"
+        >
+          <option value="all">All topics</option>
+          {topics.map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
+        </select>
+        <select
+          value={sourceFilter}
+          onChange={(e) => setSourceFilter(e.target.value)}
+          className="rounded-md border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-700 [.dark_&]:border-slate-600 [.dark_&]:bg-slate-800 [.dark_&]:text-slate-200"
+          aria-label="Filter by source"
+        >
+          <option value="all">All sources</option>
+          {sources.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
+        <button
+          type="button"
+          onClick={fetchNews}
+          disabled={loading}
+          className="ml-auto flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 [.dark_&]:border-slate-600 [.dark_&]:bg-slate-800 [.dark_&]:text-slate-200 [.dark_&]:hover:bg-slate-700"
+          aria-label="Refresh news"
+        >
+          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} aria-hidden />
+          Refresh
+        </button>
+      </div>
+      {lastRefresh && (
+        <p className="text-xs text-slate-500 [.dark_&]:text-slate-400">
+          Last updated: {lastRefresh.toLocaleTimeString()}. Auto-refreshes every 30 min.
+        </p>
+      )}
+
+      {/* Scrollable list */}
+      <div
+        className="max-h-[400px] overflow-y-auto space-y-3 pr-2"
+        role="feed"
+        aria-label="News and updates"
+      >
+        {filtered.length === 0 ? (
+          <p className="py-8 text-center text-sm text-slate-500 [.dark_&]:text-slate-400">
+            No items match your filters.
+          </p>
+        ) : (
+          filtered.map((item, i) => {
+            const isInternal = item.link.startsWith("/");
+            const className =
+              "block rounded-lg border border-slate-100 p-3 transition hover:border-slate-200 hover:bg-slate-50 [.dark_&]:border-slate-700 [.dark_&]:hover:bg-slate-800/50";
+            const content = (
+              <>
+                <p className="text-sm font-medium text-slate-900 [.dark_&]:text-white">
+                  {item.title}
+                </p>
+                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-500 [.dark_&]:text-slate-400">
+                  <span>{item.date}</span>
+                  <span className="rounded bg-slate-100 px-1.5 py-0.5 [.dark_&]:bg-slate-700">
+                    {item.topic}
+                  </span>
+                  <span>{item.source}</span>
+                </div>
+              </>
+            );
+            if (isInternal) {
+              return (
+                <Link key={`${item.link}-${i}`} href={item.link} className={className}>
+                  {content}
+                </Link>
+              );
+            }
+            return (
+              <a
+                key={`${item.link}-${i}`}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={className}
+              >
+                {content}
+              </a>
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }

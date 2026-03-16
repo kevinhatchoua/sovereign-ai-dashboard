@@ -89,6 +89,7 @@ const TASK_LABELS: Record<string, string> = {
   "text-generation": "text generation",
   conversational: "conversational",
   code: "code",
+  games: "games",
   "question-answering": "Q&A",
   summarization: "summarization",
   vision: "vision",

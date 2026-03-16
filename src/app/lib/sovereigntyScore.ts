@@ -140,21 +140,27 @@ export function getSovereigntyReadiness(model: ComparisonModel): {
   return { level: "Foundation", score, label: "Foundation" };
 }
 
-/** Tailwind classes for sovereignty readiness — WCAG AA contrast */
-export function getSovereigntyReadinessColorClasses(level: ReadinessLevel): string {
-  switch (level) {
-    case "Advanced":
-      return "bg-blue-600 text-white ring-1 ring-blue-500 [.light_&]:bg-blue-600 [.light_&]:text-white [.light_&]:ring-blue-500";
-    case "Intermediate":
-      return "bg-slate-500 text-white ring-1 ring-slate-400 [.light_&]:bg-slate-500 [.light_&]:text-white [.light_&]:ring-slate-400";
-    case "Foundation":
-      return "bg-slate-600 text-slate-100 ring-1 ring-slate-500 [.light_&]:bg-slate-600 [.light_&]:text-slate-100 [.light_&]:ring-slate-500";
-  }
+/** Neutral pill styling — no semantic color (shared by Sovereignty + Cloud Act) */
+const NEUTRAL_PILL =
+  "border border-slate-500/70 bg-transparent text-slate-500 [.light_&]:border-slate-400 [.light_&]:text-slate-600";
+
+/**
+ * Sovereignty readiness badges — neutral styling (no semantic color)
+ */
+export function getSovereigntyReadinessColorClasses(_level: ReadinessLevel): string {
+  return NEUTRAL_PILL;
 }
 
-/** Tailwind classes for openness (Local-hostable / API) — WCAG AA contrast */
+/** Cloud Act badge — same neutral styling */
+export function getCloudActBadgeClasses(): string {
+  return NEUTRAL_PILL;
+}
+
+/**
+ * Openness badges — Blue = Local-hostable (primary), Slate = API-only (neutral)
+ */
 export function getOpennessColorClasses(openness: "Open Weights" | "API"): string {
   return openness === "Open Weights"
     ? "bg-blue-600 text-white ring-1 ring-blue-500 [.light_&]:bg-blue-600 [.light_&]:text-white [.light_&]:ring-blue-500"
-    : "bg-slate-600 text-slate-200 ring-1 ring-slate-500 [.light_&]:bg-slate-600 [.light_&]:text-slate-200 [.light_&]:ring-slate-500";
+    : "bg-slate-600 text-slate-200 ring-1 ring-slate-400 [.light_&]:bg-slate-600 [.light_&]:text-slate-700 [.light_&]:ring-slate-400";
 }

@@ -105,15 +105,15 @@ export default function MethodologyPage() {
           </p>
           <ul className="space-y-2 text-slate-200 [.light_&]:text-slate-700" role="list">
             <li>
-              <strong className="text-blue-400 [.light_&]:text-blue-700">Advanced (75–100):</strong>{" "}
+              <strong className="text-slate-400 [.light_&]:text-slate-600">Advanced (75–100):</strong>{" "}
               Strong posture across dimensions; suitable for high-sensitivity use cases.
             </li>
             <li>
-              <strong className="text-indigo-400 [.light_&]:text-indigo-700">Intermediate (50–74):</strong>{" "}
+              <strong className="text-slate-400 [.light_&]:text-slate-600">Intermediate (50–74):</strong>{" "}
               Moderate posture; review jurisdiction and hosting options.
             </li>
             <li>
-              <strong className="text-slate-400 [.light_&]:text-slate-700">Foundation (0–49):</strong>{" "}
+              <strong className="text-slate-400 [.light_&]:text-slate-600">Foundation (0–49):</strong>{" "}
               Baseline; may require additional controls for sovereign deployment.
             </li>
           </ul>

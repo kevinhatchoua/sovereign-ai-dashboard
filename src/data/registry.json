@@ -54,7 +54,9 @@
     ],
     "task_categories": [
       "text-generation",
-      "conversational"
+      "conversational",
+      "code",
+      "games"
     ],
     "context_window": 256000,
     "training_cutoff": "2025-03",
@@ -270,7 +272,8 @@
     "task_categories": [
       "text-generation",
       "conversational",
-      "code"
+      "code",
+      "games"
     ],
     "context_window": 128000,
     "training_cutoff": "2025-05",
@@ -404,7 +407,9 @@
     ],
     "task_categories": [
       "text-generation",
-      "conversational"
+      "conversational",
+      "code",
+      "games"
     ],
     "huggingface_id": "meta-llama/Llama-3.2-3B-Instruct",
     "hf_downloads": 3946415,
@@ -564,7 +569,9 @@
     ],
     "task_categories": [
       "text-generation",
-      "conversational"
+      "conversational",
+      "code",
+      "games"
     ],
     "huggingface_id": "mistralai/Mistral-7B-Instruct-v0.2",
     "hf_downloads": 2805828,

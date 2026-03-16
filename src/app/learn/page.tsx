@@ -10,8 +10,11 @@ import {
   Code,
   MapPin,
   AlertTriangle,
+  ExternalLink,
+  Gamepad2,
 } from "lucide-react";
 import { SiteHeader } from "@/app/components/SiteHeader";
+import referencedModelsData from "@/data/referencedModels.json";
 
 export const metadata = {
   title: "Learn | Sovereign AI",
@@ -51,7 +54,7 @@ const SECTIONS = [
         </p>
         <ul className="space-y-3 text-slate-200 [.light_&]:text-slate-700" role="list">
           <li>
-            <span className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-medium text-white">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-500/70 bg-transparent px-2.5 py-0.5 text-xs font-medium text-slate-500 [.light_&]:border-slate-400 [.light_&]:text-slate-600">
               Advanced (75–100)
             </span>
             <span className="ml-2">
@@ -60,7 +63,7 @@ const SECTIONS = [
             </span>
           </li>
           <li>
-            <span className="inline-flex items-center gap-2 rounded-full bg-slate-500 px-2.5 py-0.5 text-xs font-medium text-white">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-500/70 bg-transparent px-2.5 py-0.5 text-xs font-medium text-slate-500 [.light_&]:border-slate-400 [.light_&]:text-slate-600">
               Intermediate (50–74)
             </span>
             <span className="ml-2">
@@ -68,7 +71,7 @@ const SECTIONS = [
             </span>
           </li>
           <li>
-            <span className="inline-flex items-center gap-2 rounded-full bg-slate-600 px-2.5 py-0.5 text-xs font-medium text-slate-100">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-500/70 bg-transparent px-2.5 py-0.5 text-xs font-medium text-slate-500 [.light_&]:border-slate-400 [.light_&]:text-slate-600">
               Foundation (0–49)
             </span>
             <span className="ml-2">
@@ -172,6 +175,24 @@ const SECTIONS = [
     ),
   },
   {
+    id: "games",
+    icon: Gamepad2,
+    title: "Games & Game Development",
+    content: (
+      <>
+        <p className="mb-3">
+          Models tagged with <strong>Games</strong> are well-suited for game AI: NPC dialogue,
+          procedural quest generation, and creative content. They typically support code and
+          conversational tasks.
+        </p>
+        <p>
+          Use the Games quick filter on the catalog to find models for building AI-powered games
+          and interactive experiences.
+        </p>
+      </>
+    ),
+  },
+  {
     id: "openness",
     icon: Server,
     title: "Openness: Local-hostable vs API",
@@ -220,6 +241,38 @@ const SECTIONS = [
             <strong>Sovereign Deployment:</strong> Supports on-premises or sovereign cloud
             deployment for data control.
           </li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: "referenced-models",
+    icon: ExternalLink,
+    title: "Referenced Models (Not in Catalog)",
+    content: (
+      <>
+        <p className="mb-4">
+          When we showcase community apps built with models outside our catalog, we list them here
+          for transparency. These are referenced in the community banner and elsewhere.
+        </p>
+        <ul className="space-y-2 text-slate-200 [.light_&]:text-slate-700" role="list">
+          {(referencedModelsData as { id: string; name: string; provider: string; link: string; note: string }[]).map(
+            (m) => (
+              <li key={m.id} className="flex flex-wrap items-baseline gap-2">
+                <strong className="text-white [.light_&]:text-slate-900">{m.name}</strong>
+                <span className="text-slate-500">({m.provider})</span>
+                <a
+                  href={m.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-300 [.light_&]:text-blue-600 [.light_&]:hover:text-blue-700"
+                >
+                  {m.provider} →
+                </a>
+                <span className="text-xs text-slate-500">— {m.note}</span>
+              </li>
+            )
+          )}
         </ul>
       </>
     ),

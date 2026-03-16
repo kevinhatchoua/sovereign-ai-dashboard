@@ -110,6 +110,7 @@ export function ModelDetailPanel({
     "text-generation": "Text generation",
     conversational: "Conversational",
     code: "Code",
+    games: "Games",
     "question-answering": "Q&A",
     summarization: "Summarization",
     vision: "Vision",
@@ -317,10 +318,8 @@ export function ModelDetailPanel({
                           <p
                             className={`text-xs ${
                               d.level === "high"
-                                ? "text-blue-500 [.light_&]:text-blue-700"
-                                : d.level === "medium"
-                                  ? "text-indigo-500 [.light_&]:text-indigo-700"
-                                  : "text-slate-500 [.light_&]:text-slate-600"
+                                ? "text-blue-600 font-medium [.light_&]:text-blue-700"
+                                : "text-slate-500 [.light_&]:text-slate-600"
                             }`}
                           >
                             {d.score}/100 · {d.level}

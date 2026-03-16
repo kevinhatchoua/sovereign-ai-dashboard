@@ -10,6 +10,7 @@ import type { Jurisdiction } from "@/app/lib/complianceEngine";
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview" },
   { href: "/", label: "Models" },
+  { href: "/games", label: "Games" },
   { href: "/learn", label: "Learn" },
   { href: "/methodology", label: "Methodology" },
 ] as const;
@@ -86,7 +87,7 @@ export function SiteHeader({
             <SovereignLogo className="h-5 w-5 shrink-0 text-blue-600 sm:h-6 sm:w-6 [.light_&]:text-blue-600" aria-hidden />
             <span className="truncate">Sovereign AI</span>
           </Link>
-          <div className="hidden items-center gap-1 sm:flex sm:min-h-0">
+          <div className="hidden min-w-0 flex-wrap items-center gap-1 sm:flex sm:gap-2 lg:gap-3">
             {NAV_ITEMS.map(({ href, label }) => {
               const active =
                 (href === "/" && pathname === "/") ||
