@@ -157,6 +157,12 @@ export default function DashboardPage() {
             <p className="mt-1 text-slate-600 [.dark_&]:text-slate-400">
               Quick glance at sovereign AI models. Data refreshes with catalog updates.
             </p>
+            <Link
+              href="/learn"
+              className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700 [.dark_&]:text-blue-400 [.dark_&]:hover:text-blue-300"
+            >
+              Learn about sovereignty, ethics score, and more
+            </Link>
           </div>
           <div className="hidden shrink-0 sm:block">
             <CatalogIllustration className="h-16 w-28 text-slate-500/70 [.light_&]:text-slate-400/80" />

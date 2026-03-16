@@ -33,6 +33,12 @@ export default function MethodologyPage() {
             <p className="mb-2 text-sm text-slate-300 [.light_&]:text-slate-600">
               Last updated: January 2026. Licensed for transparency and audit.
             </p>
+            <Link
+              href="/learn"
+              className="inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 [.light_&]:text-blue-600 [.light_&]:hover:text-blue-700"
+            >
+              Quick reference guide →
+            </Link>
           </div>
           <div className="shrink-0" aria-hidden="true">
             <DataSovereigntyIllustration className="h-20 w-32 text-slate-400 [.light_&]:text-slate-500" />

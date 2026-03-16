@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
 import {
   X,
   Cpu,
@@ -272,9 +273,17 @@ export function ModelDetailPanel({
 
           {/* Four Dimensions & Sovereignty Readiness */}
           <section className="mb-6">
-            <h3 className="mb-3 text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
-              Sovereignty Assessment
-            </h3>
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-sm font-medium text-slate-300 [.light_&]:text-slate-800">
+                Sovereignty Assessment
+              </h3>
+              <Link
+                href="/learn#readiness-levels"
+                className="text-xs font-medium text-blue-400 hover:text-blue-300 [.light_&]:text-blue-600 [.light_&]:hover:text-blue-700"
+              >
+                Learn more
+              </Link>
+            </div>
             <div className="glass space-y-3 rounded-xl border-slate-700/50 p-4 [.light_&]:border-slate-200/60">
               {(() => {
                 const readiness = getSovereigntyReadiness(model);

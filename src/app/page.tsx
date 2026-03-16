@@ -44,6 +44,7 @@ import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import { SovereigntyAssessment } from "@/app/components/SovereigntyAssessment";
 import { HeroIllustration } from "@/app/components/HeroIllustration";
 import { EmptyStateIllustration } from "@/app/components/EmptyStateIllustration";
+import { MetricsHelpPanel } from "@/app/components/MetricsHelpPanel";
 
 type OpennessLevel = "Open Weights" | "API";
 
@@ -1089,6 +1090,7 @@ function CatalogPage() {
               </select>
             </div>
           </div>
+          <MetricsHelpPanel />
           <div className="mb-4">
             <p className="mb-2 text-xs font-medium uppercase tracking-wider text-slate-500 [.light_&]:text-slate-600">
               Quick Filters

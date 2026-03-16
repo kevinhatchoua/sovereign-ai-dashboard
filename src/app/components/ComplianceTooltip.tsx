@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useId, useCallback } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
 import { Info } from "lucide-react";
 
 const COMPLIANCE_DEFINITIONS: Record<string, string> = {
@@ -109,14 +110,21 @@ export function ComplianceTooltip({ term }: { term: string }) {
             role="tooltip"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="fixed z-[9999] max-w-[220px] rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-xs text-slate-300 shadow-xl [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700"
+            className="fixed z-[9999] max-w-[240px] rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-xs text-slate-300 shadow-xl [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700"
             style={{
               top: position.top,
               left: position.left,
               transform: "translateY(-100%)",
             }}
           >
-            {definition}
+            <p className="mb-1.5">{definition}</p>
+            <Link
+              href="/learn#compliance-tags"
+              className="font-medium text-blue-400 hover:text-blue-300 [.light_&]:text-blue-600 [.light_&]:hover:text-blue-700"
+              onClick={() => setOpen(false)}
+            >
+              Learn more →
+            </Link>
           </div>,
           document.body
         )}
