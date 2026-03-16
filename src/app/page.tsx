@@ -367,12 +367,12 @@ function ModelCard({
                     {readiness.label}
                   </span>
                   {hasCloudActExposure(model) && (
-                    <span
-                      className="rounded-full bg-slate-500/15 px-2 py-0.5 text-xs text-slate-400 ring-1 ring-slate-500/30 [.light_&]:bg-slate-100 [.light_&]:text-slate-700"
-                      title="US-based provider; may be subject to Cloud Act"
-                    >
-                      Cloud Act
-                    </span>
+                      <span
+                        className="rounded-full bg-slate-600 px-2 py-0.5 text-xs text-slate-200 ring-1 ring-slate-500 [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:ring-slate-400"
+                        title="US-based provider; may be subject to Cloud Act"
+                      >
+                        Cloud Act
+                      </span>
                   )}
                 </>
               );
@@ -791,7 +791,7 @@ function CatalogPage() {
               type="button"
               onClick={() => setAssessmentOpen(true)}
               aria-label="Open Sovereignty Assessment"
-              className="inline-flex items-center gap-2 rounded-lg border border-blue-600/50 bg-blue-600/10 px-4 py-2 text-sm font-medium text-blue-400 transition hover:bg-blue-600/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:border-blue-600/50 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white ring-1 ring-blue-500 transition hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:bg-blue-600 [.light_&]:text-white [.light_&]:hover:bg-blue-700 [.light_&]:ring-blue-500"
             >
               <Shield className="h-4 w-4" aria-hidden />
               Sovereignty Assessment
@@ -1109,7 +1109,7 @@ function CatalogPage() {
                 return (
                   <>
                     {!anyActive && (
-                      <span className="text-xs text-slate-500 [.light_&]:text-slate-600">
+                      <span className="text-xs text-slate-400 [.light_&]:text-slate-600">
                         No filters applied
                       </span>
                     )}
@@ -1128,8 +1128,8 @@ function CatalogPage() {
                           onClick={toggle}
                           className={`inline-flex min-h-[44px] items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition touch-manipulation ${
                             active
-                              ? "bg-blue-600/25 text-blue-400 ring-2 ring-blue-600/60 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:ring-blue-600"
-                              : "bg-slate-800/60 text-slate-400 ring-1 ring-slate-600/50 hover:bg-slate-700/70 hover:text-slate-300 [.light_&]:bg-slate-200 [.light_&]:text-slate-600 [.light_&]:ring-slate-300 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-800"
+                              ? "bg-blue-600 text-white ring-2 ring-blue-500 [.light_&]:bg-blue-600 [.light_&]:text-white [.light_&]:ring-blue-500"
+                              : "bg-slate-700 text-slate-200 ring-1 ring-slate-500 hover:bg-slate-600 hover:text-white [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:ring-slate-400 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-900"
                           }`}
                         >
                           {c.id === "Local-hostable" && <Server className="h-3.5 w-3.5" />}

@@ -24,6 +24,7 @@ This open-source dashboard provides a real-time, community-verified registry of 
 ## 🛠️ Tech Stack
 
 - **Frontend:** Next.js (App Router), React, Tailwind CSS
+- **Design System:** Apple Glass — frosted glass, backdrop blur, translucent layers, and depth
 - **Data:** JSON-first architecture; validated data only (no mock or synthetic fields)
 - **Compliance Engine:** Custom TypeScript logic mapped to 2026 legislative articles
 
@@ -59,6 +60,10 @@ Consume the registry programmatically. Base URL: `https://your-domain.com/api` (
 2. **Install:** `npm install`
 3. **Run:** `npm run dev`
 4. **Visit:** `localhost:3000`
+
+### Design system (Apple Glass)
+
+The dashboard uses an Apple Glass–inspired design: frosted glass surfaces with `backdrop-filter: blur()` and `saturate()`, translucent layers, subtle borders, and layered depth. Utility classes (`.glass`, `.glass-strong`, `.glass-card`) are defined in `globals.css`. WCAG AA contrast is preserved across light and dark themes.
 
 ## 🔒 Security
 

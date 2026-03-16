@@ -155,9 +155,9 @@ export default function MethodologyPage() {
         <nav className="mt-12" aria-label="Back to catalog">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:focus-visible:ring-offset-white"
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium !text-white no-underline hover:bg-blue-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:bg-blue-600 [.light_&]:hover:bg-blue-700 [.light_&]:focus-visible:ring-offset-white"
           >
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            <ArrowLeft className="h-4 w-4 shrink-0 text-white" aria-hidden="true" />
             Back to catalog
           </Link>
         </nav>

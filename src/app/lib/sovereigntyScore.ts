@@ -140,21 +140,21 @@ export function getSovereigntyReadiness(model: ComparisonModel): {
   return { level: "Foundation", score, label: "Foundation" };
 }
 
-/** Tailwind classes for sovereignty readiness — PatternFly blue/gray scale */
+/** Tailwind classes for sovereignty readiness — WCAG AA contrast */
 export function getSovereigntyReadinessColorClasses(level: ReadinessLevel): string {
   switch (level) {
     case "Advanced":
-      return "bg-blue-600/20 text-blue-400 ring-1 ring-blue-600/30 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:ring-blue-400";
+      return "bg-blue-600 text-white ring-1 ring-blue-500 [.light_&]:bg-blue-600 [.light_&]:text-white [.light_&]:ring-blue-500";
     case "Intermediate":
-      return "bg-slate-500/25 text-slate-300 ring-1 ring-slate-500/30 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:ring-slate-400";
+      return "bg-slate-500 text-white ring-1 ring-slate-400 [.light_&]:bg-slate-500 [.light_&]:text-white [.light_&]:ring-slate-400";
     case "Foundation":
-      return "bg-slate-600/20 text-slate-400 ring-1 ring-slate-600/30 [.light_&]:bg-slate-200 [.light_&]:text-slate-600 [.light_&]:ring-slate-400";
+      return "bg-slate-600 text-slate-100 ring-1 ring-slate-500 [.light_&]:bg-slate-600 [.light_&]:text-slate-100 [.light_&]:ring-slate-500";
   }
 }
 
-/** Tailwind classes for openness — PatternFly blue (self-hostable) / slate (API) */
+/** Tailwind classes for openness (Local-hostable / API) — WCAG AA contrast */
 export function getOpennessColorClasses(openness: "Open Weights" | "API"): string {
   return openness === "Open Weights"
-    ? "bg-blue-600/20 text-blue-400 ring-1 ring-blue-600/30 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:ring-blue-400"
-    : "bg-slate-500/20 text-slate-400 ring-1 ring-slate-500/30 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:ring-slate-400";
+    ? "bg-blue-600 text-white ring-1 ring-blue-500 [.light_&]:bg-blue-600 [.light_&]:text-white [.light_&]:ring-blue-500"
+    : "bg-slate-600 text-slate-200 ring-1 ring-slate-500 [.light_&]:bg-slate-600 [.light_&]:text-slate-200 [.light_&]:ring-slate-500";
 }
