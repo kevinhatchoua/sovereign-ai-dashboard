@@ -64,7 +64,7 @@ export default function GamesPage() {
 
       <main
         id="main-content"
-        className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8"
+        className="mx-auto max-w-5xl animate-slide-up px-4 py-8 sm:px-6 lg:px-8"
         tabIndex={-1}
         role="main"
         aria-label="Open source games built with AI models"
@@ -72,7 +72,7 @@ export default function GamesPage() {
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl [.dark_&]:text-white">
-              Games & Game AI
+              AI Games
             </h1>
             <p className="mt-1 text-slate-600 [.dark_&]:text-slate-400">
               Open source games built with models from our catalog. NPC dialogue, procedural content, and interactive experiences.

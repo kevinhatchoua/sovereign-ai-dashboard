@@ -286,7 +286,7 @@ export default function LearnPage() {
 
       <main
         id="main-content"
-        className="mx-auto max-w-3xl px-4 py-12 sm:px-6"
+        className="mx-auto max-w-3xl animate-fade-in px-4 py-12 sm:px-6"
         tabIndex={-1}
         role="main"
         aria-label="Learn about sovereignty metrics"

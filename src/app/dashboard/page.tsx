@@ -152,7 +152,7 @@ export default function DashboardPage() {
     <div className="min-h-screen text-slate-200 [.light_&]:text-slate-900">
       <SiteHeader />
 
-      <main id="main-content" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" tabIndex={-1}>
+      <main id="main-content" className="mx-auto max-w-7xl animate-fade-in px-4 py-8 sm:px-6 lg:px-8" tabIndex={-1}>
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl [.dark_&]:text-white">
@@ -204,7 +204,7 @@ export default function DashboardPage() {
           />
           <StatCard
             icon={Gamepad2}
-            label="Games & Game AI"
+            label="AI Games"
             value={gamesModels.length}
             subtext="NPC dialogue, procedural content"
             href="/games"
