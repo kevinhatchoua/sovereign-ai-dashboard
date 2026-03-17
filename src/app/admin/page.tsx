@@ -40,6 +40,15 @@ export default function AdminPage() {
         router.replace("/admin/login");
         return;
       }
+      const email = (session.user as { email?: string })?.email;
+      const allowlisted = process.env.NEXT_PUBLIC_ADMIN_EMAIL
+        ? email === process.env.NEXT_PUBLIC_ADMIN_EMAIL.trim()
+        : true;
+      if (!allowlisted) {
+        void supabase.auth.signOut();
+        router.replace("/admin/login");
+        return;
+      }
       setUser(session.user as { email?: string });
       fetchDisputes();
     });

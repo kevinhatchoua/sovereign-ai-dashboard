@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
-import { Gamepad2, Smartphone, ChevronRight, Newspaper } from "lucide-react";
+import { Gamepad2, Smartphone, ChevronRight, Newspaper, ExternalLink } from "lucide-react";
 import showcaseFallback from "@/data/communityShowcase.json";
 import referencedModelsData from "@/data/referencedModels.json";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
@@ -200,8 +200,9 @@ export function CommunityShowcaseBanner({
                       {content}
                     </Link>
                   ) : (
-                    <a key={`${entry.id}-${i}`} href={entry.href} target="_blank" rel="noopener noreferrer" className={className} onClick={pauseAutoScroll}>
+                    <a key={`${entry.id}-${i}`} href={entry.href} target="_blank" rel="noopener noreferrer" className={className} onClick={pauseAutoScroll} title="Opens in new tab (external link)">
                       {content}
+                      <ExternalLink className="h-3 w-3 shrink-0 text-slate-500 [.light_&]:text-slate-600" aria-label="External link" />
                     </a>
                   );
                 })}

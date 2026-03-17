@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 import { useDialogAccessibility } from "@/app/lib/useDialogAccessibility";
 import {
   Sparkles,
@@ -16,6 +16,8 @@ import {
   PanelRightClose,
   Plus,
   Trash2,
+  Volume2,
+  ExternalLink,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
@@ -83,6 +85,30 @@ const CONVERSATIONAL_PATTERNS: Array<{ pattern: RegExp; text: string }> = [
   { pattern: /^(bye|goodbye|see you|later)[!.]?$/i, text: "Goodbye! Feel free to come back if you need help finding models or understanding sovereignty." },
   { pattern: /^(ok|okay|got it|alright|sure|cheers?)[!.]?$/i, text: "Great! What else can I help you with?" },
 ];
+
+/** Renders message content with **bold** as <strong> for accessibility (no raw asterisks) */
+function renderMessageContent(text: string): ReactNode {
+  const parts: Array<{ type: "text"; value: string } | { type: "bold"; value: string }> = [];
+  const re = /\*\*(.+?)\*\*/g;
+  let lastIndex = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > lastIndex) {
+      parts.push({ type: "text", value: text.slice(lastIndex, m.index) });
+    }
+    parts.push({ type: "bold", value: m[1] });
+    lastIndex = m.index + m[0].length;
+  }
+  if (lastIndex < text.length) parts.push({ type: "text", value: text.slice(lastIndex) });
+  if (parts.length === 0) return <span>{text}</span>;
+  return parts.map((p, i) =>
+    p.type === "bold" ? (
+      <strong key={i} className="font-semibold">{p.value}</strong>
+    ) : (
+      <span key={i}>{p.value}</span>
+    )
+  );
+}
 
 /** Emoji-only or very short non-search queries — let the API handle (jokes, emoji, quirks) */
 function isEmojiOrShortQuirk(msg: string): boolean {
@@ -525,6 +551,9 @@ export function CatalogChatbot({
   const [isResizing, setIsResizing] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const sessionIdRef = useRef<string>(
+    typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `s${Date.now()}`
+  );
   const isXl = useMediaQuery("(min-width: 1280px)");
   const auth = useOptionalAuth();
 
@@ -538,7 +567,12 @@ export function CatalogChatbot({
   const [selectModel, setSelectModel] = useState<ComparisonModel | null>(null);
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
   const clearConfirmRef = useRef<HTMLDivElement>(null);
+  const [canSpeak, setCanSpeak] = useState(false);
   useDialogAccessibility(clearConfirmOpen, () => setClearConfirmOpen(false), clearConfirmRef);
+
+  useEffect(() => {
+    setCanSpeak(typeof window !== "undefined" && "speechSynthesis" in window);
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -599,6 +633,7 @@ export function CatalogChatbot({
           body: JSON.stringify({
             messages: chatHistory.map((m) => ({ role: m.role, content: m.content })),
             context,
+            sessionId: sessionIdRef.current,
           }),
         });
         const data = (await res.json()) as { content?: string; fallback?: string; error?: string };
@@ -654,6 +689,8 @@ export function CatalogChatbot({
   );
 
   const resetChat = useCallback(() => {
+    sessionIdRef.current =
+      typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `s${Date.now()}`;
     setMessages([
       { role: "assistant", content: GREETING, suggestedPrompts: SUGGESTED_PROMPTS },
     ]);
@@ -837,15 +874,15 @@ export function CatalogChatbot({
                         Site content, concepts, models, or external references
                       </p>
                     </div>
-                    <div className="flex w-full flex-wrap justify-center gap-2">
+                    <div className="grid w-full max-w-2xl grid-cols-3 gap-2">
                       {messages[0].suggestedPrompts.slice(0, 3).map((prompt, j) => (
                         <button
                           key={j}
                           type="button"
                           onClick={() => handleSend(prompt)}
-                          className="rounded-full border border-slate-600/50 bg-slate-700/50 px-4 py-2.5 text-left text-sm text-slate-300 transition hover:bg-slate-600/60 hover:text-slate-100 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+                          className="flex min-h-[2.75rem] min-w-0 items-center justify-center rounded-full border border-slate-600/50 bg-slate-700/50 px-4 py-2.5 text-center text-sm text-slate-300 transition hover:bg-slate-600/60 hover:text-slate-100 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
                         >
-                          {prompt}
+                          <span className="leading-tight">{prompt}</span>
                         </button>
                       ))}
                     </div>
@@ -880,7 +917,29 @@ export function CatalogChatbot({
                           : "bg-slate-800/70 text-slate-200 [.light_&]:bg-white/80 [.light_&]:text-slate-800"
                       }`}
                     >
-                      <div className="whitespace-pre-wrap break-words">{msg.content}</div>
+                      <div className="whitespace-pre-wrap break-words">
+                        {renderMessageContent(msg.content)}
+                      </div>
+                      {msg.role === "assistant" && msg.content && canSpeak && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const synth = window.speechSynthesis;
+                            if (synth) {
+                              synth.cancel();
+                              const utterance = new SpeechSynthesisUtterance(msg.content.replace(/\*\*/g, ""));
+                              utterance.rate = 0.95;
+                              synth.speak(utterance);
+                            }
+                          }}
+                          className="mt-1.5 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs text-slate-500 hover:bg-slate-700/50 hover:text-slate-300 [.light_&]:text-slate-500 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-700"
+                          title="Read aloud (text-to-speech)"
+                          aria-label="Read aloud"
+                        >
+                          <Volume2 className="h-3 w-3" />
+                          Read aloud
+                        </button>
+                      )}
                       {msg.modelDetails && (
                         <ModelDetailCard
                           model={msg.modelDetails}
@@ -899,16 +958,33 @@ export function CatalogChatbot({
                     </div>
                     {msg.actions && msg.actions.length > 0 && (
                       <div className="flex flex-wrap gap-1.5">
-                        {msg.actions.map((action, j) => (
-                          <button
-                            key={j}
-                            type="button"
-                            onClick={() => handleAction(action)}
-                            className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-400 transition hover:bg-emerald-500/20 [.light_&]:border-emerald-500/60 [.light_&]:bg-emerald-100 [.light_&]:text-emerald-800 [.light_&]:hover:bg-emerald-200"
-                          >
-                            {action.label}
-                          </button>
-                        ))}
+                        {msg.actions.map((action, j) => {
+                          const isExternalHref = action.type === "navigate" && action.href?.startsWith("http");
+                          if (isExternalHref && action.href) {
+                            return (
+                              <a
+                                key={j}
+                                href={action.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 rounded-full border border-blue-500/40 bg-blue-500/10 px-2.5 py-1 text-xs font-medium text-blue-400 transition hover:bg-blue-500/20 [.light_&]:border-blue-500/60 [.light_&]:bg-blue-100 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
+                              >
+                                {action.label}
+                                <ExternalLink className="h-3 w-3 shrink-0" aria-hidden />
+                              </a>
+                            );
+                          }
+                          return (
+                            <button
+                              key={j}
+                              type="button"
+                              onClick={() => handleAction(action)}
+                              className="inline-flex items-center gap-1 rounded-full border border-blue-500/40 bg-blue-500/10 px-2.5 py-1 text-xs font-medium text-blue-400 transition hover:bg-blue-500/20 [.light_&]:border-blue-500/60 [.light_&]:bg-blue-100 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
+                            >
+                              {action.label}
+                            </button>
+                          );
+                        })}
                       </div>
                     )}
                     {msg.suggestedPrompts && msg.suggestedPrompts.length > 0 && (

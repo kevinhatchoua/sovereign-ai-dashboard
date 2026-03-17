@@ -2,6 +2,7 @@
 
 @custom-variant light (&:where(.light, .light *));
 @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant solid-ui (&:where(.solid-ui, .solid-ui *));
 
 /* Apple Glass design system — frosted glass, vibrancy, layered depth. WCAG AA contrast preserved. */
 :root,
@@ -96,6 +97,51 @@ body {
 
 .light .glass-card {
   box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+/* High contrast: WCAG AAA–style, maximum legibility (light and dark) */
+.high-contrast.light {
+  --app-bg: #ffffff;
+  --app-bg-gradient: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
+  --app-bg-glass: #ffffff;
+  --app-surface: #ffffff;
+  --app-surface-solid: #ffffff;
+  --app-surface-hover: #e5e5e5;
+  --app-border: #000000;
+  --app-border-strong: #000000;
+  --app-text: #000000;
+  --app-text-muted: #1a1a1a;
+}
+.high-contrast.dark {
+  --app-bg: #000000;
+  --app-bg-gradient: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+  --app-bg-glass: #000000;
+  --app-surface: #0a0a0a;
+  --app-surface-solid: #0a0a0a;
+  --app-surface-hover: #1a1a1a;
+  --app-border: #ffffff;
+  --app-border-strong: #ffffff;
+  --app-text: #ffffff;
+  --app-text-muted: #e5e5e5;
+}
+
+/* Solid UI (glass off): no blur, solid backgrounds for reduced distraction / motion sensitivity */
+.solid-ui .glass,
+.solid-ui .glass-strong,
+.solid-ui .glass-card {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: var(--app-surface-solid) !important;
+  border: 1px solid var(--app-border-strong);
+}
+.solid-ui .chat-panel-bg {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: var(--app-surface-solid) !important;
+}
+.solid-ui body {
+  background: var(--app-bg);
+  background-image: none;
 }
 
 /* AI chat panel — Apple Glass: frosted, translucent */

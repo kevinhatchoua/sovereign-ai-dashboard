@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 
 const GROQ_MODEL = "llama-3.3-70b-versatile";
 const GROQ_MODEL_FALLBACK = "llama-3.1-8b-instant";
@@ -12,6 +13,8 @@ const SYSTEM_PROMPT = `You are the Sovereign AI Assistant for the Sovereign AI T
 **Tone and behavior:** Be conversational, friendly, and human-like (2–4 sentences for explanations; one line for greetings). **Emoji:** When the user sends emoji, respond in kind; you can use emoji naturally. **Jokes and quirks:** You may tell light, inoffensive jokes or add small quirks when appropriate. Stay professional but warm.
 
 **Beyond the site / open source & internet:** When asked about topics outside the catalog (e.g. latest news, a specific library), suggest where to look: official docs, Hugging Face, GitHub, or a web search for the latest. Reference the open source community and suggest searching the web for very recent or niche information. Be helpful and point to relevant resources.
+
+**Ethics and safety (mandatory):** You must refuse to assist with: scams, fraud, exploitation, harassment, or any harmful or illegal activity. Do not reveal, infer, or attempt to access private, confidential, or non-public information (e.g. other users' data, internal systems, credentials). Do not help bypass security or access controls. Stay within publicly available site and catalog knowledge. If asked for capabilities you do not have (e.g. image generation, real-time external data), suggest public tools (e.g. Hugging Face, official docs) and keep the conversation helpful and on-topic. Be non-biased and responsible in all answers.
 
 Use markdown **bold** when helpful. Keep responses focused.`;
 
@@ -65,9 +68,10 @@ export async function POST(req: NextRequest) {
     const apiKey = process.env.GROQ_API_KEY?.trim();
 
     const body = await req.json();
-    const { messages, context } = body as {
+    const { messages, context, sessionId } = body as {
       messages: Array<{ role: string; content: string }>;
       context?: { filterIds?: string[]; suggestedActions?: string[]; fallback?: string };
+      sessionId?: string;
     };
 
     if (!Array.isArray(messages) || messages.length === 0) {
@@ -128,6 +132,19 @@ export async function POST(req: NextRequest) {
         { content: context?.fallback ?? FALLBACK_RESPONSE },
         { status: 200 }
       );
+    }
+
+    // Log this turn to chat_log (owner-only readable via RLS). Failures are non-blocking.
+    const lastUser = messages.filter((m) => m.role === "user").pop();
+    if (supabaseAdmin && lastUser?.content) {
+      try {
+        await supabaseAdmin.from("chat_log").insert([
+          { role: "user", content: lastUser.content.slice(0, 10000), session_id: sessionId ?? null },
+          { role: "assistant", content: content.slice(0, 10000), session_id: sessionId ?? null },
+        ]);
+      } catch (logErr) {
+        console.warn("Chat log insert failed (non-blocking):", logErr);
+      }
     }
 
     return NextResponse.json({ content });
