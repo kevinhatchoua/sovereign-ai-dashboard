@@ -147,7 +147,8 @@ const NEUTRAL_PILL =
 /**
  * Sovereignty readiness badges — neutral styling (no semantic color)
  */
-export function getSovereigntyReadinessColorClasses(_level: ReadinessLevel): string {
+export function getSovereigntyReadinessColorClasses(level: ReadinessLevel): string {
+  void level;
   return NEUTRAL_PILL;
 }
 
@@ -159,6 +160,7 @@ export function getCloudActBadgeClasses(): string {
 /**
  * Openness badges — same neutral styling for both Local-hostable and API-only.
  */
-export function getOpennessColorClasses(_openness: "Open Weights" | "API"): string {
+export function getOpennessColorClasses(openness: "Open Weights" | "API"): string {
+  void openness;
   return "bg-slate-600 text-white ring-1 ring-slate-500 [.light_&]:bg-slate-600 [.light_&]:text-white [.light_&]:ring-slate-500";
 }

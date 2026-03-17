@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
-import { X, FileDown, Shield, Award, Cpu, BarChart3, Globe, Code, Info } from "lucide-react";
+import { X, FileDown, Shield, Award, BarChart3, Globe, Info } from "lucide-react";
 import { jsPDF } from "jspdf";
 import type { ComparisonModel } from "@/app/lib/registryNormalizer";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
-import { computeEthicsScore, getEthicsScoreColorClasses } from "@/app/lib/ethicsScore";
+import { computeEthicsScore } from "@/app/lib/ethicsScore";
 import {
   getSovereigntyReadiness,
   hasCloudActExposure,
@@ -258,15 +258,14 @@ export function ComparisonMatrix({
     };
   }, []);
 
-  if (models.length < 2) return null;
-
   const sovereignHosting = (m: ComparisonModel) =>
     m.openness_level === "Open Weights" ? "On-Prem" : "Cloud";
   const dataResidency = (m: ComparisonModel) => (m.data_residency ? "Yes" : "No");
   const openness = (m: ComparisonModel) => m.openness_level;
-  const verdict = getSovereigntyVerdict(models, jurisdiction);
+  const verdict = models.length >= 2 ? getSovereigntyVerdict(models, jurisdiction) : null;
 
   const exportScorecard = useCallback(() => {
+    if (models.length < 2) return;
     const doc = new jsPDF();
     const lineH = 6;
     let y = 20;
@@ -364,6 +363,8 @@ export function ComparisonMatrix({
 
     doc.save("Sovereign-AI-Comparison.pdf");
   }, [models, jurisdiction, verdict]);
+
+  if (models.length < 2) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">

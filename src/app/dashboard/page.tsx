@@ -23,7 +23,6 @@ import {
   normalizeRegistry,
   type ComparisonModel,
   type RawRegistryEntry,
-  getIntelligenceScore,
 } from "@/app/lib/registryNormalizer";
 import { computeEthicsScore } from "@/app/lib/ethicsScore";
 import { getSovereigntyReadiness, hasCloudActExposure } from "@/app/lib/sovereigntyScore";

@@ -11,12 +11,10 @@ import {
   GitCompare,
   MoreVertical,
   X,
-  LayoutGrid,
   ExternalLink,
   Download,
   Gamepad2,
 } from "lucide-react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import registryData from "@/data/registry.json";
 import { SiteHeader } from "@/app/components/SiteHeader";
@@ -37,7 +35,6 @@ import { getModelLinks, getModelDescription } from "@/app/lib/modelLinks";
 import {
   getSovereigntyReadiness,
   hasCloudActExposure,
-  getFourDimensions,
   getSovereigntyReadinessColorClasses,
   getOpennessColorClasses,
   getCloudActBadgeClasses,
@@ -111,7 +108,6 @@ function ModelCard({
   onCompareChange,
   compareDisabled,
   onClick,
-  onFilterTask,
   onFilterProvider,
   onFilterOpenness,
   onOpenDetails,
@@ -123,7 +119,6 @@ function ModelCard({
   onCompareChange: (checked: boolean) => void;
   compareDisabled: boolean;
   onClick: () => void;
-  onFilterTask?: (task: string) => void;
   onFilterProvider?: (provider: string) => void;
   onFilterOpenness?: (level: OpennessLevel) => void;
   onOpenDetails?: () => void;
@@ -450,10 +445,12 @@ function CatalogPage() {
 
   // Sync Jurisdiction -> Region when user selects jurisdiction from dropdown
   useEffect(() => {
-    if (currentJurisdiction === "EU") setRegionFilter(new Set(["EU"]));
-    else if (currentJurisdiction === "IN") setRegionFilter(new Set(["India"]));
-    else if (currentJurisdiction === "US") setRegionFilter(new Set(["US"]));
-    // When null, leave region filter as-is (user may have custom multi-region)
+    const id = setTimeout(() => {
+      if (currentJurisdiction === "EU") setRegionFilter(new Set(["EU"]));
+      else if (currentJurisdiction === "IN") setRegionFilter(new Set(["India"]));
+      else if (currentJurisdiction === "US") setRegionFilter(new Set(["US"]));
+    }, 0);
+    return () => clearTimeout(id);
   }, [currentJurisdiction]);
   const [chatbotModelIds, setChatbotModelIds] = useState<Set<string>>(new Set());
   const searchParams = useSearchParams();
@@ -474,17 +471,18 @@ function CatalogPage() {
     const modelsParam = searchParams.get("models");
     const modelParam = searchParams.get("model");
     const taskParam = searchParams.get("task");
-    if (modelsParam) {
-      const ids = modelsParam.split(",").filter(Boolean);
-      setChatbotModelIds(ids.length > 0 ? new Set(ids) : new Set());
-    }
-    if (modelParam) {
-      const m = models.find((x) => x.id === modelParam);
-      if (m) setSelectedModel(m);
-    }
-    if (taskParam === "games") {
-      setTaskFilter(new Set(["games"]));
-    }
+    const id = setTimeout(() => {
+      if (modelsParam) {
+        const ids = modelsParam.split(",").filter(Boolean);
+        setChatbotModelIds(ids.length > 0 ? new Set(ids) : new Set());
+      }
+      if (modelParam) {
+        const m = models.find((x) => x.id === modelParam);
+        if (m) setSelectedModel(m);
+      }
+      if (taskParam === "games") setTaskFilter(new Set(["games"]));
+    }, 0);
+    return () => clearTimeout(id);
   }, [searchParams]);
 
   const allLanguages = useMemo(
@@ -624,17 +622,6 @@ function CatalogPage() {
       else next.add(region);
       return next;
     });
-  };
-
-  const filterToRegion = (region: string) => {
-    const clearing = regionFilter.size === 1 && regionFilter.has(region);
-    setRegionFilter((prev) =>
-      clearing ? new Set() : new Set([region])
-    );
-    if (clearing) setCurrentJurisdiction(null);
-    else if (region === "EU") setCurrentJurisdiction("EU");
-    else if (region === "India") setCurrentJurisdiction("IN");
-    else if (region === "US") setCurrentJurisdiction("US");
   };
 
   const toggleLanguage = (lang: string) => {
@@ -1178,7 +1165,6 @@ function CatalogPage() {
                   compareIds.size >= MAX_COMPARE && !compareIds.has(model.id)
                 }
                 onClick={() => setSelectedModel(model)}
-                onFilterTask={toggleTask}
                 onFilterProvider={toggleProvider}
                 onFilterOpenness={filterToOpenness}
                 onOpenDetails={() => setSelectedModel(model)}

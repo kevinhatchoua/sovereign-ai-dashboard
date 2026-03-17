@@ -36,9 +36,9 @@ export function ComplianceTooltip({ term }: { term: string }) {
       const handleScroll = () => updatePosition();
       window.addEventListener("scroll", handleScroll, true);
       return () => window.removeEventListener("scroll", handleScroll, true);
-    } else {
-      setPosition(null);
     }
+    const t = setTimeout(() => setPosition(null), 0);
+    return () => clearTimeout(t);
   }, [open, updatePosition]);
 
   useEffect(() => {

@@ -6,21 +6,31 @@ import {
   Server,
   Scale,
   Database,
-  Cpu,
-  Code,
   MapPin,
   AlertTriangle,
   ExternalLink,
   Gamepad2,
   Leaf,
+  LayoutDashboard,
+  BookMarked,
+  Library,
+  Wrench,
 } from "lucide-react";
 import { SiteHeader } from "@/app/components/SiteHeader";
+import { LearnPageNav } from "@/app/components/LearnPageNav";
 import referencedModelsData from "@/data/referencedModels.json";
+
+const ext = (href: string, label: string) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline [.light_&]:text-blue-600">
+    {label}
+    <ExternalLink className="ml-1 inline h-3.5 w-3.5" aria-hidden />
+  </a>
+);
 
 export const metadata = {
   title: "Learn | Sovereign AI",
   description:
-    "Understand sovereignty, readiness levels, Cloud Act, ethics score, and compliance tags. A clear guide to the metrics we use.",
+    "Understand sovereignty, readiness levels, Cloud Act, ethics score, compliance tags, regulation, frameworks, and tools. Guide to the metrics we use and where to learn more.",
 };
 
 const SECTIONS = [
@@ -313,7 +323,132 @@ const SECTIONS = [
       </>
     ),
   },
+  {
+    id: "how-to-use",
+    icon: LayoutDashboard,
+    title: "How to use this dashboard",
+    content: (
+      <>
+        <p className="mb-3">
+          This app helps you discover and compare <strong>open and sovereign AI models</strong> and
+          stay informed on regulation and news.
+        </p>
+        <ul className="mb-4 list-disc space-y-2 pl-5 text-slate-200 [.light_&]:text-slate-700">
+          <li>
+            <Link href="/" className="text-blue-400 hover:underline [.light_&]:text-blue-600">Catalog</Link>
+            {" "}— Browse models, filter by sovereignty, ethics, provider, or task (e.g. Games). Use quick filters or the comparison matrix.
+          </li>
+          <li>
+            <Link href="/dashboard" className="text-blue-400 hover:underline [.light_&]:text-blue-600">Dashboard</Link>
+            {" "}— News & updates (AI, sovereignty, regulation), plus quick links to methodology and Learn.
+          </li>
+          <li>
+            <Link href="/methodology" className="text-blue-400 hover:underline [.light_&]:text-blue-600">Methodology</Link>
+            {" "}— How we score the four dimensions, readiness levels, and Cloud Act. Full references.
+          </li>
+          <li>
+            <strong>Chatbot</strong> — Ask in natural language about models, or get a joke. We do not give opinions on current events; we suggest external search when needed.
+          </li>
+        </ul>
+        <p className="text-sm text-slate-400 [.light_&]:text-slate-600">
+          For admin access and chat log security, see our access and security documentation (linked in Tools & community below).
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "regulation-law",
+    icon: BookMarked,
+    title: "Regulation & law",
+    content: (
+      <>
+        <p className="mb-4">
+          Sovereign AI and model deployment are shaped by data protection and AI regulation. Official and explanatory links:
+        </p>
+        <ul className="space-y-3 text-slate-200 [.light_&]:text-slate-700" role="list">
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">EU AI Act</strong> — {ext("https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689", "Regulation (EU) 2024/1689")} (Eur-Lex). Risk-based rules for AI systems in the EU.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">GDPR</strong> — {ext("https://gdpr-info.eu/", "GDPR full text")}. Data protection and residency for EU residents.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">US Cloud Act</strong> — {ext("https://www.justice.gov/opa/pr/department-justice-clarifies-lawful-overseas-use-data-act", "DoJ overview")}. Affects data held by US-based providers.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">India DPDP</strong> — {ext("https://www.meity.gov.in/data-protection-framework", "MeitY data protection")}. India&apos;s digital personal data and localization requirements.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">NIST AI RMF</strong> — {ext("https://www.nist.gov/itl/ai-risk-management-framework", "NIST AI RMF")}. Voluntary risk management framework for AI (US).
+          </li>
+        </ul>
+        <p className="mt-4 text-sm text-slate-400 [.light_&]:text-slate-600">
+          This dashboard is for informational use only and does not constitute legal advice. Always consult qualified counsel for compliance.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "frameworks-research",
+    icon: Library,
+    title: "Frameworks & research",
+    content: (
+      <>
+        <p className="mb-4">
+          Our methodology draws on public frameworks and research. Useful references:
+        </p>
+        <ul className="space-y-3 text-slate-200 [.light_&]:text-slate-700" role="list">
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">McKinsey — Four dimensions of sovereignty</strong> — Used for Data, Operational, Technological, and Infrastructure scoring. Search for &quot;sovereign AI&quot; or &quot;digital sovereignty&quot; on McKinsey for reports.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">Red Hat — Digital sovereignty readiness</strong> — {ext("https://www.redhat.com/en/topics/cloud-computing/what-is-digital-sovereignty", "Red Hat digital sovereignty")}. Aligns with our readiness level labels.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">SUSE — Cloud sovereignty framework</strong> — Public framework for sovereign cloud and on-prem deployment.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">Hugging Face — Model cards & docs</strong> — {ext("https://huggingface.co/docs", "Hugging Face docs")}. We use model cards and pipeline tags for openness and task labels.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">Environmental impact (ML)</strong> — Strubell et al., &quot;Energy and Policy Considerations for Deep Learning in NLP&quot; (e.g. {ext("https://arxiv.org/abs/1906.02243", "arXiv")}). We consider such sources when displaying carbon or energy data.
+          </li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: "tools-community",
+    icon: Wrench,
+    title: "Tools & community",
+    content: (
+      <>
+        <p className="mb-4">
+          Where to find models, run comparisons, and get help:
+        </p>
+        <ul className="space-y-3 text-slate-200 [.light_&]:text-slate-700" role="list">
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">Hugging Face Models</strong> — {ext("https://huggingface.co/models?pipeline_tag=text-generation", "Browse text-generation models")}. Many models in our catalog are hosted here.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">This app</strong> — <Link href="/" className="text-blue-400 hover:underline [.light_&]:text-blue-600">Catalog</Link>,{" "}
+            <Link href="/methodology" className="text-blue-400 hover:underline [.light_&]:text-blue-600">Methodology</Link>,{" "}
+            <Link href="/dashboard" className="text-blue-400 hover:underline [.light_&]:text-blue-600">Dashboard</Link>,{" "}
+            <Link href="/games" className="text-blue-400 hover:underline [.light_&]:text-blue-600">AI Games</Link>.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">Access & security</strong> — How to access front-end, back-end, and databases; admin and chat log lockdown. See the <code className="rounded bg-slate-700/50 px-1.5 py-0.5 text-sm [.light_&]:bg-slate-200">docs/ACCESS_AND_SECURITY.md</code> file in the repo, or your deployment docs.
+          </li>
+          <li>
+            <strong className="text-white [.light_&]:text-slate-900">Contribute</strong> — Corrections and suggestions for methodology or model data are welcome via the project&apos;s contribution guidelines (e.g. GitHub issues or PRs).
+          </li>
+        </ul>
+      </>
+    ),
+  },
 ] as const;
+
+const sectionList = SECTIONS.map(({ id, title }) => ({ id, title }));
 
 export default function LearnPage() {
   return (
@@ -322,7 +457,7 @@ export default function LearnPage() {
 
       <main
         id="main-content"
-        className="mx-auto max-w-3xl animate-fade-in px-4 py-12 sm:px-6"
+        className="mx-auto max-w-6xl animate-fade-in px-4 py-12 sm:px-6"
         tabIndex={-1}
         role="main"
         aria-label="Learn about sovereignty metrics"
@@ -331,12 +466,13 @@ export default function LearnPage() {
           <h1 className="mb-2 text-3xl font-bold tracking-tight text-white [.light_&]:text-slate-900">
             Learn
           </h1>
-          <p className="text-slate-500 [.light_&]:text-slate-600">
-            Quick reference for sovereignty, readiness levels, Cloud Act, ethics score, and more.
+          <p className="max-w-2xl text-slate-500 [.light_&]:text-slate-600">
+            Quick reference for sovereignty, readiness levels, Cloud Act, ethics score, regulation, and where to find frameworks, research, and tools.
           </p>
         </div>
 
-        <nav className="mb-10" aria-label="Quick navigation">
+        {/* Mobile / tablet: horizontal jump-to */}
+        <nav className="mb-10 lg:hidden" aria-label="Quick navigation">
           <p className="mb-2 text-xs font-medium uppercase tracking-wider text-slate-500 [.light_&]:text-slate-600">
             Jump to
           </p>
@@ -354,7 +490,10 @@ export default function LearnPage() {
           </ul>
         </nav>
 
-        <div className="space-y-10">
+        <div className="flex gap-10 lg:gap-12">
+          <LearnPageNav sections={sectionList} />
+
+          <div className="min-w-0 flex-1 space-y-10">
           {SECTIONS.map(({ id, icon: Icon, title, content }) => (
             <section
               key={id}
@@ -374,6 +513,7 @@ export default function LearnPage() {
               </div>
             </section>
           ))}
+          </div>
         </div>
 
         <div className="mt-12 flex flex-wrap gap-4">

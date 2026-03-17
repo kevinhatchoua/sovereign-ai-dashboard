@@ -31,41 +31,12 @@ import {
   getSovereigntyReadinessColorClasses,
   getOpennessColorClasses,
 } from "@/app/lib/sovereigntyScore";
-import { SOVEREIGN_PLATFORMS, getCompatiblePlatforms } from "@/app/lib/sovereignPlatforms";
+import { getCompatiblePlatforms } from "@/app/lib/sovereignPlatforms";
 import { ComplianceTooltip } from "@/app/components/ComplianceTooltip";
 import type { Jurisdiction } from "@/app/lib/complianceEngine";
 import { VoteButtons } from "@/app/components/VoteButtons";
 import { DisputeModal } from "@/app/components/DisputeModal";
 import { useDialogAccessibility } from "@/app/lib/useDialogAccessibility";
-
-function Sparkline({ data }: { data: number[] }) {
-  if (!data || data.length < 2) return null;
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-  const range = max - min || 1;
-  const w = 120;
-  const h = 24;
-  const points = data
-    .map((v, i) => {
-      const x = (i / (data.length - 1)) * w;
-      const y = h - ((v - min) / range) * (h - 4) - 2;
-      return `${x},${y}`;
-    })
-    .join(" ");
-  return (
-    <svg width={w} height={h} className="overflow-visible">
-      <polyline
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="text-emerald-500"
-        points={points}
-      />
-    </svg>
-  );
-}
 
 type ModelDetailPanelProps = {
   model: ComparisonModel | null;
@@ -76,7 +47,6 @@ type ModelDetailPanelProps = {
 
 export function ModelDetailPanel({
   model,
-  jurisdiction,
   onClose,
   openDisputeOnMount = false,
 }: ModelDetailPanelProps) {

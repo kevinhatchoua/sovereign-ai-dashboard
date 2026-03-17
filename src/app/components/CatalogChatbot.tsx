@@ -623,7 +623,7 @@ export function CatalogChatbot({
   const [isResizing, setIsResizing] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const sessionIdRef = useRef<string>(
+  const [sessionId, setSessionId] = useState(() =>
     typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `s${Date.now()}`
   );
   const isXl = useMediaQuery("(min-width: 1280px)");
@@ -705,7 +705,7 @@ export function CatalogChatbot({
           body: JSON.stringify({
             messages: chatHistory.map((m) => ({ role: m.role, content: m.content })),
             context,
-            sessionId: sessionIdRef.current,
+            sessionId,
           }),
         });
         const data = (await res.json()) as { content?: string; fallback?: string; error?: string };
@@ -748,7 +748,7 @@ export function CatalogChatbot({
       onFilterByModels?.(ruleResult.ids.length > 0 ? ruleResult.ids : []);
       setLoading(false);
     },
-    [input, messages, models, onFilterByModels]
+    [input, messages, models, onFilterByModels, sessionId]
   );
 
   const handleAction = useCallback(
@@ -769,8 +769,9 @@ export function CatalogChatbot({
   );
 
   const resetChat = useCallback(() => {
-    sessionIdRef.current =
-      typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `s${Date.now()}`;
+    setSessionId(
+      typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `s${Date.now()}`
+    );
     setMessages([
       { role: "assistant", content: GREETING, suggestedPrompts: SUGGESTED_PROMPTS },
     ]);
@@ -1036,7 +1037,7 @@ export function CatalogChatbot({
                         </p>
                       )}
                     </div>
-                    {msg.actions && msg.actions.length > 0 && (
+                    {msg.actions && msg.actions.length > 0 && !msg.modelDetails && (
                       <div className="flex flex-wrap gap-2">
                         {msg.actions.map((action, j) => {
                           const isExternalHref = action.type === "navigate" && action.href?.startsWith("http");
