@@ -45,7 +45,7 @@ export default function AdminPage() {
         ? email === process.env.NEXT_PUBLIC_ADMIN_EMAIL.trim()
         : true;
       if (!allowlisted) {
-        void supabase.auth.signOut();
+        void supabase?.auth.signOut();
         router.replace("/admin/login");
         return;
       }
