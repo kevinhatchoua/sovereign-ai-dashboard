@@ -29,7 +29,7 @@ const TASK_LABELS: Record<string, string> = {
   "text-generation": "Text gen",
   conversational: "Conversational",
   code: "Code",
-  games: "Games",
+  games: "AI Games",
   "question-answering": "Q&A",
   summarization: "Summarization",
   vision: "Vision",
@@ -549,14 +549,14 @@ export function ComparisonMatrix({
               <button
                 type="button"
                 onClick={exportScorecard}
-                className="inline-flex items-center gap-2 rounded-lg bg-slate-700 px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-600 [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-300"
+                className="cta-secondary inline-flex items-center gap-2"
               >
                 <FileDown className="h-4 w-4" aria-hidden />
                 Export PDF
               </button>
               <Link
                 href="/methodology"
-                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs text-slate-500 hover:bg-slate-800 hover:text-slate-300 [.light_&]:text-slate-600 [.light_&]:hover:bg-slate-100 [.light_&]:hover:text-slate-800"
+                className="cta-primary inline-flex items-center gap-1.5"
               >
                 <Info className="h-3.5 w-3.5" />
                 Methodology

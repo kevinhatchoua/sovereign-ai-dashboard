@@ -111,7 +111,7 @@ export function ModelDetailPanel({
     "text-generation": "Text generation",
     conversational: "Conversational",
     code: "Code",
-    games: "Games",
+    games: "AI Games",
     "question-answering": "Q&A",
     summarization: "Summarization",
     vision: "Vision",
@@ -251,7 +251,7 @@ export function ModelDetailPanel({
                       href={links.learnMore}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg border border-slate-600/60 bg-slate-800/50 px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-700/80 hover:text-white [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+                      className="cta-secondary inline-flex items-center gap-2"
                     >
                       <ExternalLink className="h-4 w-4" />
                       Official site / docs
@@ -262,7 +262,7 @@ export function ModelDetailPanel({
                       href={links.download}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg border border-blue-600/40 bg-blue-600/10 px-3 py-2 text-sm font-medium text-blue-400 transition hover:bg-blue-600/20 [.light_&]:border-blue-600/60 [.light_&]:bg-blue-50 [.light_&]:text-blue-700 [.light_&]:hover:bg-blue-200"
+                      className="cta-primary inline-flex items-center gap-2"
                     >
                       <Download className="h-4 w-4" />
                       Download from Hugging Face
@@ -540,7 +540,7 @@ export function ModelDetailPanel({
             <button
               type="button"
               onClick={() => setExecutiveSummaryOpen(true)}
-              className="mb-3 flex w-full items-center gap-2 rounded-lg border border-slate-600/60 bg-slate-800/50 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700/80 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200"
+              className="cta-secondary mb-3 flex w-full items-center gap-2"
             >
               <FileText className="h-4 w-4 shrink-0" />
               View executive summary
@@ -548,7 +548,7 @@ export function ModelDetailPanel({
             <button
               type="button"
               onClick={() => setDisputeModalOpen(true)}
-              className="flex w-full items-center gap-2 rounded-lg border border-blue-600/30 bg-blue-600/10 px-3 py-2 text-sm text-blue-400 hover:bg-blue-600/20 [.light_&]:border-blue-400 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
+              className="cta-primary flex w-full items-center gap-2"
             >
               <AlertCircle className="h-4 w-4 shrink-0" />
               Report Compliance Dispute

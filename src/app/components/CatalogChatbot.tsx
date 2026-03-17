@@ -110,11 +110,57 @@ function renderMessageContent(text: string): ReactNode {
   );
 }
 
+/** Joke/personality queries — let the API handle so the LLM can tell a joke (don't treat as model search) */
+function isJokeOrPersonalityQuery(msg: string): boolean {
+  const t = msg.trim();
+  if (t.length === 0) return false;
+  const lower = t.toLowerCase();
+  if (/^(tell me a joke|joke|jokes|something funny|make me laugh|got any jokes?|any jokes?|do you have jokes?|can you tell (me )?a joke|can you tell jokes?|give me a joke|say something funny|entertain me)$/i.test(t)) return true;
+  if (/\b(joke|jokes|funny|make me laugh|something funny)\b/.test(lower) && (lower.includes("?") || lower.length < 30)) return true;
+  return false;
+}
+
+/** Current events, news, politics, or clearly off-catalog topics — let the API respond (do NOT return catalog models) */
+function isOffTopicOrCurrentEventsQuery(msg: string): boolean {
+  const t = msg.trim().toLowerCase();
+  if (t.length < 5) return false;
+  const indicators = [
+    /\b(wars?|conflict|invasion|election|politics|news|current events|what'?s happening|whats up with|latest on)\b/,
+    /\b(iran|iraq|ukraine|russia|gaza|israel|china|north korea)\b/,
+    /^(how|what|why|is it true)\s+(about|is going on with|happened to)\s+/,
+    /\b(breaking|headline|today'?s news)\b/,
+  ];
+  if (indicators.some((p) => p.test(t))) return true;
+  return false;
+}
+
+/** Natural-language/conversational questions about the assistant or chat — let the API answer (don't treat as catalog search) */
+function isConversationalOrIdentityQuery(msg: string): boolean {
+  const t = msg.trim().toLowerCase();
+  if (t.length < 3) return false;
+  const identityPatterns = [
+    /^(what|who) (model |are )?you\??$/i,
+    /^what (model|ai|bot|assistant) (are you|is this)\??$/i,
+    /^(who|what) are you\??$/i,
+    /^how (do you|does this) work\??$/i,
+    /^what can you do\??$/i,
+    /^are you (a )?(bot|ai|model|assistant|real)\??$/i,
+    /^am i (talking to|speaking with)/i,
+    /^(tell me )?about yourself\??$/i,
+    /^what('s| is) your (name|purpose|role)\??$/i,
+    /^who (are you|am i talking to)\??$/i,
+  ];
+  if (identityPatterns.some((p) => p.test(t))) return true;
+  if (/\b(what model are you|who are you|what are you|how do you work|what can you do)\b/.test(t) && t.length < 60) return true;
+  return false;
+}
+
 /** Emoji-only or very short non-search queries — let the API handle (jokes, emoji, quirks) */
 function isEmojiOrShortQuirk(msg: string): boolean {
   const t = msg.trim();
   if (t.length === 0) return false;
   if (t.length <= 3 && /^[\p{Emoji}\p{Symbol}\s]+$/u.test(t)) return true;
+  if (isJokeOrPersonalityQuery(msg)) return true;
   if (/^(tell me a joke|joke|something funny|make me laugh|🤣|😀|😊|😂|👍|🙌)$/i.test(t)) return true;
   return false;
 }
@@ -269,6 +315,7 @@ function getMinVramGb(m: ComparisonModel): number | null {
 function findModelByQuery(query: string, models: ComparisonModel[]): ComparisonModel | null {
   const q = query.toLowerCase().trim();
   if (!q || q.length < 2) return null;
+  if (isJokeOrPersonalityQuery(query) || isConversationalOrIdentityQuery(query) || isOffTopicOrCurrentEventsQuery(query)) return null;
   const cleaned = q
     .replace(/^(tell me about|what is|what's|details for|info on|information about|show me)\s+/i, "")
     .replace(/\?$/, "")
@@ -347,12 +394,30 @@ function generateResponse(
 } {
   const q = query.toLowerCase().trim();
 
-  // Emoji-only or joke/quirks — let API respond; use friendly fallback if API unavailable
+  // Emoji-only or joke/personality — let API respond (LLM tells joke or responds in kind); fallback if API unavailable
   if (isEmojiOrShortQuirk(query)) {
     return {
-      text: "😊 I'm here! Ask me anything about the site, models, or ask for a joke.",
+      text: "😊 I'm here! Ask me anything about the site, models—or ask me for a joke.",
       ids: [],
       suggestedPrompts: ["Tell me a joke", "Who built this?", "What is sovereignty?"],
+    };
+  }
+
+  // Natural-language/conversational (e.g. "what model are you", "who are you") — let API answer like ChatGPT, don't list catalog
+  if (isConversationalOrIdentityQuery(query)) {
+    return {
+      text: "I'm the Sovereign AI Assistant—here to help with the site and catalog. Ask me anything.",
+      ids: [],
+      suggestedPrompts: ["What can you do?", "Who built this?", "What is the Overview page?"],
+    };
+  }
+
+  // Current events, news, politics, or off-catalog topics — let API respond; do NOT return catalog model info
+  if (isOffTopicOrCurrentEventsQuery(query)) {
+    return {
+      text: "I don't have real-time news access. For current events, try a web search or a trusted news source—I'm here to help with the sovereign AI catalog.",
+      ids: [],
+      suggestedPrompts: ["What is the Overview page?", "Show me EU models", "Who built this?"],
     };
   }
 
@@ -394,6 +459,13 @@ function generateResponse(
         { label: "View full details", type: "view_model", model: modelDetail },
         { label: "Filter to this model", type: "filter", modelId: modelDetail.id },
       ],
+    };
+  }
+  if (isConversationalOrIdentityQuery(query) || isOffTopicOrCurrentEventsQuery(query)) {
+    return {
+      text: "I'm your assistant for this site—happy to help with the catalog or point you to where to find other info. What would you like to know?",
+      ids: [],
+      suggestedPrompts: ["What can you do?", "Who built this?", "Show me EU models"],
     };
   }
   const matched = matchModels(query, models);
@@ -487,12 +559,12 @@ function ModelDetailCard({
           </div>
         )}
       </div>
-      <div className="mt-2 flex flex-wrap gap-1.5">
+      <div className="mt-2 flex flex-wrap gap-2">
         {onSelect && (
           <button
             type="button"
             onClick={onSelect}
-            className="inline-flex items-center gap-1 rounded bg-blue-600/20 px-2 py-1 text-xs font-medium text-blue-400 hover:bg-blue-600/30 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
+            className="cta-primary text-xs"
           >
             Select model
             <ChevronRight className="h-3 w-3" />
@@ -501,7 +573,7 @@ function ModelDetailCard({
         <button
           type="button"
           onClick={onViewDetails}
-          className="inline-flex items-center gap-1 rounded bg-blue-600/20 px-2 py-1 text-xs font-medium text-blue-400 hover:bg-blue-600/30 [.light_&]:bg-blue-50 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
+          className="cta-primary text-xs"
         >
           View details
           <ChevronRight className="h-3 w-3" />
@@ -509,7 +581,7 @@ function ModelDetailCard({
         <button
           type="button"
           onClick={onFilter}
-          className="rounded bg-slate-700/60 px-2 py-1 text-xs text-slate-300 hover:bg-slate-600/80 [.light_&]:bg-slate-200 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-300"
+          className="cta-secondary text-xs"
         >
           Filter to this
         </button>
@@ -637,10 +709,14 @@ export function CatalogChatbot({
           }),
         });
         const data = (await res.json()) as { content?: string; fallback?: string; error?: string };
+        const isConversationalIntent =
+          isEmojiOrShortQuirk(toSend) || isConversationalOrIdentityQuery(toSend) || isOffTopicOrCurrentEventsQuery(toSend);
+        const connectionFallback =
+          "I couldn't connect just now. Please try again in a moment—I'd love to help.";
         const content =
           res.ok && data.content
             ? data.content
-            : (data.fallback ?? ruleResult.text);
+            : (data.fallback ?? (isConversationalIntent ? connectionFallback : ruleResult.text));
         setMessages((prev) => [
           ...prev,
           {
@@ -653,11 +729,15 @@ export function CatalogChatbot({
           },
         ]);
       } catch {
+        const isConversationalIntent =
+          isEmojiOrShortQuirk(toSend) || isConversationalOrIdentityQuery(toSend) || isOffTopicOrCurrentEventsQuery(toSend);
+        const connectionFallback =
+          "I couldn't connect just now. Please try again in a moment—I'd love to help.";
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
-            content: ruleResult.text,
+            content: isConversationalIntent ? connectionFallback : ruleResult.text,
             modelIds: ruleResult.ids,
             modelDetails: ruleResult.modelDetails,
             actions: ruleResult.actions,
@@ -880,7 +960,7 @@ export function CatalogChatbot({
                           key={j}
                           type="button"
                           onClick={() => handleSend(prompt)}
-                          className="flex min-h-[2.75rem] min-w-0 items-center justify-center rounded-full border border-slate-600/50 bg-slate-700/50 px-4 py-2.5 text-center text-sm text-slate-300 transition hover:bg-slate-600/60 hover:text-slate-100 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+                          className="cta-secondary min-w-0 text-center text-sm"
                         >
                           <span className="leading-tight">{prompt}</span>
                         </button>
@@ -957,7 +1037,7 @@ export function CatalogChatbot({
                       )}
                     </div>
                     {msg.actions && msg.actions.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-2">
                         {msg.actions.map((action, j) => {
                           const isExternalHref = action.type === "navigate" && action.href?.startsWith("http");
                           if (isExternalHref && action.href) {
@@ -967,10 +1047,10 @@ export function CatalogChatbot({
                                 href={action.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 rounded-full border border-blue-500/40 bg-blue-500/10 px-2.5 py-1 text-xs font-medium text-blue-400 transition hover:bg-blue-500/20 [.light_&]:border-blue-500/60 [.light_&]:bg-blue-100 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
+                                className="cta-primary"
                               >
                                 {action.label}
-                                <ExternalLink className="h-3 w-3 shrink-0" aria-hidden />
+                                <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden />
                               </a>
                             );
                           }
@@ -979,7 +1059,7 @@ export function CatalogChatbot({
                               key={j}
                               type="button"
                               onClick={() => handleAction(action)}
-                              className="inline-flex items-center gap-1 rounded-full border border-blue-500/40 bg-blue-500/10 px-2.5 py-1 text-xs font-medium text-blue-400 transition hover:bg-blue-500/20 [.light_&]:border-blue-500/60 [.light_&]:bg-blue-100 [.light_&]:text-blue-800 [.light_&]:hover:bg-blue-200"
+                              className="cta-primary"
                             >
                               {action.label}
                             </button>
@@ -997,7 +1077,7 @@ export function CatalogChatbot({
                             key={j}
                             type="button"
                             onClick={() => handleSend(prompt)}
-                            className="rounded-full border border-slate-600/50 bg-slate-700/50 px-3 py-2 text-left text-xs text-slate-300 transition hover:bg-slate-600/60 hover:text-slate-100 [.light_&]:border-slate-300 [.light_&]:bg-slate-100 [.light_&]:text-slate-700 [.light_&]:hover:bg-slate-200 [.light_&]:hover:text-slate-900"
+                            className="cta-secondary text-sm"
                           >
                             {prompt}
                           </button>

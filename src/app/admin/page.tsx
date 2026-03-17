@@ -123,7 +123,7 @@ export default function AdminPage() {
             <button
               type="button"
               onClick={signOut}
-              className="flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-300 hover:bg-slate-700 [.light_&]:border-slate-400 [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:hover:bg-slate-300"
+              className="cta-secondary flex items-center gap-2"
             >
               <LogOut className="h-4 w-4" />
               Sign out
@@ -167,7 +167,7 @@ export default function AdminPage() {
                         type="button"
                         onClick={() => handleResolve(d.id, "approved")}
                         disabled={actioning === d.id}
-                        className="flex items-center gap-1 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50"
+                        className="cta-primary flex items-center gap-1 disabled:opacity-50"
                       >
                         {actioning === d.id ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
@@ -180,7 +180,7 @@ export default function AdminPage() {
                         type="button"
                         onClick={() => handleResolve(d.id, "rejected")}
                         disabled={actioning === d.id}
-                        className="flex items-center gap-1 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-500 disabled:opacity-50"
+                        className="cta-secondary flex items-center gap-1 disabled:opacity-50"
                       >
                         <X className="h-4 w-4" />
                         Reject

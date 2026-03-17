@@ -75,7 +75,7 @@ const TASK_LABELS: Record<string, string> = {
   "text-generation": "Text generation",
   conversational: "Conversational",
   code: "Code",
-  games: "Games",
+  games: "AI Games",
   "question-answering": "Q&A",
   summarization: "Summarization",
   vision: "Vision",
@@ -1112,7 +1112,7 @@ function CatalogPage() {
                   { id: "EU AI Act Ready", label: "EU AI Act Ready", isOpenness: false, isTask: false },
                   { id: "Data residency", label: "Data residency", isOpenness: false, isTask: false },
                   { id: "Local-hostable", label: "Local-hostable", isOpenness: true, isTask: false },
-                  { id: "Games", label: "Games", isOpenness: false, isTask: true },
+                  { id: "Games", label: "AI Games", isOpenness: false, isTask: true },
                 ];
                 const anyActive = quickChips.some((c) =>
                   c.isOpenness
@@ -1144,10 +1144,8 @@ function CatalogPage() {
                           key={c.id}
                           type="button"
                           onClick={toggle}
-                          className={`inline-flex min-h-[44px] items-center gap-1 rounded-full px-3 py-2 text-xs font-medium transition touch-manipulation ${
-                            active
-                              ? "bg-blue-600 text-white ring-2 ring-blue-500 [.light_&]:bg-blue-600 [.light_&]:text-white [.light_&]:ring-blue-500"
-                              : "bg-slate-700 text-slate-200 ring-1 ring-slate-500 hover:bg-slate-600 hover:text-white [.light_&]:bg-slate-200 [.light_&]:text-slate-800 [.light_&]:ring-slate-400 [.light_&]:hover:bg-slate-300 [.light_&]:hover:text-slate-900"
+                          className={`inline-flex min-h-[44px] items-center gap-1 text-xs font-medium touch-manipulation ${
+                            active ? "cta-primary" : "cta-secondary"
                           }`}
                         >
                           {c.id === "Local-hostable" && <Server className="h-3.5 w-3.5" />}
@@ -1213,7 +1211,7 @@ function CatalogPage() {
             <button
               type="button"
               onClick={() => setMatrixOpen(true)}
-              className="inline-flex min-h-[44px] touch-manipulation items-center gap-2 rounded-lg bg-slate-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+              className="cta-primary inline-flex touch-manipulation items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 [.light_&]:focus-visible:ring-offset-white"
             >
               <GitCompare className="h-4 w-4" aria-hidden />
               Compare Models

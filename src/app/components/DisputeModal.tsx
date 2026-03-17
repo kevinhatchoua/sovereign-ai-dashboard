@@ -61,7 +61,7 @@ export function DisputeModal({ modelId, modelName, onClose }: DisputeModalProps)
           <button
             type="button"
             onClick={onClose}
-            className="mt-4 w-full rounded-lg bg-slate-700 py-2 text-sm font-medium text-white hover:bg-slate-600"
+            className="cta-secondary mt-4 w-full"
           >
             Close
           </button>
@@ -150,7 +150,7 @@ export function DisputeModal({ modelId, modelName, onClose }: DisputeModalProps)
             <button
               type="submit"
               disabled={submitting}
-              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-amber-600 py-2 text-sm font-medium text-white hover:bg-amber-500 disabled:opacity-50"
+              className="cta-primary flex flex-1 items-center justify-center gap-2 disabled:opacity-50"
             >
               {submitting ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

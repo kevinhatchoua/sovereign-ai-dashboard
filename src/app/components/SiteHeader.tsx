@@ -10,7 +10,7 @@ import type { Jurisdiction } from "@/app/lib/complianceEngine";
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview" },
   { href: "/", label: "Models" },
-  { href: "/games", label: "Games" },
+  { href: "/games", label: "AI Games" },
   { href: "/learn", label: "Learn" },
   { href: "/methodology", label: "Methodology" },
 ] as const;

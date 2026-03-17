@@ -112,6 +112,8 @@ No other users (no other Supabase Auth accounts, no anon key) can read `chat_log
 
 ## 6. Chatbot capabilities (current and future)
 
+- **Conversation history:** The full recent conversation (last 20 messages) is sent to the LLM for context; the prompt instructs it not to repeat itself and to deliver when the user asks again (e.g. for a joke).
+- **Web search:** Not in-app; the assistant suggests the user search the web for latest/external info. To add live search, integrate a provider (e.g. Tavily, Serper) in `/api/chat`.
 - **Text-to-speech (TTS):** Implemented. Each assistant message has a “Read aloud” button that uses the browser’s Speech Synthesis API (client-side only; no data sent to a third party).
 - **Bold formatting:** Assistant messages use `**bold**` in the model output but are rendered as real `<strong>` in the UI so screen readers do not hear asterisks.
 - **Image-to-text / image generation:** Not implemented in-app. The system prompt instructs the assistant to suggest public tools (e.g. Hugging Face, official docs) when users ask for image description or generation. To add these later, use public APIs (e.g. Groq vision, Replicate) with strict content policy and no storage of user images beyond the request.

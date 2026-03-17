@@ -176,7 +176,7 @@ export function CommunityShowcaseBanner({
               <>
                 {[...displayEntries, ...displayEntries].map((entry, i) => {
                   const isInternal = entry.href.startsWith("/");
-                  const className = "group flex shrink-0 items-center gap-2 rounded-lg border border-slate-700/50 bg-slate-800/30 px-3 py-2 transition hover:border-slate-600/70 hover:bg-slate-800/50 [.light_&]:border-slate-200/60 [.light_&]:bg-slate-100/80 [.light_&]:hover:border-slate-300 [.light_&]:hover:bg-slate-100";
+                  const className = "cta-secondary group flex shrink-0 items-center gap-2";
                   const content = (
                     <>
                       {entry.type === "news" ? (
