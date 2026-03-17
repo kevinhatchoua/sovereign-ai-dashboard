@@ -22,7 +22,7 @@ export type NewsItem = {
 export const revalidate = 3600;
 
 const FEED_SOURCES: { url: string; source: string; topic: string }[] = [
-  // Open source & model labs
+  // Open source & model labs (inherently AI-focused)
   { url: "https://huggingface.co/blog/feed.xml", source: "Hugging Face", topic: "Models & ML" },
   { url: "https://huggingface.co/blog/feed", source: "Hugging Face", topic: "Models & ML" },
   { url: "https://blog.mistral.ai/feed/", source: "Mistral AI", topic: "Open Models" },
@@ -30,16 +30,50 @@ const FEED_SOURCES: { url: string; source: string; topic: string }[] = [
   { url: "https://developers.googleblog.com/feeds/posts/default", source: "Google", topic: "AI & Dev" },
   { url: "https://blog.google/technology/ai/feed/", source: "Google AI", topic: "AI & Dev" },
   { url: "https://www.deepseek.com/rss.xml", source: "DeepSeek", topic: "Open Models" },
-  // Research & policy
+  // Research & policy (AI-specific feeds)
   { url: "http://rss.arxiv.org/rss/cs.AI", source: "arXiv", topic: "AI Research" },
   { url: "https://hai.stanford.edu/news/feed", source: "Stanford HAI", topic: "AI & Policy" },
   { url: "https://www.brookings.edu/topic/artificial-intelligence/feed/", source: "Brookings", topic: "AI & Policy" },
-  { url: "https://www.technologyreview.com/feed/", source: "MIT Tech Review", topic: "AI & Society" },
-  // Regulation, sovereignty & law
-  { url: "https://data.europa.eu/en/news-events/news/rss.xml", source: "data.europa.eu", topic: "EU & Regulation" },
-  { url: "https://www.reutersagency.com/feed/?taxonomy=best-topics&post_type=best", source: "Reuters", topic: "Tech & Regulation" },
-  { url: "https://www.euractiv.com/feed/", source: "EurActiv", topic: "EU & Regulation" },
+  { url: "https://www.technologyreview.com/topic/artificial-intelligence/feed/", source: "MIT Tech Review", topic: "AI & Society" },
 ];
+
+/** Keywords that indicate relevance to AI, sovereignty, or regulation (title/description must match at least one). */
+const RELEVANCE_KEYWORDS = [
+  "ai ",
+  " artificial intelligence",
+  "machine learning",
+  " ml ",
+  "llm",
+  " large language",
+  "foundation model",
+  "open model",
+  "sovereign",
+  "sovereignty",
+  "regulation",
+  "eu ai act",
+  "gdpr",
+  "open source",
+  "open weight",
+  "hugging face",
+  "meta ai",
+  "google ai",
+  "mistral",
+  "deepseek",
+  "llama",
+  "gemma",
+  "research",
+  "policy",
+  "governance",
+  "ethics",
+  "compliance",
+  "data residency",
+  "data sovereignty",
+];
+
+function isRelevantToAIOrSovereignty(title: string, description?: string): boolean {
+  const text = `${title} ${description ?? ""}`.toLowerCase();
+  return RELEVANCE_KEYWORDS.some((kw) => text.includes(kw));
+}
 
 /** Curated links when RSS fails—blogs and resources about AI, sovereignty, and regulation. */
 const CURATED_FALLBACK: Omit<NewsItem, "dateRaw">[] = [
@@ -53,7 +87,6 @@ const CURATED_FALLBACK: Omit<NewsItem, "dateRaw">[] = [
   { title: "Brookings — AI and governance", link: "https://www.brookings.edu/topic/artificial-intelligence/", date: "Ongoing", source: "Brookings", topic: "AI & Policy" },
   { title: "MIT Technology Review — AI and society", link: "https://www.technologyreview.com/topic/artificial-intelligence/", date: "Ongoing", source: "MIT Tech Review", topic: "AI & Society" },
   { title: "EU AI Act — Official regulation", link: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689", date: "Regulation", source: "EU", topic: "EU & Regulation" },
-  { title: "data.europa.eu — Open data and AI", link: "https://data.europa.eu/en/news-events/news", date: "Ongoing", source: "data.europa.eu", topic: "EU & Regulation" },
   { title: "Hugging Face Models — Browse open weights", link: "https://huggingface.co/models?pipeline_tag=text-generation", date: "Catalog", source: "Catalog", topic: "Catalog" },
   { title: "Sovereign AI Methodology — How we assess models", link: "/methodology", date: "Reference", source: "Reference", topic: "Reference" },
 ];
@@ -121,6 +154,7 @@ export async function GET() {
       const { feed, source, topic } = result.value;
       const items = parseFeedItems(feed, source, topic);
       for (const item of items) {
+        if (!isRelevantToAIOrSovereignty(item.title)) continue;
         const key = item.title.toLowerCase().trim();
         if (!seen.has(key) && item.link && item.link !== "#") {
           seen.add(key);
